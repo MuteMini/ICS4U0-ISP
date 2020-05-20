@@ -23,33 +23,12 @@ hs_err_pid*
 ## Eclipse
 .classpath
 .project
-.metadata/
-/android/bin/
-/core/bin/
-/desktop/bin/
-/html/bin/
-/ios/bin/
-/ios-moe/bin/
-*.tmp
-*.bak
-*.swp
-*~.nib
-.loadpath
-.externalToolBuilders/
-*.launch
-
-## Gradle
-/local.properties
-/build/
-/android/build/
-/core/build/
-/desktop/build/
-/html/build/
-/ios/build/
-/ios-moe/build/
 
 #.gradle
+.settings
+.gradle
 build/
+bin/
 
 # Ignore Gradle GUI config
 gradle-app.setting
