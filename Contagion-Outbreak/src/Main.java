@@ -6,4 +6,7 @@ public class Main {
 		System.out.println("ishan is bum");
 	}
 
+	public void test() {
+		
+	}
 }
