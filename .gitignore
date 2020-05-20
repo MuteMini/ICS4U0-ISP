@@ -34,15 +34,12 @@ hs_err_pid*
 *.bak
 *.swp
 *~.nib
-.settings/
 .loadpath
 .externalToolBuilders/
 *.launch
 
 ## Gradle
 /local.properties
-.gradle/
-gradle-app.setting
 /build/
 /android/build/
 /core/build/
