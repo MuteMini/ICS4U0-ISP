@@ -1,0 +1,44 @@
+#FIRST IDEA
+
+something like ur basically a high school student right, when there like an emergency announcement
+blah blah blah accidental virus leak from a super secret labratory
+
+maybe the "tutorial" you choose your environment
+like its a little survey of what your actual school environment looks like
+where do you eat
+who do you hang out with or smthing idk
+and it controls the difficulty of the rest of the game
+like more infected
+
+i was thinking like either a bus, or subway or some transit themed level
+like i thought of maybe running down a subway tunnel?
+being chased by the infected people in this city
+and you eventual make your way to a labratory
+which is the final level
+in which you gotta make your way through the infected scientists
+before final doing some sort of puzzle solving mini game to "snythisize" a virus
+just like some basic rotation/color matching
+and then you get the cure
+and you liberate the city from the virus
+
+#FINAL IDEA
+like a doctor at a hospital
+caring for sick patients
+maybe you collect certain objects
+like masks, faceguard gloves
+
+(idea created while working in a call)
+
+#ISP PROPOSAL ONE
+Name: Contagion: Outbreak (nominated for three grammys) (game of the year 2020)
+Genre: Platformer
+Demographic: Family Friendly, aimed at younger audience (12 - 16) to educate and entertain (edutain)
+
+Idea: 
+The story revolves around a doctor working at one of the VOCID-91 help centers in a major city hospital who must find and collect different pieces of equipment to ensure not only their own safety, but also of the patients.
+
+First Level
+The doctor prepares to enter the patient’s room. They must find essential safety items that give special abilities for the doctor to navigate the levels. While still enforcing social distancing policies, such as maintaining a certain distance from other patients. Once they find all of the equipment they need (mask, gloves, face protector, wipes, etc.), they progress onto the next level.
+
+Second Level
+Using the new-found abilities, the doctor enters the VOCID-91 wing of the hospital. At first, they must avoid the patients. They must reach the end of the level successfully without getting infected themselves. After reaching the end, they synthesize a cure for the virus. Then the doctor must backtrack and cure all of their patients, saving the city and completing the game.
