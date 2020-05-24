@@ -30,7 +30,7 @@ public class Bus {
 		BUS_WIDTH = 50;
 		BUS_HEIGHT = 110;
 		xSpeed = 0;
-		ySpeed = 1;
+		ySpeed = 0;
 		busBody = new Rectangle(400 - BUS_WIDTH/2, 320 - BUS_HEIGHT/2, BUS_WIDTH, BUS_HEIGHT);
 		t = new AffineTransform();
 		health = 10;
@@ -42,6 +42,7 @@ public class Bus {
 	public void update() {
 		busBody.translate(xSpeed, ySpeed *-1);
 		t.rotate(Math.toRadians(angle));
+
 	}
 	
 	public void drawBus(Graphics g) {
@@ -81,6 +82,23 @@ public class Bus {
 	public void decelerate() {
 		ySpeed--;
 	}
+	
+	public void setXSpeed(int x) {
+		xSpeed = x;
+	}
+	
+	public int getXSpeed() {
+		return xSpeed;
+	}
+	
+	public void setYSpeed(int y) {
+		ySpeed = y;
+	}
+	
+	public int getYSpeed() {
+		return ySpeed;
+	}
+	
 	
 	/**
 	 * @return the xPos

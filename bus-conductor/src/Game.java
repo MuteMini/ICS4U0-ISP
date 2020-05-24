@@ -1,3 +1,5 @@
+
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,7 +75,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		stop();
 	}
-	
+
 	private void update() {
 		b.update();
 	}
@@ -85,23 +87,46 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		Graphics g = bs.getDrawGraphics();
-		
+
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
-		
+
 		b.drawBus(g);
-		g.fillOval(150,  40, 50, 50);
-		
+		g.fillOval(150, 40, 50, 50);
+
 		g.dispose();
 		bs.show();
 	}
 
-	public void paintComponent(Graphics g) {
-		b.drawBus(g);
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+			b.accelerate();
+		}
+		if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+			b.decelerate();
+		}
+		if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_DOWN) {
+			b.turnRight();
+		}
+		if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_DOWN) {
+			b.turnLeft();
+		}
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+			b.setYSpeed(0);
+			
+		}
+		if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+			b.setYSpeed(0);
+		}
+		
 	}
 
 	public Game() {
 		b = new Bus();
 		setSize(WIDTH, HEIGHT);
+		addKeyListener(new Input(this));
 	}
 }
