@@ -47,10 +47,5 @@
 			<artifactId>jbox2d-library</artifactId>
 			<version>2.2.1.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.mapeditor</groupId>
-			<artifactId>libtiled</artifactId>
-			<version>1.2.3</version>
-		</dependency>
 	</dependencies>
 </project>
