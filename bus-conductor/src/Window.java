@@ -8,38 +8,12 @@ import car.Bus;
  * @author Min
  *
  */
-public class Window extends JFrame implements KeyListener{
-	Bus b;
-	public Window (Bus b) {
-		this.b = b;
-		
-	}
-	
-	public void paint(Graphics g) {
-		b.update((Graphics2D)g);
-		
-	}
-	
-	public Window(int width, int height, Game g) {
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyChar() == 'w') {
-			b.accelerate();
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+public class Window extends JFrame {
+	public Window (int x, int y) {
+		setSize(x, y);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setVisible(true);
+		getContentPane().setBackground(Color.WHITE);
 	}
 }
