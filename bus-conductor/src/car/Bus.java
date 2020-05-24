@@ -30,7 +30,7 @@ public class Bus {
 		BUS_WIDTH = 50;
 		BUS_HEIGHT = 110;
 		xSpeed = 0;
-		ySpeed = 0;
+		ySpeed = 1;
 		busBody = new Rectangle(400 - BUS_WIDTH/2, 320 - BUS_HEIGHT/2, BUS_WIDTH, BUS_HEIGHT);
 		t = new AffineTransform();
 		health = 10;
@@ -40,8 +40,7 @@ public class Bus {
 	 * @param g2d
 	 */
 	public void update() {
-		xPos += xSpeed;
-		yPos += ySpeed;
+		busBody.translate(xSpeed, ySpeed *-1);
 		t.rotate(Math.toRadians(angle));
 	}
 	
@@ -49,7 +48,6 @@ public class Bus {
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setColor(Color.RED);
 		g2d.fillRect(busBody.x, busBody.y, BUS_WIDTH, BUS_HEIGHT);
-		
 	}
 	
 	/**

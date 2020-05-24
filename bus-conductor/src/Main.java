@@ -1,12 +1,24 @@
+import java.awt.Color;
+
 import javax.swing.*;
 import car.Bus;
 
 public class Main {
 	
 	public static void main(String[] args) {
-		System.out.println(true);
-		Window w = new Window(800, 640);
 		Game g = new Game();
-		w.add(g);	
+		JFrame frame = new JFrame();
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+		frame.setSize( Game.WIDTH, Game.HEIGHT);
+		
+		frame.add(g);
+		
+		g.start();
+		
 	}
 }
+
