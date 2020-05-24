@@ -1,12 +1,12 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.*;
-import car.Bus;
+import javax.imageio.ImageIO;
+
+import riders.YoungAdult;
 
 /**
  * Draws everything that needs drawing. Maintains objects displayed on the
@@ -16,13 +16,14 @@ import car.Bus;
  *
  */
 
-public class Game extends Canvas implements Runnable {
+public class Game extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 640;
-	Bus b;
 	private boolean running = false;
 	private Thread t;
-
+	YoungAdult ya;
+	BufferedImage background;
+	
 	public synchronized void start() {
 		if (!running) {
 			running = true;
@@ -69,39 +70,35 @@ public class Game extends Canvas implements Runnable {
 				System.out.println("Updates: " + updates + "\nFrames: " + frames);
 				updates = 0;
 				frames = 0;
+				ya.moveRight();
 			}
 		}
 		stop();
 	}
 	
-	private void update() {
-		b.update();
+	private void update() {	
 	}
-
-	private void render() {
+	
+	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
 		if (bs == null) {
 			createBufferStrategy(3);
 			return;
 		}
-		Graphics g = bs.getDrawGraphics();
-		
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
-		
-		b.drawBus(g);
-		g.fillOval(150,  40, 50, 50);
-		
-		g.dispose();
+		Graphics g = (Graphics2D) bs.getDrawGraphics();
+		g.drawImage(background, 0, 0, null);
+        
+        ya.render(g);
+        
+        g.dispose();
 		bs.show();
 	}
-
-	public void paintComponent(Graphics g) {
-		b.drawBus(g);
-	}
-
+	
 	public Game() {
-		b = new Bus();
+		ya = new YoungAdult(0, Color.PINK);
+		try {
+			background = ImageIO.read(new File("res/puzzlescreen.png"));
+		} catch (IOException e) {}
 		setSize(WIDTH, HEIGHT);
 	}
 }

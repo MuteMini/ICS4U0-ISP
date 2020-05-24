@@ -1,17 +1,16 @@
-import java.awt.Dimension;
-import java.awt.Color;
 import javax.swing.*;
-import car.Bus;
 
 public class Main {
 	public static void main(String[] args) {
+		Game g = new Game();
 		JFrame frame = new JFrame("TMX Viewer");		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame..add(new PuzzleScreen("puzzlescreen.tmx"));
-		frame.pack();
+		frame.add(g);
+		frame.setSize(Game.WIDTH, Game.HEIGHT);
 		frame.setVisible(true);
 		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);	
+		frame.setLocationRelativeTo(null);
+		g.start();
 	}
 }
 

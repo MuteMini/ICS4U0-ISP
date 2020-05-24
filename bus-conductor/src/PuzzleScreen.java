@@ -1,40 +1,45 @@
-
-import java.awt.Dimension;
+import riders.*;
+import java.util.*;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import javax.swing.JPanel;
-import org.mapeditor.core.Map;
-import org.mapeditor.core.MapLayer;
-import org.mapeditor.core.TileLayer;
-import org.mapeditor.io.TMXMapReader;
-import org.mapeditor.view.OrthogonalRenderer;
 
-public class PuzzleScreen extends JPanel{
-	Map map;
-	OrthogonalRenderer or;
 
-	public PuzzleScreen(String fileName) {
-		try {
-			TMXMapReader mapReader = new TMXMapReader();
-			map = mapReader.readMap(fileName);
-		} catch (Exception e) {
-			System.out.println("Error while reading the map:\n" + e.getMessage());
+public abstract class PuzzleScreen {
+	protected ArrayList<Passenger> moveable;
+	protected ArrayList<Passenger> immoveable;
+	protected int cursor;
+	protected int selected;
+	protected Integer[][] distanceGrid;
+	
+	public PuzzleScreen() {
+		this.cursor = 0;
+		this.selected = -1;
+		this.distanceGrid = new Integer[5][11];
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 11; j++) {
+				distanceGrid[i][j] = 0;
+			}
 		}
-		or = new OrthogonalRenderer(map);
-        setOpaque(true);
-	}
-
-	@Override
-	public void paintComponent(Graphics g) {
-		final Graphics2D g2d = (Graphics2D) g.create();
-
-		for (MapLayer layer : map.getLayers()) {
-			or.paintTileLayer(g2d, (TileLayer) layer);
-		}
+		for(Passenger pass : immoveable)
+			pass.fillDistance(distanceGrid);
 	}
 	
-	@Override
-    public Dimension getPreferredSize() {
-        return new Dimension(800,640);
-    }
+	public void render(Graphics g) {
+		for(Passenger pass : immoveable)
+			pass.render(g);
+		for(Passenger pass : moveable)
+			pass.render(g);
+	}
+	
+	public boolean checkSolution() {
+		Integer[][] tempGrid = distanceGrid;
+		for(Passenger pass : moveable)
+			pass.fillDistance(tempGrid);
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 11; j++) {
+				if(tempGrid[i][j] > 1)
+					return false;
+			}
+		}
+		return true;
+	}
 }
