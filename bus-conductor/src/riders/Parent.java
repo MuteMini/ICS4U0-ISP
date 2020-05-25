@@ -4,23 +4,44 @@ import java.awt.Color;
 
 public class Parent extends Passenger{
 
-	public Parent(int order, Color cl) {
-		super("res/parent.png", order, cl);
+	protected int numChild;
+	
+	public Parent(int id, int orderX, int orderY, Color cl, int numChild) {
+		super("parent.png", id, orderX, orderY, cl);
+		this.numChild = numChild;
 	}
-	public Parent(int xPos, int yPos) {
-		super("res/parent.png", xPos, yPos);
+	public Parent(int id, int xPos, int yPos, int numChild) {
+		super("parent.png", id, xPos, yPos);
+		this.numChild = numChild;
 	}
 	
 	@Override
-	public void fillDistance (Integer[][] grid) {
-		grid[xPos][yPos]++;
-		if(xPos > 0)
-			grid[xPos-1][yPos]++;
-		if(xPos < MAX_X)
-			grid[xPos+1][yPos]++;
-		if(yPos > 0)
-			grid[xPos][yPos-1]++;
-		if(yPos < MAX_Y)
-			grid[xPos][yPos+1]++;
+	public boolean isCorrect(Integer[][] grid) {
+		int count = 0;
+		if(xPos > 0) {
+			if(grid[xPos-1][yPos] == id+1)
+				count++;
+			else if(grid[xPos-1][yPos] > 0)
+				return false;
+		}
+		if(xPos < MAX_X) {
+			if(grid[xPos+1][yPos] == id+1)
+				count++;
+			else if(grid[xPos+1][yPos] > 0)
+				return false;
+		}
+		if(yPos > 0) {
+			if(grid[xPos][yPos-1] == id+1)
+				count++;
+			else if(grid[xPos][yPos-1] > 0)
+				return false;
+		}
+		if(yPos < MAX_Y) {
+			if(grid[xPos][yPos+1] == id+1)
+				count++;
+			else if(grid[xPos][yPos+1] > 0)
+				return false;
+		}
+		return numChild == count;
 	}
 }

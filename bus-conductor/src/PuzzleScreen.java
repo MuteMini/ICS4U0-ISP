@@ -58,16 +58,12 @@ public abstract class PuzzleScreen {
 	}
 	
 	public boolean checkSolution() {
-		Integer[][] tempGrid = distanceGrid;
-		for(Passenger pass : placed)
-			pass.fillDistance(tempGrid);
-		
 		for(Passenger pass : immoveable) {
-			if(pass.isPlaceable(tempGrid))
+			if(!pass.isCorrect(distanceGrid))
 				return false;
 		}
 		for(Passenger pass : placed) {
-			if(pass.isPlaceable(tempGrid))
+			if(!pass.isCorrect(distanceGrid))
 				return false;
 		}
 		return true;
@@ -83,15 +79,7 @@ public abstract class PuzzleScreen {
 				reset = true;
 			}
 			else if(selected != -1){
-				if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)
-					moveable.get(selected).moveLeft();
-				else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
-					moveable.get(selected).moveRight();
-				else if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)
-					moveable.get(selected).moveUp();
-				else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
-					moveable.get(selected).moveDown();
-				else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (!moveable.get(selected).move(distanceGrid, e) && e.getKeyCode() == KeyEvent.VK_ENTER) {
 					placed.get(placed.size()-1).fillDistance(distanceGrid);
 					placed.get(placed.size()-1).setSelected(false);
 					moveable.remove(selected);
