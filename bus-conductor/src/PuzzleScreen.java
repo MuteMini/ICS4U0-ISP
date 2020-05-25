@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 
 public abstract class PuzzleScreen {
 	protected ArrayList<Passenger> moveable;
+	protected ArrayList<Passenger> placed;
 	protected ArrayList<Passenger> immoveable;
 	protected Set<Integer> keysHeld;
 	protected int cursor;
@@ -12,20 +13,32 @@ public abstract class PuzzleScreen {
 	protected Integer[][] distanceGrid;
 	
 	public PuzzleScreen() {
+		this.moveable = new ArrayList<Passenger>();
+		this.placed = new ArrayList<Passenger>();
+		this.immoveable = new ArrayList<Passenger>();
 		this.keysHeld = new TreeSet<Integer>();
 		this.cursor = 0;
-		this.selected = 0;
+		this.selected = -1;
 		this.distanceGrid = new Integer[5][11];
-		Arrays.fill(distanceGrid, 0);
-		for(Passenger pass : immoveable)
-			pass.fillDistance(distanceGrid);
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 11; j++) {
+				distanceGrid[i][j] = 0;
+			}
+		}
 	}
 	
 	public void render(Graphics g) {
 		for(Passenger pass : immoveable)
-			pass.render(g);
+			pass.render(g, distanceGrid);
+		for(Passenger pass : placed)
+			pass.render(g, distanceGrid);
 		for(Passenger pass : moveable)
-			pass.render(g);
+			pass.render(g, distanceGrid);
+	}
+	
+	public void fillGrid() {
+		for(Passenger pass : immoveable)
+			pass.fillDistance(distanceGrid);
 	}
 	
 	public boolean checkSolution() {
@@ -41,7 +54,7 @@ public abstract class PuzzleScreen {
 		return true;
 	}
 	
-	public void processMovement(KeyEvent e) {
+	public void processMovement(KeyEvent e){
 		int code = e.getKeyCode();
 		if(keysHeld.contains(e.getKeyCode())) {
 			return;
@@ -55,11 +68,42 @@ public abstract class PuzzleScreen {
 				moveable.get(selected).moveUp();
 			else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
 				moveable.get(selected).moveDown();
-			keysHeld.add(code);
+			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				placed.get(selected).fillDistance(distanceGrid);
+				placed.get(selected).setSelected(false);
+				moveable.remove(selected);
+				selected = -1;
+			}
 		}
+		else if(!moveable.isEmpty()){
+			if ((e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) && cursor > 0)
+				cursor--;
+			else if ((e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) && cursor < moveable.size()-1)
+				cursor++;
+			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				selected = cursor;
+				moveable.get(selected).setInGrid(true);
+				placed.add(moveable.get(selected));
+			}
+			showCursor();
+		}
+		keysHeld.add(code);
 	}
 	
 	public void undoHold(KeyEvent e) {
 		keysHeld.remove(e.getKeyCode());
+	}
+	
+	private void showCursor() {
+		for(Passenger pass : moveable) {
+			if(pass.getOrder() == cursor)
+				pass.setSelected(true);
+			else
+				pass.setSelected(false);
+		}
+	}
+	
+	public int getMoveableSize() {
+		return moveable.size();
 	}
 }

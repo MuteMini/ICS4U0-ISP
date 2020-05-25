@@ -19,7 +19,7 @@ import riders.YoungAdult;
 
 public class Game extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
-	public static final int HEIGHT = 640;
+	public static final int HEIGHT = 672;
 	private boolean running = false;
 	private Thread t;
 	TestScreen ts;
@@ -77,6 +77,8 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	private void update() {	
+		if(ts.getMoveableSize() == 0)
+			System.out.println( (ts.checkSolution()) ? "nicejob" : "you suck" );
 	}
 	
 	public void render() {
@@ -87,7 +89,7 @@ public class Game extends Canvas implements Runnable{
 		}
 		Graphics g = (Graphics2D) bs.getDrawGraphics();
 		g.drawImage(background, 0, 0, null);
-        
+        ts.render(g);
         g.dispose();
 		bs.show();
 	}
