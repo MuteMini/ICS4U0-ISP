@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,7 +22,7 @@ public class Game extends Canvas implements Runnable{
 	public static final int HEIGHT = 640;
 	private boolean running = false;
 	private Thread t;
-	YoungAdult ya;
+	TestScreen ts;
 	BufferedImage background;
 	
 	public synchronized void start() {
@@ -70,7 +71,6 @@ public class Game extends Canvas implements Runnable{
 				System.out.println("Updates: " + updates + "\nFrames: " + frames);
 				updates = 0;
 				frames = 0;
-				ya.moveRight();
 			}
 		}
 		stop();
@@ -88,17 +88,24 @@ public class Game extends Canvas implements Runnable{
 		Graphics g = (Graphics2D) bs.getDrawGraphics();
 		g.drawImage(background, 0, 0, null);
         
-        ya.render(g);
-        
         g.dispose();
 		bs.show();
 	}
 	
 	public Game() {
-		ya = new YoungAdult(0, Color.PINK);
 		try {
 			background = ImageIO.read(new File("res/puzzlescreen.png"));
 		} catch (IOException e) {}
 		setSize(WIDTH, HEIGHT);
+		addKeyListener(new Input(this));
+		ts = new TestScreen();
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		ts.processMovement(e);
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		ts.undoHold(e);
 	}
 }

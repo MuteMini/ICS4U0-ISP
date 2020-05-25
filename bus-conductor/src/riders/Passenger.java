@@ -60,12 +60,6 @@ public abstract class Passenger {
 			g.drawImage(sprite, ORDERED_X, yPosNew, null);
 		}
 	}
-
-	public void move(KeyEvent k) {
-		if(inGrid) {
-			if(k.)
-		}
-	}
 	
 	public void moveLeft() { xPos--; }
 	public void moveRight() { xPos++; }
