@@ -24,7 +24,6 @@ public class Game extends Canvas implements Runnable {
 	Bus b;
 	private boolean running = false;
 	private Thread t;
-
 	public synchronized void start() {
 		if (!running) {
 			running = true;
@@ -92,7 +91,7 @@ public class Game extends Canvas implements Runnable {
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
 		b.drawBus(g);
-		g.fillOval(150, 40, 50, 50);
+		
 
 		g.dispose();
 		bs.show();
@@ -102,26 +101,32 @@ public class Game extends Canvas implements Runnable {
 		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
 			b.accelerate();
 		}
-		if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+		else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
 			b.decelerate();
 		}
-		if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_DOWN) {
+		else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			b.turnRight();
 		}
-		if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_DOWN) {
+		else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
 			b.turnLeft();
 		}
 	}
 	
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
-			b.setYSpeed(0);
-			
+			b.setXVelocity(0);
+			b.setYVelocity(0);
 		}
 		if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
-			b.setYSpeed(0);
+			b.setXVelocity(0);
+			b.setYVelocity(0);
 		}
-		
+		if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			b.setAngularVelocity(0);
+		}
+		if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
+			b.setAngularVelocity(0);
+		}
 	}
 
 	public Game() {

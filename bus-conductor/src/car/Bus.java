@@ -10,114 +10,136 @@ import javax.swing.*;
  *
  */
 public class Bus {
-	public int health;
 	final int BUS_HEIGHT;
 	final int BUS_WIDTH;
-	private int xPos;
-	private int yPos;
-	private int angle;
-	private int xSpeed;
-	private int ySpeed;
-	Rectangle busBody;
-	AffineTransform t;
-	
-	/**
-	 * 
-	 */
+	private double angle;
+	private double xVel;
+	private double yVel;
+	private int angleVel;
+	Polygon bus;
+	Point[] busPoints;
+
 	public Bus() {
 		super();
-		angle = 45;
+		angle = 0;
 		BUS_WIDTH = 50;
 		BUS_HEIGHT = 110;
-		xSpeed = 0;
-		ySpeed = 0;
-		busBody = new Rectangle(400 - BUS_WIDTH/2, 320 - BUS_HEIGHT/2, BUS_WIDTH, BUS_HEIGHT);
-		t = new AffineTransform();
-		health = 10;
+		xVel = 0;
+		yVel = 0;
+		angleVel = 0;
+		
+		busPoints = getOriginalPoints();
 	}
-	
-	/**
-	 * @param g2d
-	 */
-	public void update() {
-		busBody.translate(xSpeed, ySpeed *-1);
-		t.rotate(Math.toRadians(angle));
 
-	}
 	
+	public void update() {
+		double temp = angle;
+		angle += angleVel;
+		if (angle > 360) 
+			angle = 0;
+		if (angle < 0)
+			angle = 360;
+		if (temp != angle)
+			rotatePointMatrix(getOriginalPoints(), angle, busPoints);
+		for (int i = 0; i < 4; i++) {
+			busPoints[i].setLocation((busPoints[i].x + xVel), (busPoints[i].y - yVel));
+		}
+	}
+
 	public void drawBus(Graphics g) {
-		Graphics2D g2d = (Graphics2D)g;
+		bus = createPolygon(busPoints);
+		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.RED);
-		g2d.fillRect(busBody.x, busBody.y, BUS_WIDTH, BUS_HEIGHT);
+		g2d.fill(bus);
+		
 	}
 	
+	public Point center() {
+		int xSum = 0;
+		int ySum = 0;
+		for (Point p: busPoints) {
+			xSum += p.x;
+			ySum += p.y;
+		}
+		return new Point(xSum/4, ySum/4);
+	}
+	
+	public Polygon createPolygon(Point[] polyPoints) {
+		Polygon tempPoly = new Polygon();
+		for (int i = 0; i < polyPoints.length; i++) {
+			tempPoly.addPoint(polyPoints[i].x, polyPoints[i].y);
+		}
+		return tempPoly;
+	}
+	
+	public void rotatePointMatrix(Point[] origPoints, double angle, Point[] storeTo) {
+		AffineTransform.getRotateInstance(Math.toRadians(angle), center().x, center().y).transform(origPoints, 0, storeTo, 0, 4);
+	}
+
+	public Point[] getOriginalPoints() {
+		Point[] originalPoints = new Point[4];
+		originalPoints[0] = new Point(400 - BUS_WIDTH / 2, 320 - BUS_HEIGHT / 2);
+		originalPoints[1] = new Point(400 + BUS_WIDTH / 2, 320 - BUS_HEIGHT / 2);
+		originalPoints[2] = new Point(400 + BUS_WIDTH / 2, 320 + BUS_HEIGHT / 2);
+		originalPoints[3] = new Point(400 - BUS_WIDTH / 2, 320 + BUS_HEIGHT / 2);
+		return originalPoints;
+	}
 	/**
 	 * 
 	 */
 	public void turnRight() {
-		angle += 5;
-		if (angle > 360) 
-			angle = 0;
+		angleVel = 4;
 	}
-	
 	/**
 	 * 
 	 */
 	public void turnLeft() {
-		angle -= 5;
-		if (angle < 0) 
-			angle = 360;
+		angleVel = -4;
 	}
-	
 	/**
 	 * 
 	 */
 	public void accelerate() {
-		ySpeed++;
+		yVel = (busPoints[1].y - busPoints[2].y)/2;
+		xVel = (busPoints[1].x - busPoints[2].x)/2;
 	}
-	
 	/**
 	 * 
 	 */
 	public void decelerate() {
-		ySpeed--;
+		yVel = (busPoints[1].y - busPoints[2].y)/2 *-1;
+		xVel = (busPoints[1].x - busPoints[2].x)/2 *-1;
 	}
-	
-	public void setXSpeed(int x) {
-		xSpeed = x;
+	public void setXVelocity(int x) {
+		xVel = x;
 	}
-	
-	public int getXSpeed() {
-		return xSpeed;
+	public double getXVelocity() {
+		return xVel;
 	}
-	
-	public void setYSpeed(int y) {
-		ySpeed = y;
+	public void setYVelocity(int y) {
+		yVel = y;
 	}
-	
-	public int getYSpeed() {
-		return ySpeed;
+	public double getYVelocity() {
+		return yVel;
 	}
-	
-	
-	/**
-	 * @return the xPos
-	 */
-	public int getXPos() {
-		return xPos;
-	}
-	
-	/**
-	 * @return the yPos
-	 */
-	public int getYPos() {
-		return yPos;
-	}
-	
 	/**
 	 * @return the angle
 	 */
-	public int getAngle() {
+	public double getAngle() {
 		return angle;
+	}
+
+	/**
+	 * @return the angleVel
+	 */
+	public int getAngularVelocity() {
+		return angleVel;
+	}
+
+	/**
+	 * @param angleVel the angleVel to set
+	 */
+	public void setAngularVelocity(int angleVel) {
+		this.angleVel = angleVel;
 	}
 }
