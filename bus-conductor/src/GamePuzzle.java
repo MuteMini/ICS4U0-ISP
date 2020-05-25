@@ -2,8 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import javax.imageio.ImageIO;
 
@@ -17,7 +16,7 @@ import riders.YoungAdult;
  *
  */
 
-public class Game extends Canvas implements Runnable{
+public class GamePuzzle extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 672;
 	private boolean running = false;
@@ -47,7 +46,9 @@ public class Game extends Canvas implements Runnable{
 	public void run() {
 		Long sTime = System.nanoTime();
 		final double tick = 60.0;
-		double ns = 1000000000 / tick;
+		final double ns = 1000000000 / tick;
+		final int fps = 60;
+		final long fpsRate = 1000000000 / fps;
 		double delta = 0;
 		int frames = 0;
 		int updates = 0;
@@ -65,7 +66,15 @@ public class Game extends Canvas implements Runnable{
 			}
 			render();
 			frames++;
-
+			
+			long tTime = System.nanoTime() - cTime;
+			if(tTime < ns) {
+				try {
+					Thread.sleep((fpsRate-tTime) / 1000000);
+				} catch (InterruptedException e) {
+				}
+			}
+			
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
 				System.out.println("Updates: " + updates + "\nFrames: " + frames);
@@ -77,8 +86,7 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	private void update() {	
-		if(ts.getMoveableSize() == 0)
-			System.out.println( (ts.checkSolution()) ? "nicejob" : "you suck" );
+		ts.update();
 	}
 	
 	public void render() {
@@ -94,10 +102,13 @@ public class Game extends Canvas implements Runnable{
 		bs.show();
 	}
 	
-	public Game() {
+	public GamePuzzle() {
 		try {
-			background = ImageIO.read(new File("res/puzzlescreen.png"));
-		} catch (IOException e) {}
+			InputStream is = new BufferedInputStream(new FileInputStream("res/puzzlescreen.png"));
+			background = ImageIO.read(is);
+			is.close();
+		} catch (Exception e) {
+		}
 		setSize(WIDTH, HEIGHT);
 		addKeyListener(new Input(this));
 		ts = new TestScreen();
