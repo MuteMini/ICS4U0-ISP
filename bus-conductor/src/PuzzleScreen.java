@@ -10,21 +10,12 @@ public abstract class PuzzleScreen {
 	protected Set<Integer> keysHeld;
 	protected int cursor;
 	protected int selected;
+	protected boolean reset;
 	protected Integer[][] distanceGrid;
 	
 	public PuzzleScreen() {
-		this.moveable = new ArrayList<Passenger>();
-		this.placed = new ArrayList<Passenger>();
-		this.immoveable = new ArrayList<Passenger>();
+		resetGrid();
 		this.keysHeld = new TreeSet<Integer>();
-		this.cursor = 0;
-		this.selected = -1;
-		this.distanceGrid = new Integer[5][11];
-		for(int i = 0; i < 5; i++) {
-			for(int j = 0; j < 11; j++) {
-				distanceGrid[i][j] = 0;
-			}
-		}
 	}
 	
 	public void render(Graphics g) {
@@ -36,20 +27,48 @@ public abstract class PuzzleScreen {
 			pass.render(g, distanceGrid);
 	}
 	
+	public void update() {
+		if(reset)
+			this.resetGrid();
+		showCursor();
+		
+		//testing
+		if(moveable.size() == 0)
+			System.out.println( (checkSolution()) ? "nicejob" : "you suck" );
+	}
+	
 	public void fillGrid() {
 		for(Passenger pass : immoveable)
 			pass.fillDistance(distanceGrid);
 	}
 	
-	public boolean checkSolution() {
-		Integer[][] tempGrid = distanceGrid;
-		for(Passenger pass : moveable)
-			pass.fillDistance(tempGrid);
+	public void resetGrid() {
+		this.moveable = new ArrayList<Passenger>();
+		this.immoveable = new ArrayList<Passenger>();
+		this.placed = new ArrayList<Passenger>();
+		this.cursor = 0;
+		this.selected = -1;
+		this.reset = false;
+		this.distanceGrid = new Integer[5][11];
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 11; j++) {
-				if(tempGrid[i][j] > 1)
-					return false;
+				distanceGrid[i][j] = 0;
 			}
+		}
+	}
+	
+	public boolean checkSolution() {
+		Integer[][] tempGrid = distanceGrid;
+		for(Passenger pass : placed)
+			pass.fillDistance(tempGrid);
+		
+		for(Passenger pass : immoveable) {
+			if(pass.isPlaceable(tempGrid))
+				return false;
+		}
+		for(Passenger pass : placed) {
+			if(pass.isPlaceable(tempGrid))
+				return false;
 		}
 		return true;
 	}
@@ -59,33 +78,38 @@ public abstract class PuzzleScreen {
 		if(keysHeld.contains(e.getKeyCode())) {
 			return;
 		}
-		else if(selected != -1){
-			if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)
-				moveable.get(selected).moveLeft();
-			else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
-				moveable.get(selected).moveRight();
-			else if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)
-				moveable.get(selected).moveUp();
-			else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
-				moveable.get(selected).moveDown();
-			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				placed.get(placed.size()-1).fillDistance(distanceGrid);
-				placed.get(placed.size()-1).setSelected(false);
-				moveable.remove(selected);
-				selected = -1;
+		else {
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				reset = true;
 			}
-		}
-		else if(!moveable.isEmpty()){
-			if ((e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) && cursor > 0)
-				cursor--;
-			else if ((e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) && cursor < moveable.size()-1)
-				cursor++;
-			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				selected = cursor;
-				moveable.get(selected).setInGrid(true);
-				placed.add(moveable.get(selected));
+			else if(selected != -1){
+				if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)
+					moveable.get(selected).moveLeft();
+				else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
+					moveable.get(selected).moveRight();
+				else if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)
+					moveable.get(selected).moveUp();
+				else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
+					moveable.get(selected).moveDown();
+				else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					placed.get(placed.size()-1).fillDistance(distanceGrid);
+					placed.get(placed.size()-1).setSelected(false);
+					moveable.remove(selected);
+					cursor = 0;
+					selected = -1;
+				}
 			}
-			showCursor();
+			else if(!moveable.isEmpty()){
+				if ((e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) && cursor > 0)
+					cursor--;
+				else if ((e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) && cursor < moveable.size()-1)
+					cursor++;
+				else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					selected = cursor;
+					moveable.get(selected).setInGrid(true);
+					placed.add(moveable.get(selected));
+				}
+			}
 		}
 		keysHeld.add(code);
 	}
@@ -93,15 +117,10 @@ public abstract class PuzzleScreen {
 	public void undoHold(KeyEvent e) {
 		keysHeld.remove(e.getKeyCode());
 	}
-	
-	private void showCursor() {
+
+	public void showCursor() {
 		for(int i = 0; i < moveable.size(); i++) {
-			moveable.get(i).setSelected(false);
+			moveable.get(i).setSelected(i==cursor);
 		}
-		moveable.get(cursor).setSelected(true);
-	}
-	
-	public int getMoveableSize() {
-		return moveable.size();
 	}
 }
