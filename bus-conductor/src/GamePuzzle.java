@@ -3,9 +3,11 @@ import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import riders.Passenger;
 import riders.YoungAdult;
 
 /**
@@ -95,20 +97,22 @@ public class GamePuzzle extends Canvas implements Runnable{
 			createBufferStrategy(3);
 			return;
 		}
-		Graphics g = (Graphics2D) bs.getDrawGraphics();
-		g.drawImage(background, 0, 0, null);
-        ts.render(g);
-        g.dispose();
+		Graphics2D g2d = (Graphics2D) bs.getDrawGraphics();
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(0,0,GamePuzzle.WIDTH,GamePuzzle.HEIGHT);
+		g2d.drawImage(background, 0, 0, null);
+        ts.render(g2d);
+        g2d.dispose();
 		bs.show();
 	}
 	
 	public GamePuzzle() {
 		try {
-			InputStream is = new BufferedInputStream(new FileInputStream("res/puzzlescreen.png"));
-			background = ImageIO.read(is);
-			is.close();
-		} catch (Exception e) {
+			URL url = Passenger.class.getResource("/puzzlescreen.png");
+			background = ImageIO.read(url);
+		} catch (IOException e) {
 		}
+		
 		setSize(WIDTH, HEIGHT);
 		addKeyListener(new Input(this));
 		ts = new TestScreen();
