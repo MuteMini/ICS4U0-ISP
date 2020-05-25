@@ -69,8 +69,8 @@ public abstract class PuzzleScreen {
 			else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
 				moveable.get(selected).moveDown();
 			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				placed.get(selected).fillDistance(distanceGrid);
-				placed.get(selected).setSelected(false);
+				placed.get(placed.size()-1).fillDistance(distanceGrid);
+				placed.get(placed.size()-1).setSelected(false);
 				moveable.remove(selected);
 				selected = -1;
 			}
@@ -95,12 +95,10 @@ public abstract class PuzzleScreen {
 	}
 	
 	private void showCursor() {
-		for(Passenger pass : moveable) {
-			if(pass.getOrder() == cursor)
-				pass.setSelected(true);
-			else
-				pass.setSelected(false);
+		for(int i = 0; i < moveable.size(); i++) {
+			moveable.get(i).setSelected(false);
 		}
+		moveable.get(cursor).setSelected(true);
 	}
 	
 	public int getMoveableSize() {
