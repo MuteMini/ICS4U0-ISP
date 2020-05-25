@@ -2,11 +2,11 @@ import javax.swing.*;
 
 public class Main {
 	public static void main(String[] args) {
-		Game g = new Game();
+		GamePuzzle g = new GamePuzzle();
 		JFrame frame = new JFrame("TMX Viewer");		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(g);
-		frame.setSize(Game.WIDTH, Game.HEIGHT);
+		frame.setSize(GamePuzzle.WIDTH, GamePuzzle.HEIGHT);
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
