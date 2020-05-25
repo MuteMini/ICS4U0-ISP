@@ -1,8 +1,5 @@
 
-import java.awt.Color;
-
 import javax.swing.*;
-import car.Bus;
 
 public class Main {
 	

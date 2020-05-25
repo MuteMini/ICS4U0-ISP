@@ -1,8 +1,6 @@
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import car.Bus;
 
 /**
  * Creates a JFrame for the canvas to be displayed in.
@@ -15,6 +13,6 @@ public class Window extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
-		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setBackground(Color.BLACK);
 	}
 }

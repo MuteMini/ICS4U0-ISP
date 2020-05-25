@@ -8,7 +8,6 @@ public class Input extends KeyAdapter{
 	public Input(Game g) {
 		game = g; 
 	}
-	
 
 	@Override
 	public void keyPressed(KeyEvent e) {
