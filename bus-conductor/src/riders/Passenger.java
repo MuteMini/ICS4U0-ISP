@@ -17,13 +17,14 @@ public abstract class Passenger{
 	final protected int ORDERED_Y = 160;
 	final protected int MAX_X = 4;
 	final protected int MAX_Y = 10;
+	final protected int EMPTY = -1;
+	final protected int BAGGAGE = -2;
 	protected int xPos;
 	protected int yPos;
 	protected int id;
 	protected int orderX;
 	protected int orderY;
 	protected boolean inGrid;
-	protected boolean placed;
 	protected boolean selected;
 	protected Color cl;
 	protected BufferedImage sprite;
@@ -35,7 +36,6 @@ public abstract class Passenger{
 		this.orderX = orderX;
 		this.orderY = orderY;
 		this.inGrid = false;
-		this.placed = false;
 		this.selected = false;
 		this.cl = cl;
 		readImage(fileName);
@@ -48,7 +48,6 @@ public abstract class Passenger{
 		this.orderY = 0;
 		this.id = id;
 		this.inGrid = true;
-		this.placed = false;
 		this.selected = false;
 		this.cl = Color.WHITE;
 		readImage(fileName);
@@ -62,16 +61,14 @@ public abstract class Passenger{
 		}
 	}
 	
-	public void fillDistance (Integer[][] grid) {
-		grid[xPos][yPos] = id;
-		if(xPos > 0 && grid[xPos-1][yPos] == 0)
-			grid[xPos-1][yPos] = -1;
-		if(xPos < MAX_X && grid[xPos+1][yPos] == 0)
-			grid[xPos+1][yPos] = -1;
-		if(yPos > 0 && grid[xPos][yPos-1] == 0)
-			grid[xPos][yPos-1] = -1;
-		if(yPos < MAX_Y && grid[xPos][yPos+1] == 0)
-			grid[xPos][yPos+1] = -1;
+	public boolean canSelect(Integer[][] grid) {
+		return true;
+	}
+	
+	public boolean isPlaceable(Integer[][] grid, KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER)
+			return isCorrect(grid);
+		return false;
 	}
 	
 	public boolean isCorrect(Integer[][] grid) {
@@ -81,6 +78,18 @@ public abstract class Passenger{
 				&& (yPos == MAX_Y || grid[xPos][yPos+1] <= 0));
 	}
 	
+	public void fillDistance (Integer[][] grid) {
+		grid[xPos][yPos] = id;
+		if(xPos > 0 && grid[xPos-1][yPos] == 0)
+			grid[xPos-1][yPos] = EMPTY;
+		if(xPos < MAX_X && grid[xPos+1][yPos] == 0)
+			grid[xPos+1][yPos] = EMPTY;
+		if(yPos > 0 && grid[xPos][yPos-1] == 0)
+			grid[xPos][yPos-1] = EMPTY;
+		if(yPos < MAX_Y && grid[xPos][yPos+1] == 0)
+			grid[xPos][yPos+1] = EMPTY;
+	}
+
 	public void render(Graphics g, Integer[][] grid) {
 		int xPosNew, yPosNew;
 		
@@ -96,14 +105,30 @@ public abstract class Passenger{
 			highlight(g, grid, xPosNew, yPosNew);
 			g.drawImage(sprite, xPosNew, yPosNew, null);
 		}
+		drawTag(g, xPosNew, yPosNew);
+	}
+	
+	protected void drawTag(Graphics g, int xPos, int yPos) {
 		g.setColor(cl);
-		g.fillOval(xPosNew, yPosNew, 10, 10);
+		g.fillOval(xPos, yPos, 10, 10);
+	}
+	
+	public void spawn(Integer[][] grid) {
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 11; j++) {
+				if(grid[i][j] <= 0) {
+					xPos = i;
+					yPos = j;
+					return;
+				}
+			}
+		}
 	}
 	
 	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
-				if((grid[xPos][yPos] == 0))
+				if(isCorrect(grid))
 					g.setColor(new Color(25, 255, 25, 120));
 				else
 					g.setColor(new Color(255, 25, 25, 120));
