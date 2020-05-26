@@ -1,6 +1,7 @@
 package riders;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 public class Parent extends Passenger{
@@ -51,5 +52,20 @@ public class Parent extends Passenger{
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 			return super.isCorrect(grid);
 		return false;
+	}
+	
+	@Override
+	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
+		if(selected) {
+			if(inGrid) {
+				if(super.isCorrect(grid))
+					g.setColor(new Color(25, 255, 25, 120));
+				else
+					g.setColor(new Color(255, 25, 25, 120));
+			}
+			else
+				g.setColor(new Color(255, 127, 156, 120));
+			g.fillRoundRect(xPosNew, yPosNew, 32, 32, 20, 20);
+		}
 	}
 }
