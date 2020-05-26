@@ -35,7 +35,7 @@ public abstract class PuzzleScreen {
 		//testing
 		for(int j = 0; j < 11; j++) {
 			for(int i = 0; i < 5; i++) {
-				System.out.print(distanceGrid[i][j] + " ");
+				System.out.print(distanceGrid[i][j] + "\t");
 			}
 			System.out.println();
 		}
@@ -66,12 +66,14 @@ public abstract class PuzzleScreen {
 	
 	public boolean checkSolution() {
 		for(Passenger pass : immoveable) {
-			if(!pass.isCorrect(distanceGrid))
+			if(!pass.isCorrect(distanceGrid)) {
 				return false;
+			}	
 		}
 		for(Passenger pass : placed) {
-			if(!pass.isCorrect(distanceGrid))
+			if(!pass.isCorrect(distanceGrid)) {
 				return false;
+			}
 		}
 		return true;
 	}
