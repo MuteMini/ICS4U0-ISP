@@ -77,8 +77,8 @@ public class Student extends Passenger{
 		for(int i = 0; i < 5-shiftX; i++) {
 			for(int j = 0; j < 11-shiftY; j++) {
 				if(grid[i+shiftX][j+shiftY] <= 0) {
-					xPos = i+shiftX;
-					yPos = j+shiftY;
+					xPos = i;
+					yPos = j;
 					return;
 				}
 			}
