@@ -72,10 +72,11 @@ public abstract class Passenger{
 	}
 	
 	public boolean isCorrect(Integer[][] grid) {
-		return ((xPos == 0 || grid[xPos-1][yPos] <= 0) 
-				&& (xPos == MAX_X || grid[xPos+1][yPos] <= 0) 
-				&& (yPos == 0 || grid[xPos][yPos-1] <= 0) 
-				&& (yPos == MAX_Y || grid[xPos][yPos+1] <= 0));
+		return (grid[xPos][yPos] == 0 || grid[xPos][yPos] == id)
+			&& (xPos == 0 || grid[xPos-1][yPos] <= 0) 
+			&& (xPos == MAX_X || grid[xPos+1][yPos] <= 0) 
+			&& (yPos == 0 || grid[xPos][yPos-1] <= 0) 
+			&& (yPos == MAX_Y || grid[xPos][yPos+1] <= 0);
 	}
 	
 	public void fillDistance (Integer[][] grid) {
@@ -181,5 +182,10 @@ public abstract class Passenger{
 	
 	public void setInGrid(boolean inGrid) {
 		this.inGrid = inGrid;
+	}
+	
+	@Override
+	public String toString() {
+		return id + " ";
 	}
 }

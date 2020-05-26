@@ -46,14 +46,16 @@ public class Student extends Passenger{
 	public boolean isCorrect(Integer[][] grid) {
 		int tempXPos = xPos+shiftX;
 		int tempYPos = yPos+shiftY;
-		boolean surrounding = ((tempXPos == 0 || grid[tempXPos-1][tempYPos] <= 0)
-				&& (tempXPos == MAX_X || grid[tempXPos+1][tempYPos] <= 0) 
-				&& (tempYPos == 0 || grid[tempXPos][tempYPos-1] <= 0) 
-				&& (tempYPos == MAX_Y || grid[tempXPos][tempYPos+1] <= 0));
-		boolean noOverlap = !selected || ((rotation == 1 && grid[tempXPos][tempYPos+1] != BAGGAGE)
-				|| (rotation == 2 && grid[tempXPos+1][tempYPos] != BAGGAGE)
-				|| (rotation == 3 && grid[tempXPos][tempYPos-1] != BAGGAGE)
-				|| (rotation == 4 && grid[tempXPos-1][tempYPos] != BAGGAGE));
+		boolean surrounding = (grid[tempXPos][tempYPos] == 0 || grid[tempXPos][tempYPos] == id)
+							&& (tempXPos == 0 || grid[tempXPos-1][tempYPos] <= 0)
+							&& (tempXPos == MAX_X || grid[tempXPos+1][tempYPos] <= 0) 
+							&& (tempYPos == 0 || grid[tempXPos][tempYPos-1] <= 0) 
+							&& (tempYPos == MAX_Y || grid[tempXPos][tempYPos+1] <= 0);
+		boolean noOverlap = !selected 
+							|| (rotation == 1 && grid[tempXPos][tempYPos+1] != BAGGAGE)
+							|| (rotation == 2 && grid[tempXPos+1][tempYPos] != BAGGAGE)
+							|| (rotation == 3 && grid[tempXPos][tempYPos-1] != BAGGAGE)
+							|| (rotation == 4 && grid[tempXPos-1][tempYPos] != BAGGAGE);
 		return surrounding && noOverlap;
 	}
 	
