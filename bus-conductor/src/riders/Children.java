@@ -8,6 +8,7 @@ public class Children extends Passenger {
 	public Children(int id, int orderX, int orderY, Color cl) {
 		super("children.png", id, orderX, orderY, cl);
 	}
+	
 	public Children(int id, int xPos, int yPos) {
 		super("children.png", id, xPos, yPos);
 	}

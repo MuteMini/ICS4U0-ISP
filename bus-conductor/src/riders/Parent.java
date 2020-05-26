@@ -12,6 +12,7 @@ public class Parent extends Passenger{
 		super("parent.png", id, orderX, orderY, cl);
 		this.numChild = numChild;
 	}
+	
 	public Parent(int id, int xPos, int yPos, int numChild) {
 		super("parent.png", id, xPos, yPos);
 		this.numChild = numChild;
