@@ -33,6 +33,13 @@ public abstract class PuzzleScreen {
 		showCursor();
 		
 		//testing
+		for(int j = 0; j < 11; j++) {
+			for(int i = 0; i < 5; i++) {
+				System.out.print(distanceGrid[i][j] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
 		if(moveable.size() == 0)
 			System.out.println( (checkSolution()) ? "nicejob" : "you suck" );
 	}
@@ -79,9 +86,9 @@ public abstract class PuzzleScreen {
 				reset = true;
 			}
 			else if(selected != -1){
-				if (!moveable.get(selected).move(distanceGrid, e) && e.getKeyCode() == KeyEvent.VK_ENTER) {
-					placed.get(placed.size()-1).fillDistance(distanceGrid);
-					placed.get(placed.size()-1).setSelected(false);
+				if (!moveable.get(selected).move(distanceGrid, e) && moveable.get(selected).isPlaceable(distanceGrid, e)) {
+					moveable.get(selected).setSelected(false);
+					moveable.get(selected).fillDistance(distanceGrid);
 					moveable.remove(selected);
 					cursor = 0;
 					selected = -1;
@@ -92,9 +99,10 @@ public abstract class PuzzleScreen {
 					cursor--;
 				else if ((e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) && cursor < moveable.size()-1)
 					cursor++;
-				else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				else if (e.getKeyCode() == KeyEvent.VK_ENTER && moveable.get(cursor).canSelect(distanceGrid)) {
 					selected = cursor;
 					moveable.get(selected).setInGrid(true);
+					moveable.get(selected).spawn(distanceGrid);
 					placed.add(moveable.get(selected));
 				}
 			}
