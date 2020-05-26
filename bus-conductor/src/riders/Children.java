@@ -51,9 +51,24 @@ public class Children extends Passenger {
 				else
 					g.setColor(new Color(255, 25, 25, 120));
 			}
-			else
-				g.setColor(new Color(255, 127, 156, 120));
+			else {
+				if(canSelect(grid))
+					g.setColor(new Color(255, 127, 156, 120));
+				else
+					g.setColor(new Color(255, 25, 25, 120));
+			}
 			g.fillRoundRect(xPosNew, yPosNew, 32, 32, 20, 20);
 		}
+	}
+	
+	@Override
+	public boolean canSelect(Integer[][] grid) {
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 11; j++) {
+				if(grid[i][j] == id-1)
+					return true;
+			}
+		}
+		return false;
 	}
 }

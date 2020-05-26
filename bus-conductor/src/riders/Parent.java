@@ -1,6 +1,7 @@
 package riders;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
 public class Parent extends Passenger{
 
@@ -43,5 +44,12 @@ public class Parent extends Passenger{
 				return false;
 		}
 		return numChild == count;
+	}
+	
+	@Override
+	public boolean isPlaceable(Integer[][] grid, KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER)
+			return super.isCorrect(grid);
+		return false;
 	}
 }
