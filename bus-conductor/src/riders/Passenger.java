@@ -61,36 +61,35 @@ public abstract class Passenger{
 		}
 	}
 	
-	public boolean canSelect(Integer[][] grid) {
-		return true;
+	protected boolean aboveWindow() {
+		return (xPos == 0 || xPos == 4) 
+			&& (yPos == 7);
 	}
 	
-	public boolean isPlaceable(Integer[][] grid, KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER)
-			return isCorrect(grid);
-		return false;
+	protected boolean belowWindow() {
+		return (xPos == 0 || xPos == 4) 
+			&& (yPos == 8);
 	}
 	
-	public boolean isCorrect(Integer[][] grid) {
-		return (grid[xPos][yPos] == 0 || grid[xPos][yPos] == id)
-			&& (xPos == 0 || grid[xPos-1][yPos] <= 0) 
-			&& (xPos == MAX_X || grid[xPos+1][yPos] <= 0) 
-			&& (yPos == 0 || grid[xPos][yPos-1] <= 0) 
-			&& (yPos == MAX_Y || grid[xPos][yPos+1] <= 0);
+	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
+		if(selected) {
+			if(inGrid) {
+				if(isCorrect(grid))
+					g.setColor(new Color(25, 255, 25, 120));
+				else
+					g.setColor(new Color(255, 25, 25, 120));
+			}
+			else
+				g.setColor(new Color(255, 127, 156, 120));
+			g.fillRoundRect(xPosNew, yPosNew, 32, 32, 20, 20);
+		}
 	}
 	
-	public void fillDistance (Integer[][] grid) {
-		grid[xPos][yPos] = id;
-		if(xPos > 0 && grid[xPos-1][yPos] == 0)
-			grid[xPos-1][yPos] = EMPTY;
-		if(xPos < MAX_X && grid[xPos+1][yPos] == 0)
-			grid[xPos+1][yPos] = EMPTY;
-		if(yPos > 0 && grid[xPos][yPos-1] == 0)
-			grid[xPos][yPos-1] = EMPTY;
-		if(yPos < MAX_Y && grid[xPos][yPos+1] == 0)
-			grid[xPos][yPos+1] = EMPTY;
+	protected void drawTag(Graphics g, int xPos, int yPos) {
+		g.setColor(cl);
+		g.fillOval(xPos, yPos, 10, 10);
 	}
-
+	
 	public void render(Graphics g, Integer[][] grid) {
 		int xPosNew, yPosNew;
 		
@@ -109,9 +108,8 @@ public abstract class Passenger{
 		drawTag(g, xPosNew, yPosNew);
 	}
 	
-	protected void drawTag(Graphics g, int xPos, int yPos) {
-		g.setColor(cl);
-		g.fillOval(xPos, yPos, 10, 10);
+	public boolean canSelect(Integer[][] grid) {
+		return true;
 	}
 	
 	public void spawn(Integer[][] grid) {
@@ -126,20 +124,6 @@ public abstract class Passenger{
 		}
 	}
 	
-	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
-		if(selected) {
-			if(inGrid) {
-				if(isCorrect(grid))
-					g.setColor(new Color(25, 255, 25, 120));
-				else
-					g.setColor(new Color(255, 25, 25, 120));
-			}
-			else
-				g.setColor(new Color(255, 127, 156, 120));
-			g.fillRoundRect(xPosNew, yPosNew, 32, 32, 20, 20);
-		}
-	}
-
 	public boolean move(Integer[][] grid, KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
 			for(int i = xPos-1; i >= 0; i--) {
@@ -174,6 +158,32 @@ public abstract class Passenger{
 			}
 		}
 		return false;
+	}
+	
+	public boolean isCorrect(Integer[][] grid) {
+		return (grid[xPos][yPos] == 0 || grid[xPos][yPos] == id)
+			&& (xPos == 0 || grid[xPos-1][yPos] <= 0) 
+			&& (xPos == MAX_X || grid[xPos+1][yPos] <= 0) 
+			&& (yPos == 0 || belowWindow() || grid[xPos][yPos-1] <= 0) 
+			&& (yPos == MAX_Y || aboveWindow() || grid[xPos][yPos+1] <= 0);
+	}
+	
+	public boolean isPlaceable(Integer[][] grid, KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER)
+			return isCorrect(grid);
+		return false;
+	}
+	
+	public void fillDistance (Integer[][] grid) {
+		grid[xPos][yPos] = id;
+		if(xPos > 0 && grid[xPos-1][yPos] == 0)
+			grid[xPos-1][yPos] = EMPTY;
+		if(xPos < MAX_X && grid[xPos+1][yPos] == 0)
+			grid[xPos+1][yPos] = EMPTY;
+		if(!belowWindow() && yPos > 0 && grid[xPos][yPos-1] == 0)
+			grid[xPos][yPos-1] = EMPTY;
+		if(!aboveWindow() && yPos < MAX_Y && grid[xPos][yPos+1] == 0)
+			grid[xPos][yPos+1] = EMPTY;
 	}
 	
 	public void setSelected(boolean selected) {
