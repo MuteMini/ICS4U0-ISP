@@ -1,5 +1,4 @@
 
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +8,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,12 +25,14 @@ public class Game extends Canvas implements Runnable {
 	int displayFrames;
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 672;
+	SplashScreen s;
 	Bus b;
 	private boolean running = false;
 	private Thread t;
 	public static Camera c;
 	public BufferedImage map;
-	
+	public BufferedImage splashScreen;
+
 	public synchronized void start() {
 		if (!running) {
 			running = true;
@@ -71,6 +73,13 @@ public class Game extends Canvas implements Runnable {
 			}
 			render();
 			frames++;
+			long tTime = System.nanoTime() - cTime;
+			if (tTime < ns) {
+				try {
+					Thread.sleep(((long) ns - tTime) / 1200000);
+				} catch (InterruptedException e) {
+				}
+			}
 
 			if (System.currentTimeMillis() - timer > 1000) {
 				displayFrames = frames;
@@ -84,6 +93,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void update() {
+		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
 	}
 
@@ -93,49 +103,31 @@ public class Game extends Canvas implements Runnable {
 			createBufferStrategy(3);
 			return;
 		}
-		Graphics2D g2d = (Graphics2D)bs.getDrawGraphics();
-		c.update(b.calculateCenter().x, b.calculateCenter().y);
+		Graphics2D g2d = (Graphics2D) bs.getDrawGraphics();
+
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-		
+
 		g2d.drawImage(map, 0 - c.getXPos(), 0 - c.getYPos(), null);
-		
+
 		g2d.setColor(Color.BLUE);
 		g2d.fillRect(250 - c.getXPos(), 450 - c.getYPos(), 50, 50);
 
 		b.drawBus(g2d);
 		g2d.setColor(Color.black);
 		g2d.drawString("Frames: " + displayFrames, 10, 68);
-		
 
 		g2d.dispose();
 		bs.show();
+
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
-			b.accelerate();
-		}
-		 if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
-			b.decelerate();
-		}
-		 if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			b.turnRight();
-		}
-		 if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
-			b.turnLeft();
-		}
-		b.calculateVel();
+		b.processMovement(e);
 	}
-	
+
 	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
-			b.setXVelocity(0);
-			b.setYVelocity(0);
-		}
-		if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
-			b.setAngularVelocity(0);
-		}
+		b.unholdKey(e);
 	}
 
 	public Game() {
@@ -145,8 +137,10 @@ public class Game extends Canvas implements Runnable {
 		addKeyListener(new Input(this));
 		c = new Camera();
 		try {
-			map = ImageIO.read(new File("src/TestCityMap.jpg"));
-		} catch (IOException e){
+			map = ImageIO.read(new File("res/TestCityMap.jpg"));
+			splashScreen = ImageIO.read(new File("res/SplashScreen.png"));
+
+		} catch (IOException e) {
 			System.out.println("Image not loaded");
 		}
 	}

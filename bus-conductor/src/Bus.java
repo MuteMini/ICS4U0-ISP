@@ -1,12 +1,11 @@
 
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-
-import javax.swing.*;
-
-
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author ishansethi
@@ -21,20 +20,22 @@ public class Bus {
 	private double xVel;
 	private double yVel;
 	private int angleVel;
+	private Set<Integer> keysHeld;
 	Polygon bus;
 	Point[] busPoints;
 	Point center;
 
 	public Bus() {
 		angle = 0;
-		BUS_WIDTH = 20;
-		BUS_HEIGHT = 44;
+		BUS_WIDTH = 64;
+		BUS_HEIGHT = 128;
 		xVel = 0;
 		yVel = 0;
 		angleVel = 0;
 		busPoints = getOriginalPoints();
 		bus = createPolygon(busPoints);
 		center = calculateCenter();
+		keysHeld = new TreeSet<Integer>();
 	}
 
 	public void update() {
@@ -50,23 +51,27 @@ public class Bus {
 		for (int i = 0; i < 4; i++) {
 			busPoints[i].translate((int) xVel, (int) yVel);
 		}
-		
+		calculateVel();
 		// Temporary Collision Detection
 		if (bus.intersects(new Rectangle(250 - Game.c.getXPos(), 450 - Game.c.getYPos(), 50, 50))) {
-			System.out.println(true);
+			busPoints = getOriginalPoints();
+			angle = 0;
+			xVel = 0;
+			yVel = 0;
+			angleVel = 0;
 		}
-		calculateVel();
 	}
 
 	public void drawBus(Graphics2D g2d) {
 		bus = createPolygon(busPoints);
-		bus.translate(Game.c.getXPos() * -1, Game.c.getYPos() * -1);
+		bus.translate((int) (Game.c.getXPos() * -1 - xVel), (int) (Game.c.getYPos() * -1 - yVel));
 
 		g2d.setColor(Color.BLUE);
 		g2d.fillRect(250 - Game.c.getXPos(), 450 - Game.c.getYPos(), 50, 50);
 		g2d.setColor(Color.RED);
 		g2d.fill(bus);
 		g2d.setColor(Color.black);
+
 		g2d.drawString("xPosition, yPosition: " + center.x + ", " + center.y, 10, 20);
 		g2d.drawString("xVelocity, yVelocity: " + xVel + ", " + yVel, 10, 32);
 		g2d.drawString("Potential xVelocity, yVelocity: " + potXVel + ", " + potYVel, 10, 44);
@@ -109,41 +114,48 @@ public class Bus {
 		return originalPoints;
 	}
 
-	/**
-	 * 
-	 */
-	public void turnRight() {
-		angleVel = 2;
+	public void processMovement(KeyEvent e) {
+		int code = e.getKeyCode();
+		if (!keysHeld.contains(e.getKeyCode())) {
+			keysHeld.add(code);
+		}
+
+		if (keysHeld.contains(KeyEvent.VK_A) || keysHeld.contains(KeyEvent.VK_LEFT)) {
+			angleVel = -2;
+		} else if (keysHeld.contains(KeyEvent.VK_D) || keysHeld.contains(KeyEvent.VK_RIGHT)) {
+			angleVel = 2;
+		}
+
+		if (keysHeld.contains(KeyEvent.VK_W) || keysHeld.contains(KeyEvent.VK_UP)) {
+			calculateVel();
+			xVel = potXVel;
+			yVel = potYVel;
+		} else if (keysHeld.contains(KeyEvent.VK_S) || keysHeld.contains(KeyEvent.VK_DOWN)) {
+			calculateVel();
+			xVel = potXVel * -1;
+			yVel = potYVel * -1;
+		}
 	}
 
-	/**
-	 * 
-	 */
-	public void turnLeft() {
-		angleVel = -2;
-	}
+	public void unholdKey(KeyEvent e) {
+		int code = e.getKeyCode();
+		
+		if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+			xVel = 0;
+			yVel = 0;
+		}
+		
+		if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_D ||  code == KeyEvent.VK_RIGHT ) {
+			angleVel = 0;
+		}
 
-	/**
-	 * 
-	 */
-	public void accelerate() {
-		calculateVel();
-		xVel = potXVel;
-		yVel = potYVel;
+		keysHeld.remove(e.getKeyCode());
 	}
 
 	public void calculateVel() {
 		potXVel = (busPoints[1].x - busPoints[2].x) / 8d;
 		potYVel = (busPoints[1].y - busPoints[2].y) / 8d;
-		
-	}
-	/**
-	 * 
-	 */
-	public void decelerate() {
-		calculateVel();
-		xVel = potXVel * -1;
-		yVel = potYVel * -1;
+
 	}
 
 	public void setXVelocity(int x) {
