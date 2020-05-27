@@ -15,32 +15,31 @@ public class Children extends Passenger {
 	
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
-		boolean correct = false;
 		if(xPos > 0) {
 			if(grid[xPos-1][yPos] == id-1)
-				correct = true;
+				return true;
 			else if(grid[xPos-1][yPos] > 0)
 				return false;
 		}
 		if(xPos < MAX_X) {
 			if(grid[xPos+1][yPos] == id-1)
-				correct = true;
+				return true;
 			else if(grid[xPos+1][yPos] > 0)
 				return false;
 		}
-		if(yPos > 0) {
+		if(!belowWindow() && yPos > 0) {
 			if(grid[xPos][yPos-1] == id-1)
-				correct = true;
+				return true;
 			else if(grid[xPos][yPos-1] > 0)
 				return false;
 		}
-		if(yPos < MAX_Y) {
+		if(!aboveWindow() && yPos < MAX_Y) {
 			if(grid[xPos][yPos+1] == id-1)
-				correct = true;
+				return true;
 			else if(grid[xPos][yPos+1] > 0)
 				return false;
 		}
-		return correct;
+		return false;
 	}
 	
 	@Override

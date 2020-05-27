@@ -33,13 +33,13 @@ public class Parent extends Passenger{
 			else if(grid[xPos+1][yPos] > 0)
 				return false;
 		}
-		if(yPos > 0) {
+		if(!belowWindow() && yPos > 0) {
 			if(grid[xPos][yPos-1] == id+1)
 				count++;
 			else if(grid[xPos][yPos-1] > 0)
 				return false;
 		}
-		if(yPos < MAX_Y) {
+		if(!aboveWindow() && yPos < MAX_Y) {
 			if(grid[xPos][yPos+1] == id+1)
 				count++;
 			else if(grid[xPos][yPos+1] > 0)
