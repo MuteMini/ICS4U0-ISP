@@ -42,6 +42,16 @@ public class Student extends Passenger{
 			this.offX = -1;
 	}
 	
+	protected boolean aboveWindow(int x, int y) {
+		return (x == 0 || x == 4) 
+			&& (y == 7);
+	}
+	
+	protected boolean belowWindow(int x, int y) {
+		return (x == 0 || x == 4) 
+			&& (y == 8);
+	}
+	
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
 		int tempXPos = xPos+shiftX;
@@ -49,14 +59,16 @@ public class Student extends Passenger{
 		boolean surrounding = (grid[tempXPos][tempYPos] == 0 || grid[tempXPos][tempYPos] == id)
 							&& (tempXPos == 0 || grid[tempXPos-1][tempYPos] <= 0)
 							&& (tempXPos == MAX_X || grid[tempXPos+1][tempYPos] <= 0) 
-							&& (tempYPos == 0 || grid[tempXPos][tempYPos-1] <= 0) 
-							&& (tempYPos == MAX_Y || grid[tempXPos][tempYPos+1] <= 0);
+							&& (tempYPos == 0 || belowWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos-1] <= 0) 
+							&& (tempYPos == MAX_Y || aboveWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos+1] <= 0);
 		boolean noOverlap = !selected 
 							|| (rotation == 1 && grid[tempXPos][tempYPos+1] != BAGGAGE)
 							|| (rotation == 2 && grid[tempXPos+1][tempYPos] != BAGGAGE)
 							|| (rotation == 3 && grid[tempXPos][tempYPos-1] != BAGGAGE)
 							|| (rotation == 4 && grid[tempXPos-1][tempYPos] != BAGGAGE);
-		return surrounding && noOverlap;
+		boolean notOnWindow = (rotation != 1 || !aboveWindow(tempXPos,tempYPos)) 
+							&& (rotation != 3 || !belowWindow(tempXPos,tempYPos));
+		return surrounding && noOverlap && notOnWindow;
 	}
 	
 	public void fillDistance (Integer[][] grid) {
@@ -64,11 +76,11 @@ public class Student extends Passenger{
 		int tempYPos = yPos+shiftY;
 		
 		grid[tempXPos][tempYPos] = id;
-		if(tempYPos < MAX_Y && grid[tempXPos][tempYPos+1] <= 0)
+		if(!aboveWindow(tempXPos,tempYPos) && tempYPos < MAX_Y && grid[tempXPos][tempYPos+1] <= 0)
 			grid[tempXPos][tempYPos+1] = (rotation == 1) ? BAGGAGE : EMPTY;
 		if(tempXPos < MAX_X && grid[tempXPos+1][tempYPos] <= 0)
 			grid[tempXPos+1][tempYPos] = (rotation == 2) ? BAGGAGE : EMPTY;
-		if(tempYPos > 0 && grid[tempXPos][tempYPos-1] <= 0)
+		if(!belowWindow(tempXPos,tempYPos) && tempYPos > 0 && grid[tempXPos][tempYPos-1] <= 0)
 			grid[tempXPos][tempYPos-1] = (rotation == 3) ? BAGGAGE : EMPTY;	
 		if(tempXPos > 0 && grid[tempXPos-1][tempYPos] <= 0)
 			grid[tempXPos-1][tempYPos] = (rotation == 4) ? BAGGAGE : EMPTY;	
