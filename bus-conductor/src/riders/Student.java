@@ -53,53 +53,6 @@ public class Student extends Passenger{
 	}
 	
 	@Override
-	public boolean isCorrect(Integer[][] grid) {
-		int tempXPos = xPos+shiftX;
-		int tempYPos = yPos+shiftY;
-		boolean surrounding = (grid[tempXPos][tempYPos] == 0 || grid[tempXPos][tempYPos] == id)
-							&& (tempXPos == 0 || grid[tempXPos-1][tempYPos] <= 0)
-							&& (tempXPos == MAX_X || grid[tempXPos+1][tempYPos] <= 0) 
-							&& (tempYPos == 0 || belowWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos-1] <= 0) 
-							&& (tempYPos == MAX_Y || aboveWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos+1] <= 0);
-		boolean noOverlap = !selected 
-							|| (rotation == 1 && grid[tempXPos][tempYPos+1] != BAGGAGE)
-							|| (rotation == 2 && grid[tempXPos+1][tempYPos] != BAGGAGE)
-							|| (rotation == 3 && grid[tempXPos][tempYPos-1] != BAGGAGE)
-							|| (rotation == 4 && grid[tempXPos-1][tempYPos] != BAGGAGE);
-		boolean notOnWindow = (rotation != 1 || !aboveWindow(tempXPos,tempYPos)) 
-							&& (rotation != 3 || !belowWindow(tempXPos,tempYPos));
-		return surrounding && noOverlap && notOnWindow;
-	}
-	
-	public void fillDistance (Integer[][] grid) {
-		int tempXPos = xPos+shiftX;
-		int tempYPos = yPos+shiftY;
-		
-		grid[tempXPos][tempYPos] = id;
-		if(!aboveWindow(tempXPos,tempYPos) && tempYPos < MAX_Y && grid[tempXPos][tempYPos+1] <= 0)
-			grid[tempXPos][tempYPos+1] = (rotation == 1) ? BAGGAGE : EMPTY;
-		if(tempXPos < MAX_X && grid[tempXPos+1][tempYPos] <= 0)
-			grid[tempXPos+1][tempYPos] = (rotation == 2) ? BAGGAGE : EMPTY;
-		if(!belowWindow(tempXPos,tempYPos) && tempYPos > 0 && grid[tempXPos][tempYPos-1] <= 0)
-			grid[tempXPos][tempYPos-1] = (rotation == 3) ? BAGGAGE : EMPTY;	
-		if(tempXPos > 0 && grid[tempXPos-1][tempYPos] <= 0)
-			grid[tempXPos-1][tempYPos] = (rotation == 4) ? BAGGAGE : EMPTY;	
-	}
-	
-	@Override
-	public void spawn(Integer[][] grid) {
-		for(int i = 0; i < 5-shiftX; i++) {
-			for(int j = 0; j < 11-shiftY; j++) {
-				if(grid[i+shiftX][j+shiftY] <= 0) {
-					xPos = i;
-					yPos = j;
-					return;
-				}
-			}
-		}
-	}
-	
-	@Override
 	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
@@ -111,6 +64,19 @@ public class Student extends Passenger{
 			else
 				g.setColor(new Color(255, 127, 156, 120));
 			g.fillRoundRect(xPosNew, yPosNew, 32*(Math.abs(offX)+1), 32*(Math.abs(offY)+1), 20, 20);
+		}
+	}
+	
+	@Override
+	public void spawn(Integer[][] grid) {
+		for(int i = 0; i < 5-Math.abs(offX); i++) {
+			for(int j = 0; j < 11-Math.abs(offY); j++) {
+				if(grid[i+shiftX][j+shiftY] <= 0) {
+					xPos = i;
+					yPos = j;
+					return;
+				}
+			}
 		}
 	}
 	
@@ -151,5 +117,40 @@ public class Student extends Passenger{
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean isCorrect(Integer[][] grid) {
+		int tempXPos = xPos+shiftX;
+		int tempYPos = yPos+shiftY;
+		boolean surrounding = (grid[tempXPos][tempYPos] == 0 || grid[tempXPos][tempYPos] == id)
+							&& (tempXPos == 0 || grid[tempXPos-1][tempYPos] <= 0)
+							&& (tempXPos == MAX_X || grid[tempXPos+1][tempYPos] <= 0) 
+							&& (tempYPos == 0 || belowWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos-1] <= 0) 
+							&& (tempYPos == MAX_Y || aboveWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos+1] <= 0);
+		boolean noOverlap = !selected 
+							|| (rotation == 1 && tempYPos < MAX_Y && grid[tempXPos][tempYPos+1] != BAGGAGE)
+							|| (rotation == 2 && tempXPos < MAX_X && grid[tempXPos+1][tempYPos] != BAGGAGE)
+							|| (rotation == 3 && tempYPos > 0 && grid[tempXPos][tempYPos-1] != BAGGAGE)
+							|| (rotation == 4 && tempXPos > 0 && grid[tempXPos-1][tempYPos] != BAGGAGE);
+		boolean notOnWindow = (rotation != 1 || !aboveWindow(tempXPos,tempYPos)) 
+							&& (rotation != 3 || !belowWindow(tempXPos,tempYPos));
+		return surrounding && noOverlap && notOnWindow;
+	}
+	
+	@Override
+	public void fillDistance (Integer[][] grid) {
+		int tempXPos = xPos+shiftX;
+		int tempYPos = yPos+shiftY;
+		
+		grid[tempXPos][tempYPos] = id;
+		if(!aboveWindow(tempXPos,tempYPos) && tempYPos < MAX_Y && grid[tempXPos][tempYPos+1] <= 0 && grid[tempXPos][tempYPos+1] != -2)
+			grid[tempXPos][tempYPos+1] = (rotation == 1) ? BAGGAGE : EMPTY;
+		if(tempXPos < MAX_X && grid[tempXPos+1][tempYPos] <= 0 && grid[tempXPos+1][tempYPos] != -2)
+			grid[tempXPos+1][tempYPos] = (rotation == 2) ? BAGGAGE : EMPTY;
+		if(!belowWindow(tempXPos,tempYPos) && tempYPos > 0 && grid[tempXPos][tempYPos-1] <= 0 && grid[tempXPos][tempYPos-1] != -2)
+			grid[tempXPos][tempYPos-1] = (rotation == 3) ? BAGGAGE : EMPTY;	
+		if(tempXPos > 0 && grid[tempXPos-1][tempYPos] <= 0 && grid[tempXPos-1][tempYPos] != -2)
+			grid[tempXPos-1][tempYPos] = (rotation == 4) ? BAGGAGE : EMPTY;	
 	}
 }

@@ -14,35 +14,6 @@ public class Children extends Passenger {
 	}
 	
 	@Override
-	public boolean isCorrect(Integer[][] grid) {
-		if(xPos > 0) {
-			if(grid[xPos-1][yPos] == id-1)
-				return true;
-			else if(grid[xPos-1][yPos] > 0)
-				return false;
-		}
-		if(xPos < MAX_X) {
-			if(grid[xPos+1][yPos] == id-1)
-				return true;
-			else if(grid[xPos+1][yPos] > 0)
-				return false;
-		}
-		if(!belowWindow() && yPos > 0) {
-			if(grid[xPos][yPos-1] == id-1)
-				return true;
-			else if(grid[xPos][yPos-1] > 0)
-				return false;
-		}
-		if(!aboveWindow() && yPos < MAX_Y) {
-			if(grid[xPos][yPos+1] == id-1)
-				return true;
-			else if(grid[xPos][yPos+1] > 0)
-				return false;
-		}
-		return false;
-	}
-	
-	@Override
 	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
@@ -68,6 +39,35 @@ public class Children extends Passenger {
 				if(grid[i][j] == id-1)
 					return true;
 			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isCorrect(Integer[][] grid) {
+		if(xPos > 0) {
+			if(grid[xPos-1][yPos] == id-1)
+				return true;
+			else if(grid[xPos-1][yPos] > 0)
+				return false;
+		}
+		if(xPos < MAX_X) {
+			if(grid[xPos+1][yPos] == id-1)
+				return true;
+			else if(grid[xPos+1][yPos] > 0)
+				return false;
+		}
+		if(!belowWindow() && yPos > 0) {
+			if(grid[xPos][yPos-1] == id-1)
+				return true;
+			else if(grid[xPos][yPos-1] > 0)
+				return false;
+		}
+		if(!aboveWindow() && yPos < MAX_Y) {
+			if(grid[xPos][yPos+1] == id-1)
+				return true;
+			else if(grid[xPos][yPos+1] > 0)
+				return false;
 		}
 		return false;
 	}
