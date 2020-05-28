@@ -196,6 +196,6 @@ public abstract class Passenger{
 	
 	@Override
 	public String toString() {
-		return id + " ";
+		return id + " " + xPos + " " + yPos;
 	}
 }
