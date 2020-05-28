@@ -11,6 +11,8 @@ public abstract class PuzzleScreen {
 	protected int cursor;
 	protected int selected;
 	protected boolean reset;
+	protected boolean isSelected;
+	protected boolean remove;
 	protected Integer[][] distanceGrid;
 	
 	public PuzzleScreen() {
@@ -28,8 +30,19 @@ public abstract class PuzzleScreen {
 	}
 	
 	public void update() {
-		if(reset)
+		if(isSelected) {
+			placed.add(moveable.get(selected));
+			isSelected = false;
+		}
+		if(remove) {
+			moveable.remove(selected);
+			cursor = 0;
+			selected = -1;
+			remove = false;
+		}
+		if(reset) {
 			this.resetGrid();
+		}
 		showCursor();
 		
 		//testing
@@ -56,6 +69,8 @@ public abstract class PuzzleScreen {
 		this.cursor = 0;
 		this.selected = -1;
 		this.reset = false;
+		this.isSelected = false;
+		this.remove = false;
 		this.distanceGrid = new Integer[5][11];
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 11; j++) {
@@ -72,6 +87,7 @@ public abstract class PuzzleScreen {
 		}
 		for(Passenger pass : placed) {
 			if(!pass.isCorrect(distanceGrid)) {
+				System.out.println(pass.toString());
 				return false;
 			}
 		}
@@ -91,9 +107,7 @@ public abstract class PuzzleScreen {
 				if (!moveable.get(selected).move(distanceGrid, e) && moveable.get(selected).isPlaceable(distanceGrid, e)) {
 					moveable.get(selected).setSelected(false);
 					moveable.get(selected).fillDistance(distanceGrid);
-					moveable.remove(selected);
-					cursor = 0;
-					selected = -1;
+					remove = true;
 				}
 			}
 			else if(!moveable.isEmpty()){
@@ -105,7 +119,7 @@ public abstract class PuzzleScreen {
 					selected = cursor;
 					moveable.get(selected).setInGrid(true);
 					moveable.get(selected).spawn(distanceGrid);
-					placed.add(moveable.get(selected));
+					isSelected = true;
 				}
 			}
 		}
