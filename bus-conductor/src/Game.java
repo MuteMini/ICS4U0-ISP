@@ -1,4 +1,5 @@
 
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +33,7 @@ public class Game extends Canvas implements Runnable {
 	public static Camera c;
 	public BufferedImage map;
 	public BufferedImage splashScreen;
+	public ArrayList<Entity> entities;
 
 	public synchronized void start() {
 		if (!running) {
@@ -93,6 +95,9 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void update() {
+		if (!s.isLoadingDone()) {
+			s.update();
+		}
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
 	}
@@ -104,19 +109,22 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		Graphics2D g2d = (Graphics2D) bs.getDrawGraphics();
+		if (!s.isLoadingDone()) {
+			s.render(g2d);
+		}
+		else  {
+			g2d.setColor(Color.WHITE);
+			g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
-		g2d.setColor(Color.WHITE);
-		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+			g2d.drawImage(map, -1945 - c.getXPos(), -8920 - c.getYPos(), null);
 
-		g2d.drawImage(map, 0 - c.getXPos(), 0 - c.getYPos(), null);
+			g2d.setColor(Color.BLUE);
+			g2d.fillRect(250 - c.getXPos(), 450 - c.getYPos(), 50, 50);
 
-		g2d.setColor(Color.BLUE);
-		g2d.fillRect(250 - c.getXPos(), 450 - c.getYPos(), 50, 50);
-
-		b.drawBus(g2d);
-		g2d.setColor(Color.black);
-		g2d.drawString("Frames: " + displayFrames, 10, 68);
-
+			b.draw(g2d);
+			g2d.setColor(Color.black);
+			g2d.drawString("Frames: " + displayFrames, 10, 68);
+		}
 		g2d.dispose();
 		bs.show();
 
@@ -132,12 +140,13 @@ public class Game extends Canvas implements Runnable {
 
 	public Game() {
 		b = new Bus();
+		s = new SplashScreen();
 		setSize(WIDTH, HEIGHT);
 		setBackground(Color.BLACK);
 		addKeyListener(new Input(this));
 		c = new Camera();
 		try {
-			map = ImageIO.read(new File("res/TestCityMap.jpg"));
+			map = ImageIO.read(new File("res/route-1.png"));
 			splashScreen = ImageIO.read(new File("res/SplashScreen.png"));
 
 		} catch (IOException e) {

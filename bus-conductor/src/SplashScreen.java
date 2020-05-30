@@ -25,8 +25,8 @@ public class SplashScreen {
 	}
 
 	public void update() {
-		alpha+=0.01;
-		if (alpha >= 1)
+		alpha+=0.005;
+		if (alpha > 1)
 			loadingDone = true;
 		
 	}
