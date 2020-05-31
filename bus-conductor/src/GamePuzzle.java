@@ -5,10 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-
-import riders.Passenger;
-import riders.YoungAdult;
+import puzzles.PuzzleLevel;
 
 /**
  * Draws everything that needs drawing. Maintains objects displayed on the
@@ -20,11 +17,10 @@ import riders.YoungAdult;
 
 public class GamePuzzle extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
-	public static final int HEIGHT = 672;
+	public static final int HEIGHT = 640;
 	private boolean running = false;
 	private Thread t;
-	TestScreen ts;
-	BufferedImage background;
+	private PuzzleLevel pl;
 	
 	public synchronized void start() {
 		if (!running) {
@@ -88,7 +84,7 @@ public class GamePuzzle extends Canvas implements Runnable{
 	}
 	
 	private void update() {	
-		ts.update();
+		pl.update();
 	}
 	
 	public void render() {
@@ -99,30 +95,23 @@ public class GamePuzzle extends Canvas implements Runnable{
 		}
 		Graphics2D g2d = (Graphics2D) bs.getDrawGraphics();
 		g2d.setColor(Color.WHITE);
-		g2d.fillRect(0,0,GamePuzzle.WIDTH,GamePuzzle.HEIGHT);
-		g2d.drawImage(background, 0, 0, null);
-        ts.render(g2d);
+		g2d.fillRect(0, 0, GamePuzzle.WIDTH, GamePuzzle.HEIGHT);
+        pl.render(g2d);
         g2d.dispose();
 		bs.show();
 	}
 	
 	public GamePuzzle() {
-		try {
-			URL url = Passenger.class.getResource("/puzzlescreen.png");
-			background = ImageIO.read(url);
-		} catch (IOException e) {
-		}
-		
 		setSize(WIDTH, HEIGHT);
 		addKeyListener(new Input(this));
-		ts = new TestScreen();
+		pl = new PuzzleLevel();
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		ts.processMovement(e);
+		pl.processMovement(e);
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		ts.undoHold(e);
+		pl.undoHold(e);
 	}
 }
