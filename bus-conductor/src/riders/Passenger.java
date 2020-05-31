@@ -24,6 +24,7 @@ public abstract class Passenger{
 	protected int id;
 	protected int orderX;
 	protected int orderY;
+	protected double floating;
 	protected boolean inGrid;
 	protected boolean selected;
 	protected Color cl;
@@ -52,50 +53,18 @@ public abstract class Passenger{
 		this.cl = Color.WHITE;
 		readImage(fileName);
 	}
-	
-	private void readImage(String fileName) {
-		try {
-			URL url = Passenger.class.getResource("/"+fileName);
-			this.sprite = ImageIO.read(url);
-		} catch (IOException e) {
-		}
-	}
-	
-	protected boolean aboveWindow() {
-		return (xPos == 0 || xPos == 4) 
-			&& (yPos == 7);
-	}
-	
-	protected boolean belowWindow() {
-		return (xPos == 0 || xPos == 4) 
-			&& (yPos == 8);
-	}
-	
-	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
-		if(selected) {
-			if(inGrid) {
-				if(isCorrect(grid))
-					g.setColor(new Color(25, 255, 25, 120));
-				else
-					g.setColor(new Color(255, 25, 25, 120));
-			}
-			else
-				g.setColor(new Color(255, 127, 156, 120));
-			g.fillRoundRect(xPosNew, yPosNew, 32, 32, 20, 20);
-		}
-	}
-	
-	protected void drawTag(Graphics g, int xPos, int yPos) {
-		g.setColor(cl);
-		g.fillOval(xPos, yPos, 10, 10);
-	}
-	
+
 	public void render(Graphics g, Integer[][] grid) {
-		int xPosNew, yPosNew;
-		
+		int xPosNew; 
+		int yPosNew;
+
 		if(inGrid) {
 			xPosNew = SPRITE_SIZE*xPos+OFFSET_X;
 			yPosNew = SPRITE_SIZE*yPos+OFFSET_Y;
+			if(selected) {
+				floating += (floating >= 6.28) ? -6.28 : 0.02d;
+				yPosNew += (int)(Math.sin(floating)*5);
+			}
 			highlight(g, grid, xPosNew, yPosNew);
 			g.drawImage(sprite, xPosNew, yPosNew, null);
 		}
@@ -112,56 +81,33 @@ public abstract class Passenger{
 		return true;
 	}
 	
-	public void spawn(Integer[][] grid) {
-		for(int i = 0; i < 5; i++) {
-			for(int j = 0; j < 11; j++) {
-				if(grid[i][j] <= 0) {
-					xPos = i;
-					yPos = j;
-					return;
-				}
-			}
-		}
+	public void spawn() {
+		xPos = 0;
+		yPos = 0;
 	}
 	
 	public boolean move(Integer[][] grid, KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
-			for(int i = xPos-1; i >= 0; i--) {
-				if(grid[i][yPos] <= 0) {
-					xPos = i;
-					return true;
-				}
-			}
+			xPos--;
+			return true;
 		}
 		else if (xPos < MAX_X && (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)) {
-			for(int i = xPos+1; i <= MAX_X; i++) {
-				if(grid[i][yPos] <= 0) {
-					xPos = i;
-					return true;
-				}
-			}
+			xPos++;
+			return true;
 		}
 		else if (yPos > 0 && (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)) {
-			for(int i = yPos-1; i >= 0; i--) {
-				if(grid[xPos][i] <= 0) {
-					yPos = i;
-					return true;
-				}
-			}
+			yPos--;
+			return true;
 		}
 		else if (yPos < MAX_Y && (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)) {
-			for(int i = yPos+1; i <= MAX_Y; i++) {
-				if(grid[xPos][i] <= 0) {
-					yPos = i;
-					return true;
-				}
-			}
+			yPos++;
+			return true;
 		}
 		return false;
 	}
 	
 	public boolean isCorrect(Integer[][] grid) {
-		return (grid[xPos][yPos] == 0 || grid[xPos][yPos] == id)
+		return (grid[xPos][yPos] == 0 || (!selected && grid[xPos][yPos] == id))
 			&& (xPos == 0 || grid[xPos-1][yPos] <= 0) 
 			&& (xPos == MAX_X || grid[xPos+1][yPos] <= 0) 
 			&& (yPos == 0 || belowWindow() || grid[xPos][yPos-1] <= 0) 
@@ -193,9 +139,48 @@ public abstract class Passenger{
 	public void setInGrid(boolean inGrid) {
 		this.inGrid = inGrid;
 	}
-	
+
 	@Override
 	public String toString() {
 		return id + " " + xPos + " " + yPos;
+	}
+	
+	protected boolean aboveWindow() {
+		return (xPos == 0 || xPos == 4) 
+			&& (yPos == 7);
+	}
+	
+	protected boolean belowWindow() {
+		return (xPos == 0 || xPos == 4) 
+			&& (yPos == 8);
+	}
+	
+	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
+		if(selected) {
+			if(inGrid) {
+				if(isCorrect(grid))
+					g.setColor(new Color(25, 255, 25, 100));
+				else
+					g.setColor(new Color(255, 25, 25, 100));
+			}
+			else
+				g.setColor(new Color(255, 127, 156, 120));
+			g.fillRoundRect(xPosNew, yPosNew, 32, 32, 20, 20);
+		}
+	}
+	
+	protected void drawTag(Graphics g, int xPos, int yPos) {
+		g.setColor(cl);
+		g.fillOval(xPos, yPos, 10, 10);
+	}
+	
+	private void readImage(String fileName) {
+		if(fileName != null) {
+			try {
+				URL url = Passenger.class.getResource("/"+fileName);
+				this.sprite = ImageIO.read(url);
+			} catch (IOException e) {
+			}
+		}
 	}
 }

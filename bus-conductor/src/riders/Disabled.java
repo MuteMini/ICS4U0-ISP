@@ -21,74 +21,37 @@ public class Disabled extends Passenger{
 		this.addY = (rotation == 1) ? 0 : 1;
 	}
 	
-	@Override
-	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
-		if(selected) {
-			if(inGrid) {
-				if(isCorrect(grid))
-					g.setColor(new Color(25, 255, 25, 120));
-				else
-					g.setColor(new Color(255, 25, 25, 120));
-			}
-			else
-				g.setColor(new Color(255, 127, 156, 120));
-			g.fillRoundRect(xPosNew, yPosNew, 32, 64, 20, 20);
-		}
-	}
-	
-	@Override
-	public void spawn(Integer[][] grid) {
-		for(int i = 0; i < 5; i++) {
-			for(int j = 0; j < 10; j++) {
-				if(grid[i][j+addY] <= 0) {
-					xPos = i;
-					yPos = j;
-					return;
-				}
-			}
-		}
-	}
-	
+	//fuck my ass fix this shit
+	/**
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 	@Override
 	public boolean move(Integer[][] grid, KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
-			for(int i = xPos-1; i >= 0; i--) {
-				if(grid[i][yPos+addY] <= 0) {
-					xPos = i;
-					return true;
-				}
-			}
+			xPos -= 1;
+			return true;
 		}
 		else if (xPos < MAX_X && (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)) {
-			for(int i = xPos+1; i <= MAX_X; i++) {
-				if(grid[i][yPos+addY] <= 0) {
-					xPos = i;
-					return true;
-				}
-			}
+			xPos += 1;
+			return true;
 		}
-		else if (yPos+addY > 0 && (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)) {
-			for(int i = yPos+addY-1; i >= 0; i--) {
-				if(grid[xPos][i] <= 0 && i-addY >= 0) {
-					yPos = (rotation == 2) ? i-1 : i;
-					return true;
-				}
-			}
+		else if (yPos > 0 && (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)) {
+			yPos -= (yPos == 0 || (rotation == 2 && yPos == 0)) ? 0 : 1;
+			return true;
 		}
-		else if (yPos+addY < MAX_Y && (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)) {
-			for(int i = yPos+addY+1; i <= MAX_Y; i++) {
-				if(grid[xPos][i] <= 0 && i-addY <= MAX_Y) {
-					yPos = (rotation == 2) ? i-1 : i;
-					return true;
-				}
-			}
+		else if (yPos < MAX_Y && (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)) {
+			yPos += (yPos == MAX_Y-1 || (rotation == 1 && yPos == MAX_Y-1)) ? 0 : 1;
+			return true;
 		}
 		return false;
 	}
 	
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
-		boolean surrounding = (grid[xPos][yPos+addY] == 0 || (grid[xPos][yPos+addY] == id))
+		boolean surrounding = (grid[xPos][yPos+addY] == 0 || (!selected &&  grid[xPos][yPos+addY] == id))
 							&& (xPos == 0 || grid[xPos-1][yPos+addY] <= 0)
 							&& (xPos == MAX_X || grid[xPos+1][yPos+addY] <= 0) 
 							&& (yPos+addY == 0 || grid[xPos][yPos+addY-1] <= 0) 
@@ -111,5 +74,20 @@ public class Disabled extends Passenger{
 			grid[xPos][yPos+addY-1] = (rotation == 2) ? BAGGAGE : EMPTY;	
 		if(yPos+addY < MAX_Y && grid[xPos][yPos+addY+1] <= 0)
 			grid[xPos][yPos+addY+1] = (rotation == 1) ? BAGGAGE : EMPTY;
+	}
+	
+	@Override
+	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
+		if(selected) {
+			if(inGrid) {
+				if(isCorrect(grid))
+					g.setColor(new Color(25, 255, 25, 120));
+				else
+					g.setColor(new Color(255, 25, 25, 120));
+			}
+			else
+				g.setColor(new Color(255, 127, 156, 120));
+			g.fillRoundRect(xPosNew, yPosNew, 32, 64, 20, 20);
+		}
 	}
 }

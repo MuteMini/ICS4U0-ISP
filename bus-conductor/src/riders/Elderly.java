@@ -4,6 +4,8 @@ import java.awt.Color;
 
 public class Elderly extends Passenger{
 	
+	protected final int OLD_SPACE = -3;
+	
 	public Elderly(int orderX, int orderY, Color cl) {
 		super("elderly.png", 1, orderX, orderY, cl);
 	}
@@ -29,7 +31,7 @@ public class Elderly extends Passenger{
 				if(i == xPos && j == yPos)
 					grid[i][j] = id;
 				else if (i >= 0 && i <= MAX_X && j >= 0 && j <= MAX_Y && grid[i][j] == 0)
-					grid[i][j] = EMPTY;
+					grid[i][j] = OLD_SPACE;
 			}
 		}
 	}
