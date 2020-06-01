@@ -19,6 +19,7 @@ public abstract class Passenger{
 	final protected int MAX_Y = 10;
 	final protected int EMPTY = -1;
 	final protected int BAGGAGE = -2;
+	final protected int CHILD_SPACE = -3;
 	protected int xPos;
 	protected int yPos;
 	protected int id;
@@ -26,7 +27,10 @@ public abstract class Passenger{
 	protected int orderY;
 	protected double floating;
 	protected boolean inGrid;
+	protected boolean ableToSelect;
 	protected boolean selected;
+	protected boolean inGroup;
+	protected boolean placeable;
 	protected Color cl;
 	protected BufferedImage sprite;
 	
@@ -37,7 +41,10 @@ public abstract class Passenger{
 		this.orderX = orderX;
 		this.orderY = orderY;
 		this.inGrid = false;
+		this.ableToSelect = true;
 		this.selected = false;
+		this.inGroup = false;
+		this.placeable = false;
 		this.cl = cl;
 		readImage(fileName);
 	}
@@ -49,7 +56,10 @@ public abstract class Passenger{
 		this.orderY = 0;
 		this.id = id;
 		this.inGrid = true;
+		this.ableToSelect = true;
 		this.selected = false;
+		this.inGroup = false;
+		this.placeable = false;
 		this.cl = Color.WHITE;
 		readImage(fileName);
 	}
@@ -65,20 +75,20 @@ public abstract class Passenger{
 				floating += (floating >= 6.28) ? -6.28 : 0.02d;
 				yPosNew += (int)(Math.sin(floating)*5);
 			}
-			highlight(g, grid, xPosNew, yPosNew);
+			highlight(g, xPosNew, yPosNew);
 			g.drawImage(sprite, xPosNew, yPosNew, null);
 		}
 		else {
 			xPosNew = SPRITE_SIZE*orderX+ORDERED_X;
 			yPosNew = SPRITE_SIZE*orderY+ORDERED_Y;
-			highlight(g, grid, xPosNew, yPosNew);
+			highlight(g, xPosNew, yPosNew);
 			g.drawImage(sprite, xPosNew, yPosNew, null);
 		}
 		drawTag(g, xPosNew, yPosNew);
 	}
 	
-	public boolean canSelect(Integer[][] grid) {
-		return true;
+	public void update(Integer[][] grid) {
+		placeable = isCorrect(grid);
 	}
 	
 	public void spawn() {
@@ -108,15 +118,15 @@ public abstract class Passenger{
 	
 	public boolean isCorrect(Integer[][] grid) {
 		return (grid[xPos][yPos] == 0 || (!selected && grid[xPos][yPos] == id))
-			&& (xPos == 0 || grid[xPos-1][yPos] <= 0) 
-			&& (xPos == MAX_X || grid[xPos+1][yPos] <= 0) 
-			&& (yPos == 0 || belowWindow() || grid[xPos][yPos-1] <= 0) 
-			&& (yPos == MAX_Y || aboveWindow() || grid[xPos][yPos+1] <= 0);
+			&& (xPos == 0 || grid[xPos-1][yPos] <= 0 || (inGroup && grid[xPos-1][yPos] == id)) 
+			&& (xPos == MAX_X || grid[xPos+1][yPos] <= 0 || (inGroup && grid[xPos+1][yPos] == id)) 
+			&& (yPos == 0 || belowWindow() || grid[xPos][yPos-1] <= 0 || (inGroup && grid[xPos][yPos-1] == id)) 
+			&& (yPos == MAX_Y || aboveWindow() || grid[xPos][yPos+1] <= 0 || (inGroup && grid[xPos][yPos+1] == id));
 	}
 	
 	public boolean isPlaceable(Integer[][] grid, KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
-			return isCorrect(grid);
+			return placeable;
 		return false;
 	}
 	
@@ -132,12 +142,20 @@ public abstract class Passenger{
 			grid[xPos][yPos+1] = EMPTY;
 	}
 	
+	public boolean canSelect() {
+		return ableToSelect;
+	}
+	
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
 	
 	public void setInGrid(boolean inGrid) {
 		this.inGrid = inGrid;
+	}
+	
+	public void setPlaceable(boolean placeable) {
+		this.placeable = placeable;
 	}
 
 	@Override
@@ -155,10 +173,10 @@ public abstract class Passenger{
 			&& (yPos == 8);
 	}
 	
-	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
+	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
-				if(isCorrect(grid))
+				if(placeable)
 					g.setColor(new Color(25, 255, 25, 100));
 				else
 					g.setColor(new Color(255, 25, 25, 100));

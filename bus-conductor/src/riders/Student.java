@@ -52,10 +52,10 @@ public class Student extends Passenger{
 		int tempXPos = xPos+shiftX;
 		int tempYPos = yPos+shiftY;
 		boolean surrounding = (grid[tempXPos][tempYPos] == 0 || ((!selected && grid[tempXPos][tempYPos] == id)))
-							&& (tempXPos == 0 || grid[tempXPos-1][tempYPos] <= 0)
-							&& (tempXPos == MAX_X || grid[tempXPos+1][tempYPos] <= 0)
-							&& (tempYPos == 0 || belowWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos-1] <= 0)
-							&& (tempYPos == MAX_Y || aboveWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos+1] <= 0);
+							&& (tempXPos == 0 || grid[tempXPos-1][tempYPos] <= 0 || (inGroup && grid[tempXPos-1][tempYPos] == id))
+							&& (tempXPos == MAX_X || grid[tempXPos+1][tempYPos] <= 0 || (inGroup && grid[tempXPos+1][tempYPos] == id))
+							&& (tempYPos == 0 || belowWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos-1] <= 0 || (inGroup && grid[tempXPos][tempYPos-1] == id))
+							&& (tempYPos == MAX_Y || aboveWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos+1] <= 0 || (inGroup && grid[tempXPos][tempYPos+1] == id));
 		boolean noOverlap = !selected 
 							|| (rotation == 1 && tempYPos < MAX_Y && grid[tempXPos][tempYPos+1] != BAGGAGE)
 							|| (rotation == 2 && tempXPos < MAX_X && grid[tempXPos+1][tempYPos] != BAGGAGE)
@@ -83,10 +83,10 @@ public class Student extends Passenger{
 	}
 	
 	@Override
-	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
+	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
-				if(isCorrect(grid))
+				if(placeable)
 					g.setColor(new Color(25, 255, 25, 120));
 				else
 					g.setColor(new Color(255, 25, 25, 120));
