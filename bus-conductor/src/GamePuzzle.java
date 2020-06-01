@@ -1,9 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URL;
 
 import puzzles.PuzzleLevel;
 
@@ -15,6 +12,7 @@ import puzzles.PuzzleLevel;
  *
  */
 
+@SuppressWarnings("serial")
 public class GamePuzzle extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 640;

@@ -3,8 +3,6 @@ package car;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import javax.swing.*;
-
 /**
  * @author ishansethi
  *
