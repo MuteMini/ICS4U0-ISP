@@ -11,19 +11,25 @@ import puzzles.level.*;
 
 public class PuzzleLevel {
 	
-	final private int LEVEL_NUM = 5;
+	final private int FIRST_LEVEL_NUM = 4;
+	final private int SECOND_LEVEL_NUM = 1;
 	private int levelPos;
-	private Screen[] levels;
+	private int worldPos;
+	private Screen[][] levels;
 	private BufferedImage background;
 	
 	public PuzzleLevel() {
 		this.levelPos = 0;
-		this.levels = new Screen[LEVEL_NUM];
-		this.levels[0] = new TestScreen();
-		this.levels[1] = new LevelOneOne();
-		this.levels[2] = new LevelOneTwo();
-		this.levels[3] = new LevelOneThree();
-		this.levels[4] = new LevelOneFour();
+		this.worldPos = 0;
+		this.levels = new Screen[2][];
+		this.levels[0] = new Screen[FIRST_LEVEL_NUM];
+		this.levels[1] = new Screen[SECOND_LEVEL_NUM];
+		
+		this.levels[0][0] = new LevelOneOne();
+		this.levels[0][1] = new LevelOneTwo();
+		this.levels[0][2] = new LevelOneThree();
+		this.levels[0][3] = new LevelOneFour();
+		this.levels[1][0] = new TestScreen();
 		try {
 			URL url = PuzzleLevel.class.getResource("/puzzlescreen.png");
 			background = ImageIO.read(url);
@@ -32,28 +38,48 @@ public class PuzzleLevel {
 	}
 	
 	public void update() {
-		levels[levelPos].update();
+		levels[worldPos][levelPos].update();
 	}
 	
 	public void render(Graphics g) {
 		g.drawImage(background, 0, 0, null);
-		levels[levelPos].render(g);
+		levels[worldPos][levelPos].render(g);
 	}
 	
 	public void processMovement(KeyEvent e) {
+		int levelNum = (worldPos == 0) ? FIRST_LEVEL_NUM : SECOND_LEVEL_NUM;
+		//testing
 		if(levelPos > 0 && e.getKeyCode() == KeyEvent.VK_MINUS) {
 			levelPos--;
-			levels[levelPos].reset = true;
+			levels[worldPos][levelPos].reset = true;
 		}
-		else if(levelPos < LEVEL_NUM-1 && e.getKeyCode() == KeyEvent.VK_EQUALS) {
+		else if(levelPos < levelNum-1 && e.getKeyCode() == KeyEvent.VK_EQUALS) {
 			levelPos++;
-			levels[levelPos].reset = true;
+			levels[worldPos][levelPos].reset = true;
+		}
+		else if(worldPos > 0 && e.getKeyCode() == KeyEvent.VK_OPEN_BRACKET) {
+			worldPos--;
+			levelPos = 0;
+			levels[worldPos][levelPos].reset = true;
+		}
+		else if(worldPos < 1 && e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET) {
+			worldPos++;
+			levelPos = 0;
+			levels[worldPos][levelPos].reset = true;
 		}
 		else
-			levels[levelPos].processMovement(e);
+			levels[worldPos][levelPos].processMovement(e);
 	}
 	
 	public void undoHold(KeyEvent e) {
-		levels[levelPos].undoHold(e);
+		levels[worldPos][levelPos].undoHold(e);
+	}
+
+	public void setLevelPos(int levelPos) {
+		this.levelPos = levelPos-1;
+	}
+
+	public void setWorldPos(int worldPos) {
+		this.worldPos = worldPos-1;
 	}
 }
