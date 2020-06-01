@@ -19,6 +19,11 @@ public class Parent extends Passenger{
 	}
 	
 	@Override
+	public void update(Integer[][] grid) {
+		placeable = super.isCorrect(grid);
+	}
+	
+	@Override
 	public boolean isCorrect(Integer[][] grid) {
 		int count = 0;
 		if(!(grid[xPos][yPos] == 0 || (!selected && grid[xPos][yPos] == id)))
@@ -53,15 +58,28 @@ public class Parent extends Passenger{
 	@Override
 	public boolean isPlaceable(Integer[][] grid, KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
-			return super.isCorrect(grid);
+			return placeable;
 		return false;
 	}
 	
 	@Override
-	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
+	public void fillDistance (Integer[][] grid) {
+		grid[xPos][yPos] = id;
+		if(xPos > 0 && grid[xPos-1][yPos] == 0)
+			grid[xPos-1][yPos] = CHILD_SPACE;
+		if(xPos < MAX_X && grid[xPos+1][yPos] == 0)
+			grid[xPos+1][yPos] = CHILD_SPACE;
+		if(!belowWindow() && yPos > 0 && grid[xPos][yPos-1] == 0)
+			grid[xPos][yPos-1] = CHILD_SPACE;
+		if(!aboveWindow() && yPos < MAX_Y && grid[xPos][yPos+1] == 0)
+			grid[xPos][yPos+1] = CHILD_SPACE;
+	}
+	
+	@Override
+	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
-				if(super.isCorrect(grid))
+				if(placeable)
 					g.setColor(new Color(25, 255, 25, 100));
 				else
 					g.setColor(new Color(255, 25, 25, 100));

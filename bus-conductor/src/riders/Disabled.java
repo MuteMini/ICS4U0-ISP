@@ -20,14 +20,7 @@ public class Disabled extends Passenger{
 		this.rotation = rotation;
 		this.addY = (rotation == 1) ? 0 : 1;
 	}
-	
-	//fuck my ass fix this shit
-	/**
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
+
 	@Override
 	public boolean move(Integer[][] grid, KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
@@ -77,10 +70,10 @@ public class Disabled extends Passenger{
 	}
 	
 	@Override
-	protected void highlight(Graphics g, Integer[][] grid, int xPosNew, int yPosNew) {
+	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
-				if(isCorrect(grid))
+				if(placeable)
 					g.setColor(new Color(25, 255, 25, 120));
 				else
 					g.setColor(new Color(255, 25, 25, 120));
