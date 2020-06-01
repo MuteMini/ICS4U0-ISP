@@ -52,19 +52,23 @@ public abstract class Screen {
 		if(reset) {
 			this.resetGrid();
 		}
-		showCursor();
+		
+		if(!moveable.isEmpty()) {
+			moveable.get(cursor).update(distanceGrid);
+			showCursor();
+		}
+		else {
+			winState = checkSolution();
+		}
 		
 		//testing
-		/*for(int j = 0; j < 11; j++) {
+		for(int j = 0; j < 11; j++) {
 			for(int i = 0; i < 5; i++) {
 				System.out.print(distanceGrid[i][j] + "\t");
 			}
 			System.out.println();
 		}
-		System.out.println();*/
-		if(moveable.size() == 0 && checkSolution())
-			winState = true;
-			//System.out.println( (checkSolution()) ? "nicejob" : "you suck" );
+		System.out.println();
 	}
 
 	public void resetGrid() {
@@ -121,7 +125,7 @@ public abstract class Screen {
 					cursor--;
 				else if ((e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) && cursor < moveable.size()-1)
 					cursor++;
-				else if (e.getKeyCode() == KeyEvent.VK_ENTER && moveable.get(cursor).canSelect(distanceGrid)) {
+				else if (e.getKeyCode() == KeyEvent.VK_ENTER && moveable.get(cursor).canSelect()) {
 					selected = cursor;
 					moveable.get(selected).setInGrid(true);
 					moveable.get(selected).spawn();
@@ -155,6 +159,6 @@ public abstract class Screen {
 			g.setFont(new Font("Calibri", Font.BOLD, 46));
 			g.drawString("Puzzle Solved!", 250, 320);
 		}
-		animateCount += (animateCount < 640) ? 2 : 0;
+		animateCount += (animateCount < 640) ? 4 : 0;
 	}
 }
