@@ -63,13 +63,13 @@ public abstract class Screen {
 		}
 		
 		//testing
-		/*for(int j = 0; j < 11; j++) {
+		for(int j = 0; j < 11; j++) {
 			for(int i = 0; i < 5; i++) {
 				System.out.print(distanceGrid[i][j] + "\t");
 			}
 			System.out.println();
 		}
-		System.out.println();*/
+		System.out.println();
 	}
 
 	public void resetGrid() {
@@ -161,7 +161,7 @@ public abstract class Screen {
 		if(animateCount > 310) {
 			g.setColor(Color.WHITE);
 			g.setFont(Loader.balsamiqTitle);
-			g.drawString("Puzzle Solved!", 250, 330);
+			g.drawString("Puzzle Solved!", 260, 330);
 		}
 		powerCount += 0.01;
 		animateCount += (animateCount < 320) ? (int)(Math.pow(2, -powerCount)*5) : 0;
