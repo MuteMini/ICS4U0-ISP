@@ -1,8 +1,8 @@
 package puzzles.level;
 
-import java.awt.Color;
 import puzzles.Screen;
 import riders.*;
+import java.awt.Color;
 
 public class LevelOneTwo extends Screen {
 

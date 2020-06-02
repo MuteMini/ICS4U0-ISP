@@ -1,7 +1,7 @@
 package puzzles;
-import java.awt.Color;
 
 import riders.*;
+import java.awt.Color;
 
 public class TestScreen extends Screen{
 	
