@@ -1,13 +1,9 @@
 package puzzles;
 
+import game.Loader;
+import puzzles.level.*;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
-import puzzles.level.*;
 
 public class PuzzleLevel {
 	
@@ -16,7 +12,6 @@ public class PuzzleLevel {
 	private int levelPos;
 	private int worldPos;
 	private Screen[][] levels;
-	private BufferedImage background;
 	
 	public PuzzleLevel() {
 		this.levelPos = 0;
@@ -30,11 +25,6 @@ public class PuzzleLevel {
 		this.levels[0][2] = new LevelOneThree();
 		this.levels[0][3] = new LevelOneFour();
 		this.levels[1][0] = new TestScreen();
-		try {
-			URL url = PuzzleLevel.class.getResource("/puzzlescreen.png");
-			background = ImageIO.read(url);
-		} catch (IOException e) {
-		}
 	}
 	
 	public void update() {
@@ -42,7 +32,7 @@ public class PuzzleLevel {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(Loader.puzzleBackground, 0, 0, null);
 		levels[worldPos][levelPos].render(g);
 	}
 	
