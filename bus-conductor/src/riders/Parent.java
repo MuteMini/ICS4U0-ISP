@@ -1,8 +1,6 @@
 package riders;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 
 public class Parent extends Passenger{
 
@@ -56,13 +54,6 @@ public class Parent extends Passenger{
 	}
 	
 	@Override
-	public boolean isPlaceable(Integer[][] grid, KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER)
-			return placeable;
-		return false;
-	}
-	
-	@Override
 	public void fillDistance (Integer[][] grid) {
 		grid[xPos][yPos] = id;
 		if(xPos > 0 && grid[xPos-1][yPos] == 0)
@@ -73,20 +64,5 @@ public class Parent extends Passenger{
 			grid[xPos][yPos-1] = CHILD_SPACE;
 		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y && grid[xPos][yPos+1] == 0)
 			grid[xPos][yPos+1] = CHILD_SPACE;
-	}
-	
-	@Override
-	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
-		if(selected) {
-			if(inGrid) {
-				if(placeable)
-					g.setColor(new Color(25, 255, 25, 100));
-				else
-					g.setColor(new Color(255, 25, 25, 100));
-			}
-			else
-				g.setColor(new Color(255, 127, 156, 120));
-			g.fillRoundRect(xPosNew, yPosNew, 32, 32, 20, 20);
-		}
 	}
 }

@@ -78,9 +78,4 @@ public class Children extends Passenger {
 			g.fillRoundRect(xPosNew, yPosNew, 32, 32, 20, 20);
 		}
 	}
-	
-	@Override
-	public boolean canSelect() {
-		return ableToSelect;
-	}
 }
