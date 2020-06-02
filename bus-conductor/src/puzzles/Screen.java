@@ -1,8 +1,9 @@
 package puzzles;
+
+import game.Loader;
 import riders.*;
 import java.util.*;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -19,10 +20,10 @@ public abstract class Screen {
 	protected Integer[][] distanceGrid;
 	private Set<Integer> keysHeld;
 	private int animateCount;
+	private double powerCount;
 	
 	public Screen() {
 		resetGrid();
-		this.animateCount = 0;
 		this.keysHeld = new TreeSet<Integer>();
 	}
 	
@@ -62,13 +63,13 @@ public abstract class Screen {
 		}
 		
 		//testing
-		for(int j = 0; j < 11; j++) {
+		/*for(int j = 0; j < 11; j++) {
 			for(int i = 0; i < 5; i++) {
 				System.out.print(distanceGrid[i][j] + "\t");
 			}
 			System.out.println();
 		}
-		System.out.println();
+		System.out.println();*/
 	}
 
 	public void resetGrid() {
@@ -77,6 +78,8 @@ public abstract class Screen {
 		this.placed = new ArrayList<Passenger>();
 		this.cursor = 0;
 		this.selected = -1;
+		this.animateCount = 0;
+		this.powerCount = 0;
 		this.reset = false;
 		this.isSelected = false;
 		this.remove = false;
@@ -154,11 +157,13 @@ public abstract class Screen {
 	protected void winAnimation(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, 800, animateCount);
-		if(animateCount > 300) {
+		g.fillRect(0, 640-animateCount, 800, 320);
+		if(animateCount > 310) {
 			g.setColor(Color.WHITE);
-			g.setFont(new Font("Calibri", Font.BOLD, 46));
-			g.drawString("Puzzle Solved!", 250, 320);
+			g.setFont(Loader.balsamiqTitle);
+			g.drawString("Puzzle Solved!", 250, 330);
 		}
-		animateCount += (animateCount < 640) ? 4 : 0;
+		powerCount += 0.01;
+		animateCount += (animateCount < 320) ? (int)(Math.pow(2, -powerCount)*5) : 0;
 	}
 }
