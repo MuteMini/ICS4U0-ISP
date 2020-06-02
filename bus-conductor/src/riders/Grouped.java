@@ -11,7 +11,7 @@ public class Grouped extends Passenger{
 	protected int offY;
 	
 	public Grouped(Passenger[] arrPass, int id, int orderX, int orderY, Color cl) {
-		super(null, id, orderX, orderY, cl);
+		super(-1, 0, id, orderX, orderY, cl);
 		this.arrPass = arrPass;
 		this.offX = (arrPass.length >= 2 && (arrPass.length == 4 || arrPass.length != 3 || arrPass[1] != null)) ? 1 : 0;
 		this.offY = (arrPass.length >= 3) ? 1 : 0;
@@ -30,7 +30,7 @@ public class Grouped extends Passenger{
 	}
 	
 	public Grouped(Passenger[] arrPass, int id, int xPos, int yPos) {
-		super(null, id, xPos, yPos);
+		super(-1, 0, id, xPos, yPos);
 		this.arrPass = arrPass;
 		this.offX = (arrPass.length >= 2 && (arrPass.length == 4 || arrPass.length != 3 || arrPass[1] != null)) ? 1 : 0;
 		this.offY = (arrPass.length >= 3) ? 1 : 0;
@@ -91,7 +91,7 @@ public class Grouped extends Passenger{
 				return false;
 			}
 		}
-		if(arrPass.length > 2 && (arrPass[0] != null && arrPass[2] != null) && aboveWindow())
+		if(arrPass.length > 2 && (arrPass[0] != null && arrPass[2] != null) && aboveWindow(xPos, yPos))
 			return false;
 		if(arrPass.length > 3 && (arrPass[1] != null && arrPass[3] != null) && aboveWindow(xPos+1,yPos))
 			return false;
@@ -139,10 +139,5 @@ public class Grouped extends Passenger{
 		int shiftY = (pos == 2 || pos == 3) ? 1 : 0;
 		arrPass[pos].xPos = this.xPos+shiftX;
 		arrPass[pos].yPos = this.yPos+shiftY;
-	}
-	
-	protected boolean aboveWindow(int x, int y) {
-		return (x == 0 || x == 4) 
-			&& (y == 7);
 	}
 }

@@ -1,13 +1,10 @@
 package riders;
 
+import game.Loader;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
 
 public abstract class Passenger{
 	final protected int SPRITE_SIZE = 32;
@@ -34,7 +31,7 @@ public abstract class Passenger{
 	protected Color cl;
 	protected BufferedImage sprite;
 	
-	public Passenger(String fileName, int id, int orderX, int orderY, Color cl) {
+	public Passenger(int spriteID, int diff, int id, int orderX, int orderY, Color cl) {
 		this.xPos = 0;
 		this.yPos = 0;
 		this.id = id;
@@ -46,10 +43,10 @@ public abstract class Passenger{
 		this.inGroup = false;
 		this.placeable = false;
 		this.cl = cl;
-		readImage(fileName);
+		this.sprite = readImage(spriteID, diff);
 	}
 	
-	public Passenger(String fileName, int id, int xPos, int yPos) {
+	public Passenger(int spriteID, int diff, int id, int xPos, int yPos) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.orderX = 0;
@@ -61,7 +58,7 @@ public abstract class Passenger{
 		this.inGroup = false;
 		this.placeable = false;
 		this.cl = Color.WHITE;
-		readImage(fileName);
+		this.sprite = readImage(spriteID, diff);
 	}
 
 	public void render(Graphics g, Integer[][] grid) {
@@ -120,8 +117,8 @@ public abstract class Passenger{
 		return (grid[xPos][yPos] == 0 || (!selected && grid[xPos][yPos] == id))
 			&& (xPos == 0 || grid[xPos-1][yPos] <= 0 || (inGroup && grid[xPos-1][yPos] == id)) 
 			&& (xPos == MAX_X || grid[xPos+1][yPos] <= 0 || (inGroup && grid[xPos+1][yPos] == id)) 
-			&& (yPos == 0 || belowWindow() || grid[xPos][yPos-1] <= 0 || (inGroup && grid[xPos][yPos-1] == id)) 
-			&& (yPos == MAX_Y || aboveWindow() || grid[xPos][yPos+1] <= 0 || (inGroup && grid[xPos][yPos+1] == id));
+			&& (yPos == 0 || belowWindow(xPos, yPos) || grid[xPos][yPos-1] <= 0 || (inGroup && grid[xPos][yPos-1] == id)) 
+			&& (yPos == MAX_Y || aboveWindow(xPos, yPos) || grid[xPos][yPos+1] <= 0 || (inGroup && grid[xPos][yPos+1] == id));
 	}
 	
 	public boolean isPlaceable(Integer[][] grid, KeyEvent e) {
@@ -136,9 +133,9 @@ public abstract class Passenger{
 			grid[xPos-1][yPos] = EMPTY;
 		if(xPos < MAX_X && grid[xPos+1][yPos] == 0)
 			grid[xPos+1][yPos] = EMPTY;
-		if(!belowWindow() && yPos > 0 && grid[xPos][yPos-1] == 0)
+		if(!belowWindow(xPos, yPos) && yPos > 0 && grid[xPos][yPos-1] == 0)
 			grid[xPos][yPos-1] = EMPTY;
-		if(!aboveWindow() && yPos < MAX_Y && grid[xPos][yPos+1] == 0)
+		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y && grid[xPos][yPos+1] == 0)
 			grid[xPos][yPos+1] = EMPTY;
 	}
 	
@@ -163,14 +160,14 @@ public abstract class Passenger{
 		return id + " " + xPos + " " + yPos;
 	}
 	
-	protected boolean aboveWindow() {
-		return (xPos == 0 || xPos == 4) 
-			&& (yPos == 7);
+	protected boolean aboveWindow(int x, int y) {
+		return (x == 0 || x == 4) 
+			&& (y == 7);
 	}
 	
-	protected boolean belowWindow() {
-		return (xPos == 0 || xPos == 4) 
-			&& (yPos == 8);
+	protected boolean belowWindow(int x, int y) {
+		return (x == 0 || x == 4) 
+			&& (y == 8);
 	}
 	
 	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
@@ -192,13 +189,38 @@ public abstract class Passenger{
 		g.fillOval(xPos, yPos, 10, 10);
 	}
 	
-	private void readImage(String fileName) {
-		if(fileName != null) {
-			try {
-				URL url = Passenger.class.getResource("/"+fileName);
-				this.sprite = ImageIO.read(url);
-			} catch (IOException e) {
-			}
+	private BufferedImage readImage(int spriteID, int diff) {
+		if(spriteID == 1) {
+			return Loader.youngAdult;
 		}
+		else if(spriteID == 2) {
+			return Loader.parent;
+		}
+		else if(spriteID == 3) {
+			return Loader.children;
+		}
+		else if(spriteID == 4) {
+			if(diff == 1)
+				return Loader.student1;
+			else if(diff == 2)
+				return Loader.student2;
+			else if(diff == 3)
+				return Loader.student3;
+			else if(diff == 4)
+				return Loader.student4;
+		}
+		else if(spriteID == 5) {
+			return Loader.elderly;
+		}
+		else if(spriteID == 6) {
+			return Loader.pregnant;
+		}
+		else if(spriteID == 7) {
+			if(diff == 1)
+				return Loader.disabled1;
+			else if(diff == 2)
+				return Loader.disabled1;
+		}
+		return null;
 	}
 }

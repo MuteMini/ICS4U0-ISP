@@ -9,12 +9,12 @@ public class Parent extends Passenger{
 	protected int numChild;
 	
 	public Parent(int id, int orderX, int orderY, int numChild, Color cl) {
-		super("parent.png", id, orderX, orderY, cl);
+		super(2, 0, id, orderX, orderY, cl);
 		this.numChild = numChild;
 	}
 	
 	public Parent(int id, int xPos, int yPos, int numChild) {
-		super("parent.png", id, xPos, yPos);
+		super(2, 0, id, xPos, yPos);
 		this.numChild = numChild;
 	}
 	
@@ -40,13 +40,13 @@ public class Parent extends Passenger{
 			else if(grid[xPos+1][yPos] > 0)
 				return false;
 		}
-		if(!belowWindow() && yPos > 0) {
+		if(!belowWindow(xPos, yPos) && yPos > 0) {
 			if(grid[xPos][yPos-1] == id+1)
 				count++;
 			else if(grid[xPos][yPos-1] > 0)
 				return false;
 		}
-		if(!aboveWindow() && yPos < MAX_Y) {
+		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y) {
 			if(grid[xPos][yPos+1] == id+1)
 				count++;
 			else if(grid[xPos][yPos+1] > 0)
@@ -69,9 +69,9 @@ public class Parent extends Passenger{
 			grid[xPos-1][yPos] = CHILD_SPACE;
 		if(xPos < MAX_X && grid[xPos+1][yPos] == 0)
 			grid[xPos+1][yPos] = CHILD_SPACE;
-		if(!belowWindow() && yPos > 0 && grid[xPos][yPos-1] == 0)
+		if(!belowWindow(xPos, yPos) && yPos > 0 && grid[xPos][yPos-1] == 0)
 			grid[xPos][yPos-1] = CHILD_SPACE;
-		if(!aboveWindow() && yPos < MAX_Y && grid[xPos][yPos+1] == 0)
+		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y && grid[xPos][yPos+1] == 0)
 			grid[xPos][yPos+1] = CHILD_SPACE;
 	}
 	

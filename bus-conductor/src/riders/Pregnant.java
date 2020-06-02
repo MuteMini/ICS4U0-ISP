@@ -5,11 +5,11 @@ import java.awt.Color;
 public class Pregnant extends Passenger{
 	
 	public Pregnant(int orderX, int orderY, Color cl) {
-		super("pregnant.png", 1, orderX, orderY, cl);
+		super(6, 0, 1, orderX, orderY, cl);
 	}
 	
 	public Pregnant(int xPos, int yPos) {
-		super("pregnant.png", 1, xPos, yPos);
+		super(6, 0, 1, xPos, yPos);
 	}
 	
 	@Override

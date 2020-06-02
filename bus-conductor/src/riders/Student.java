@@ -13,7 +13,7 @@ public class Student extends Passenger{
 	protected int shiftY;
 	
 	public Student(int orderX, int orderY,  int rotation, Color cl) {
-		super("student"+rotation+".png", 1, orderX, orderY, cl);
+		super(4, rotation, 1, orderX, orderY, cl);
 		this.rotation = rotation;
 		this.shiftX = (rotation == 4) ? 1 : 0;
 		this.shiftY = (rotation == 3) ? 1 : 0;
@@ -21,7 +21,7 @@ public class Student extends Passenger{
 	}
 	
 	public Student(int xPos, int yPos, int rotation) {
-		super("student"+rotation+".png", 1, xPos, yPos);
+		super(4, rotation, 1, xPos, yPos);
 		this.rotation = rotation;
 		this.shiftX = (rotation == 4) ? 1 : 0;
 		this.shiftY = (rotation == 3) ? 1 : 0;
@@ -109,15 +109,5 @@ public class Student extends Passenger{
 			this.offY = -1;
 		else if (rotation == 4)
 			this.offX = -1;
-	}
-	
-	protected boolean aboveWindow(int x, int y) {
-		return (x == 0 || x == 4) 
-			&& (y == 7);
-	}
-	
-	protected boolean belowWindow(int x, int y) {
-		return (x == 0 || x == 4) 
-			&& (y == 8);
 	}
 }

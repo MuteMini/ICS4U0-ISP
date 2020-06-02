@@ -6,12 +6,12 @@ import java.awt.Graphics;
 public class Children extends Passenger {
 
 	public Children(int id, int orderX, int orderY, Color cl) {
-		super("children.png", id, orderX, orderY, cl);
+		super(3, 0, id, orderX, orderY, cl);
 		this.ableToSelect = false;
 	}
 	
 	public Children(int id, int xPos, int yPos) {
-		super("children.png", id, xPos, yPos);
+		super(3, 0, id, xPos, yPos);
 		this.ableToSelect = false;
 	}
 	
@@ -45,13 +45,13 @@ public class Children extends Passenger {
 			else if(grid[xPos+1][yPos] > 0)
 				return false;
 		}
-		if(!belowWindow() && yPos > 0) {
+		if(!belowWindow(xPos, yPos) && yPos > 0) {
 			if(grid[xPos][yPos-1] == id-1)
 				nextToParent = true;
 			else if(grid[xPos][yPos-1] > 0)
 				return false;
 		}
-		if(!aboveWindow() && yPos < MAX_Y) {
+		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y) {
 			if(grid[xPos][yPos+1] == id-1)
 				nextToParent = true;
 			else if(grid[xPos][yPos+1] > 0)

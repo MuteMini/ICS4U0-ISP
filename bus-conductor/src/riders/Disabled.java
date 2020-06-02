@@ -10,13 +10,13 @@ public class Disabled extends Passenger{
 	protected int addY;
 	
 	public Disabled(int orderX, int orderY, Color cl, int rotation) {
-		super("disabled"+rotation+".png", 1, orderX, orderY, cl);
+		super(7, rotation, 1, orderX, orderY, cl);
 		this.rotation = rotation;
 		this.addY = (rotation == 1) ? 0 : 1;
 	}
 	
 	public Disabled(int xPos, int yPos, int rotation) {
-		super("disabled"+rotation+".png", 1, xPos, yPos);
+		super(7, rotation, 1, xPos, yPos);
 		this.rotation = rotation;
 		this.addY = (rotation == 1) ? 0 : 1;
 	}

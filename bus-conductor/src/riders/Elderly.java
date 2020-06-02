@@ -5,11 +5,11 @@ import java.awt.Color;
 public class Elderly extends Passenger{
 	
 	public Elderly(int orderX, int orderY, Color cl) {
-		super("elderly.png", 1, orderX, orderY, cl);
+		super(5, 0, 1, orderX, orderY, cl);
 	}
 	
 	public Elderly(int xPos, int yPos) {
-		super("elderly.png", 1, xPos, yPos);
+		super(5, 0, 1, xPos, yPos);
 	}
 	
 	@Override
