@@ -80,7 +80,7 @@ public class Disabled extends Passenger{
 			}
 			else
 				g.setColor(new Color(255, 127, 156, 120));
-			g.fillRoundRect(xPosNew, yPosNew, 32, 64, 20, 20);
+			g.fillRoundRect(xPosNew, yPosNew, SPRITE_SIZE, SPRITE_SIZE*2, 20, 20);
 		}
 	}
 }

@@ -93,7 +93,7 @@ public class Student extends Passenger{
 			}
 			else
 				g.setColor(new Color(255, 127, 156, 120));
-			g.fillRoundRect(xPosNew, yPosNew, 32*(Math.abs(offX)+1), 32*(Math.abs(offY)+1), 20, 20);
+			g.fillRoundRect(xPosNew, yPosNew, SPRITE_SIZE*(Math.abs(offX)+1), SPRITE_SIZE*(Math.abs(offY)+1), 20, 20);
 		}
 	}
 	

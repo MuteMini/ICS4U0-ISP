@@ -180,7 +180,7 @@ public abstract class Passenger{
 			}
 			else
 				g.setColor(new Color(255, 127, 156, 120));
-			g.fillRoundRect(xPosNew, yPosNew, 32, 32, 20, 20);
+			g.fillRoundRect(xPosNew, yPosNew, SPRITE_SIZE, SPRITE_SIZE, 20, 20);
 		}
 	}
 	
