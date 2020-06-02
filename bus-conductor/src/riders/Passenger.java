@@ -129,13 +129,13 @@ public abstract class Passenger{
 	
 	public void fillDistance (Integer[][] grid) {
 		grid[xPos][yPos] = id;
-		if(xPos > 0 && grid[xPos-1][yPos] == 0)
+		if(xPos > 0 && grid[xPos-1][yPos] == 0 && (!inGroup || grid[xPos-1][yPos] != id))
 			grid[xPos-1][yPos] = EMPTY;
-		if(xPos < MAX_X && grid[xPos+1][yPos] == 0)
+		if(xPos < MAX_X && grid[xPos+1][yPos] == 0 && (!inGroup || grid[xPos+1][yPos] != id))
 			grid[xPos+1][yPos] = EMPTY;
-		if(!belowWindow(xPos, yPos) && yPos > 0 && grid[xPos][yPos-1] == 0)
+		if(!belowWindow(xPos, yPos) && yPos > 0 && grid[xPos][yPos-1] == 0 && (!inGroup || grid[xPos][yPos-1] != id))
 			grid[xPos][yPos-1] = EMPTY;
-		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y && grid[xPos][yPos+1] == 0)
+		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y && grid[xPos][yPos+1] == 0 && (!inGroup || grid[xPos][yPos+1] != id))
 			grid[xPos][yPos+1] = EMPTY;
 	}
 	

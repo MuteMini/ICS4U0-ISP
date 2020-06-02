@@ -105,13 +105,6 @@ public class Grouped extends Passenger{
 				arrPass[i].fillDistance(grid);
 			}
 		}
-		for(int i = 0; i < arrPass.length; i++) {
-			if(arrPass[i] != null) {
-				int shiftX = (i == 1 || i == 3) ? 1 : 0;
-				int shiftY = (i == 2 || i == 3) ? 1 : 0;
-				grid[xPos+shiftX][yPos+shiftY] = id;
-			}
-		}
 	}
 	
 	@Override

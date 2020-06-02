@@ -28,7 +28,7 @@ public class Elderly extends Passenger{
 			for(int j = yPos-1; j <= yPos+1; j++) {
 				if(i == xPos && j == yPos)
 					grid[i][j] = id;
-				else if (i >= 0 && i <= MAX_X && j >= 0 && j <= MAX_Y && grid[i][j] == 0)
+				else if (i >= 0 && i <= MAX_X && j >= 0 && j <= MAX_Y && grid[i][j] == 0 && (!inGroup || grid[i][j] != id))
 					grid[i][j] = EMPTY;
 			}
 		}
