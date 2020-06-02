@@ -65,10 +65,10 @@ public final class Loader {
 				return ImageIO.read(Loader.class.getResource("/pregnant.png"));
 			else if(spriteID == 7)
 				return ImageIO.read(Loader.class.getResource("/disabled"+diff+".png"));
-			/*else if(spriteID == 8)
+			else if(spriteID == 8)
 				return ImageIO.read(Loader.class.getResource("/luggageman.png"));
 			else if(spriteID == 9)
-				return ImageIO.read(Loader.class.getResource("/luggage"+diff+".png"));*/
+				return ImageIO.read(Loader.class.getResource("/luggage"+diff+".png"));
 		} catch (IOException e) {
 		}
 		return null;

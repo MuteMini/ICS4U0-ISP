@@ -221,6 +221,25 @@ public abstract class Passenger{
 			else if(diff == 2)
 				return Loader.disabled1;
 		}
+		else if(spriteID == 8) {
+			return Loader.luggageman;
+		}
+		else if(spriteID == 9) {
+			if(diff == 1)
+				return Loader.luggage1;
+			else if(diff == 2)
+				return Loader.luggage2;
+			else if(diff == 3)
+				return Loader.luggage3;
+			else if(diff == 4)
+				return Loader.luggage4;
+			else if(diff == 5)
+				return Loader.luggage5;
+			else if(diff == 6)
+				return Loader.luggage6;
+			else if(diff == 7)
+				return Loader.luggage7;
+		}
 		return null;
 	}
 }
