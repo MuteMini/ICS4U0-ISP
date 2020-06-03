@@ -98,7 +98,8 @@ public abstract class Passenger{
 			highlight(g2d, xPosNew, yPosNew);
 			g2d.drawImage(sprite, xPosNew, yPosNew, null);
 		}
-		drawTag(g2d, xPosNew, yPosNew);
+		if(!inGrid || selected)
+			drawTag(g2d, xPosNew, yPosNew);
 	}
 	
 	public void update(Integer[][] grid) {
