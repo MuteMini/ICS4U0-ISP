@@ -3,7 +3,9 @@ package riders;
 import game.Loader;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public abstract class Passenger{
@@ -64,7 +66,9 @@ public abstract class Passenger{
 	public void render(Graphics g, Integer[][] grid) {
 		int xPosNew; 
 		int yPosNew;
-
+		
+		Graphics2D g2d = (Graphics2D) g;
+		
 		if(inGrid) {
 			xPosNew = SPRITE_SIZE*xPos+OFFSET_X;
 			yPosNew = SPRITE_SIZE*yPos+OFFSET_Y;
@@ -72,16 +76,29 @@ public abstract class Passenger{
 				floating += (floating >= 6.28) ? -6.28 : 0.02d;
 				yPosNew += (int)(Math.sin(floating)*5);
 			}
-			highlight(g, xPosNew, yPosNew);
-			g.drawImage(sprite, xPosNew, yPosNew, null);
+			highlight(g2d, xPosNew, yPosNew);
+			
+			AffineTransform at = new AffineTransform();
+			double radianRotate = rotationVal(xPos, yPos);
+			
+			if(radianRotate != 0) {
+				at.translate(SPRITE_SIZE/2+xPosNew, SPRITE_SIZE/2+yPosNew);
+				at.rotate(Math.toRadians(radianRotate));
+				at.translate(-SPRITE_SIZE/2, -SPRITE_SIZE/2);
+			}
+			else {
+				at.translate(xPosNew, yPosNew);
+			}
+			
+			g2d.drawImage(sprite, at, null);
 		}
 		else {
 			xPosNew = SPRITE_SIZE*orderX+ORDERED_X;
 			yPosNew = SPRITE_SIZE*orderY+ORDERED_Y;
-			highlight(g, xPosNew, yPosNew);
-			g.drawImage(sprite, xPosNew, yPosNew, null);
+			highlight(g2d, xPosNew, yPosNew);
+			g2d.drawImage(sprite, xPosNew, yPosNew, null);
 		}
-		drawTag(g, xPosNew, yPosNew);
+		drawTag(g2d, xPosNew, yPosNew);
 	}
 	
 	public void update(Integer[][] grid) {
@@ -170,7 +187,17 @@ public abstract class Passenger{
 			&& (y == 8);
 	}
 	
-	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
+	protected double rotationVal(int x, int y) {
+		if(x == 0 && (y <= 6))
+			return 90d;
+		else if((x == 0 || x == 4) && y == 8)
+			return 180d;
+		else if(x == 4 && (y <= 5))
+			return 270d;
+		return 0d;
+	}
+	
+	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
 				if(placeable)
@@ -184,7 +211,7 @@ public abstract class Passenger{
 		}
 	}
 	
-	protected void drawTag(Graphics g, int xPos, int yPos) {
+	protected void drawTag(Graphics2D g, int xPos, int yPos) {
 		g.setColor(cl);
 		g.fillOval(xPos, yPos, 10, 10);
 	}
@@ -219,7 +246,7 @@ public abstract class Passenger{
 			if(diff == 1)
 				return Loader.disabled1;
 			else if(diff == 2)
-				return Loader.disabled1;
+				return Loader.disabled2;
 		}
 		else if(spriteID == 8) {
 			return Loader.luggageman;
