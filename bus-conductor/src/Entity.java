@@ -1,5 +1,6 @@
 
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -9,15 +10,16 @@ public abstract class Entity {
 	protected final int HEIGHT;
 	protected final int WIDTH;
 	protected double angle;
-	protected double potXVel;
-	protected double potYVel;
 	protected double xVel;
 	protected double yVel;
 	protected double angleVel;
+	protected double buildUp;
 	protected Polygon entityBody;
 	protected Point[] entityPoints;
 	protected Point center;
-	
+	protected Color c;
+	public boolean crashed;
+
 	public Entity(int xPos, int yPos, int w, int h) {
 		HEIGHT = h;
 		WIDTH = w;
@@ -26,8 +28,11 @@ public abstract class Entity {
 		xVel = 0;
 		yVel = 0;
 		angleVel = 0;
+		buildUp = 0;
+		entityPoints = new Point[4];
+		c = Color.blue;
 	}
-	
+
 	protected Polygon createPolygon(Point[] polyPoints) {
 		Polygon tempPoly = new Polygon();
 		for (int i = 0; i < polyPoints.length; i++) {
@@ -35,7 +40,7 @@ public abstract class Entity {
 		}
 		return tempPoly;
 	}
-	
+
 	protected Point[] getOriginalPoints() {
 		Point[] originalPoints = new Point[4];
 		originalPoints[0] = new Point(-WIDTH / 2, -HEIGHT / 2);
@@ -44,7 +49,7 @@ public abstract class Entity {
 		originalPoints[3] = new Point(-WIDTH / 2, HEIGHT / 2);
 		return originalPoints;
 	}
-	
+
 	public Point calculateCenter() {
 		int xSum = 0;
 		int ySum = 0;
@@ -54,13 +59,7 @@ public abstract class Entity {
 		}
 		return new Point(xSum / 4, ySum / 4);
 	}
-	
-	public void calculateVel() {
-		potXVel = (entityPoints[1].x - entityPoints[2].x) / 8d;
-		potYVel = (entityPoints[1].y - entityPoints[2].y) / 8d;
 
-	}
-	
 	public void rotatePointMatrix(Point[] origPoints, double angle, Point[] storeTo) {
 		AffineTransform.getRotateInstance(Math.toRadians(angle)).transform(origPoints, 0, origPoints, 0, 4);
 		for (int i = 0; i < entityPoints.length; i++) {
@@ -69,11 +68,45 @@ public abstract class Entity {
 		}
 	}
 	
+	public void setXVel(double x) {
+		xVel = x;
+	}
+
+	public void setYVel(double y) {
+		yVel = y;
+	}
+
+	public double getYVel() {
+		return yVel;
+	}
+	
+	public double getXVel() {
+		return xVel;
+	}
+	
+	public void setBuildUp(double b) {
+		buildUp = b;
+	}
+
+	public Point getCenter() {
+		return center;
+	}
+
 	public boolean isColliding(Entity e) {
 		return entityBody.intersects(e.entityBody.getBounds2D());
 	}
-	public abstract void draw (Graphics2D g);
-	
-	public abstract void update();
 
+	public void setColor(Color c) {
+		this.c = c;
+	}
+
+	public Color getColor() {
+		return c;
+	}
+
+	public abstract void draw(Graphics2D g);
+
+	public abstract void update();
+	
+	public abstract void calculateVel();
 }

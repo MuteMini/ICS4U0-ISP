@@ -1,12 +1,12 @@
 
 
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-
+import java.net.URL;
 import javax.imageio.ImageIO;
 
 public class SplashScreen {
@@ -18,9 +18,9 @@ public class SplashScreen {
 		alpha = 0;
 		loadingDone = true;
 		try {
-			logo = ImageIO.read(new File("res/SplashScreen.png"));
+			URL splashScreenLink = SplashScreen.class.getResource("/SplashScreen.png");
+			logo = ImageIO.read(splashScreenLink);
 		} catch (IOException e) {
-			System.out.println("you fucked it lol");
 		}
 	}
 

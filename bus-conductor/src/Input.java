@@ -1,5 +1,6 @@
 
 
+
 import java.awt.event.*;
 
 public class Input extends KeyAdapter{
