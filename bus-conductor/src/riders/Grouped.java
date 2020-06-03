@@ -10,7 +10,7 @@ public class Grouped extends Passenger{
 	protected int offX;
 	protected int offY;
 	
-	public Grouped(Passenger[] arrPass, int id, int orderX, int orderY, Color cl) {
+	public Grouped(Passenger[] arrPass, int orderX, int orderY, int id, Color cl) {
 		super(-1, 0, id, orderX, orderY, cl);
 		this.arrPass = arrPass;
 		this.offX = (arrPass.length >= 2 && (arrPass.length == 4 || arrPass.length != 3 || arrPass[1] != null)) ? 1 : 0;
@@ -29,7 +29,7 @@ public class Grouped extends Passenger{
 		}
 	}
 	
-	public Grouped(Passenger[] arrPass, int id, int xPos, int yPos) {
+	public Grouped(Passenger[] arrPass, int xPos, int yPos, int id) {
 		super(-1, 0, id, xPos, yPos);
 		this.arrPass = arrPass;
 		this.offX = (arrPass.length >= 2 && (arrPass.length == 4 || arrPass.length != 3 || arrPass[1] != null)) ? 1 : 0;

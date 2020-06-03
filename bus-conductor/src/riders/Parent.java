@@ -6,12 +6,12 @@ public class Parent extends Passenger{
 
 	protected int numChild;
 	
-	public Parent(int id, int orderX, int orderY, int numChild, Color cl) {
+	public Parent(int orderX, int orderY, int id, int numChild, Color cl) {
 		super(2, 0, id, orderX, orderY, cl);
 		this.numChild = numChild;
 	}
 	
-	public Parent(int id, int xPos, int yPos, int numChild) {
+	public Parent(int xPos, int yPos, int id, int numChild) {
 		super(2, 0, id, xPos, yPos);
 		this.numChild = numChild;
 	}

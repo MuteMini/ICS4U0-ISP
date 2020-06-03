@@ -2,6 +2,7 @@ package riders;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 public class Student extends Passenger{
@@ -56,11 +57,11 @@ public class Student extends Passenger{
 							&& (tempXPos == MAX_X || grid[tempXPos+1][tempYPos] <= 0 || (inGroup && grid[tempXPos+1][tempYPos] == id))
 							&& (tempYPos == 0 || belowWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos-1] <= 0 || (inGroup && grid[tempXPos][tempYPos-1] == id))
 							&& (tempYPos == MAX_Y || aboveWindow(tempXPos,tempYPos) || grid[tempXPos][tempYPos+1] <= 0 || (inGroup && grid[tempXPos][tempYPos+1] == id));
-		boolean noOverlap = !selected 
-							|| (rotation == 1 && tempYPos < MAX_Y && grid[tempXPos][tempYPos+1] != BAGGAGE)
-							|| (rotation == 2 && tempXPos < MAX_X && grid[tempXPos+1][tempYPos] != BAGGAGE)
-							|| (rotation == 3 && tempYPos > 0 && grid[tempXPos][tempYPos-1] != BAGGAGE)
-							|| (rotation == 4 && tempXPos > 0 && grid[tempXPos-1][tempYPos] != BAGGAGE);
+		boolean noOverlap = !selected
+							|| (rotation == 1 && tempYPos < MAX_Y && (grid[tempXPos][tempYPos+1] != BAGGAGE && grid[tempXPos][tempYPos+1] >= CHILD_SPACE))
+							|| (rotation == 2 && tempXPos < MAX_X && (grid[tempXPos+1][tempYPos] != BAGGAGE && grid[tempXPos+1][tempYPos] >= CHILD_SPACE))
+							|| (rotation == 3 && tempYPos > 0 && (grid[tempXPos][tempYPos-1] != BAGGAGE && grid[tempXPos][tempYPos-1] >= CHILD_SPACE))
+							|| (rotation == 4 && tempXPos > 0 && (grid[tempXPos-1][tempYPos] != BAGGAGE && grid[tempXPos-1][tempYPos] >= CHILD_SPACE));
 		boolean notOnWindow = (rotation != 1 || !aboveWindow(tempXPos,tempYPos)) 
 							&& (rotation != 3 || !belowWindow(tempXPos,tempYPos));
 		return surrounding && noOverlap && notOnWindow;
@@ -83,7 +84,7 @@ public class Student extends Passenger{
 	}
 	
 	@Override
-	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
+	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
 				if(placeable)
@@ -109,5 +110,10 @@ public class Student extends Passenger{
 			this.offY = -1;
 		else if (rotation == 4)
 			this.offX = -1;
+	}
+	
+	@Override
+	protected double rotationVal(int x, int y) {
+		return 0d;
 	}
 }

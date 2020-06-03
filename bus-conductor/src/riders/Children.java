@@ -2,16 +2,17 @@ package riders;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class Children extends Passenger {
 
-	public Children(int id, int orderX, int orderY, Color cl) {
-		super(3, 0, id, orderX, orderY, cl);
+	public Children(int orderX, int orderY, int id, Color cl) {
+		super(3, 0, id+1, orderX, orderY, cl);
 		this.ableToSelect = false;
 	}
 	
-	public Children(int id, int xPos, int yPos) {
-		super(3, 0, id, xPos, yPos);
+	public Children(int xPos, int yPos, int id) {
+		super(3, 0, id+1, xPos, yPos);
 		this.ableToSelect = false;
 	}
 	
@@ -61,7 +62,7 @@ public class Children extends Passenger {
 	}
 	
 	@Override
-	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
+	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
 				if(placeable)

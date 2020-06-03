@@ -18,8 +18,8 @@ public class LevelOneFour extends Screen{
 		immoveable.add(new Disabled(4, 2, 1));
 		immoveable.add(new Pregnant(0, 4));
 		immoveable.add(new Disabled(4, 2, 1));
-		immoveable.add(new Parent(2, 0, 6, 1));
-		immoveable.add(new Children(3, 1, 6));
+		immoveable.add(new Parent(0, 6, 2, 1));
+		immoveable.add(new Children(1, 6, 2));
 		immoveable.add(new YoungAdult(0, 8));
 		immoveable.add(new Pregnant(4, 8));
 		immoveable.add(new Pregnant(1, 10));

@@ -2,6 +2,7 @@ package riders;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 public class Luggage extends Passenger {
@@ -90,7 +91,7 @@ public class Luggage extends Passenger {
 	}
 	
 	@Override
-	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
+	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
 				if(placeable)
@@ -122,18 +123,23 @@ public class Luggage extends Passenger {
 	}
 	
 	@Override
-	protected void drawTag(Graphics g, int xPos, int yPos) {
+	protected void drawTag(Graphics2D g, int xPos, int yPos) {
 		g.setColor(cl);
 		if(type == 6)
 			g.fillOval(xPos+SPRITE_SIZE, yPos, 10, 10);
 		else
 			g.fillOval(xPos, yPos, 10, 10);
 	}
-			
+		
+	@Override
+	protected double rotationVal(int x, int y) {
+		return 0d;
+	}
+	
 	protected boolean posExist(int i) {
 		return (i==0 && type!=6) 
 				|| (i==1 && (type!=2 && type!=4)) 
 				|| (i==2 && (type!=1 && type!=5)) 
 				|| (i==3 && (type!=1 && type!=2 && type!=3));
-	}
+	}	
 }

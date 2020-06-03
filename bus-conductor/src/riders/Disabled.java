@@ -2,6 +2,7 @@ package riders;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 public class Disabled extends Passenger{
@@ -9,7 +10,7 @@ public class Disabled extends Passenger{
 	protected int rotation;
 	protected int addY;
 	
-	public Disabled(int orderX, int orderY, Color cl, int rotation) {
+	public Disabled(int orderX, int orderY, int rotation, Color cl) {
 		super(7, rotation, 1, orderX, orderY, cl);
 		this.rotation = rotation;
 		this.addY = (rotation == 1) ? 0 : 1;
@@ -51,8 +52,8 @@ public class Disabled extends Passenger{
 							&& (yPos+addY == MAX_Y || grid[xPos][yPos+addY+1] <= 0)
 							&& ((xPos == 0 || xPos == 4) && (yPos < 3));
 		boolean noOverlap = !selected 
-							|| (rotation == 1 && yPos+addY < MAX_Y && grid[xPos][yPos+addY+1] != BAGGAGE)
-							|| (rotation == 2 && yPos+addY > 0 && grid[xPos][yPos+addY-1] != BAGGAGE);
+							|| (rotation == 1 && yPos+addY < MAX_Y && grid[xPos][yPos+addY+1] != BAGGAGE && grid[xPos][yPos+addY+1] >= CHILD_SPACE)
+							|| (rotation == 2 && yPos+addY > 0 && grid[xPos][yPos+addY-1] != BAGGAGE && grid[xPos][yPos+addY-1] >= CHILD_SPACE);
 		return surrounding && noOverlap;
 	}
 	
@@ -70,7 +71,7 @@ public class Disabled extends Passenger{
 	}
 	
 	@Override
-	protected void highlight(Graphics g, int xPosNew, int yPosNew) {
+	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
 				if(placeable)
@@ -82,5 +83,10 @@ public class Disabled extends Passenger{
 				g.setColor(new Color(255, 127, 156, 120));
 			g.fillRoundRect(xPosNew, yPosNew, SPRITE_SIZE, SPRITE_SIZE*2, 20, 20);
 		}
+	}
+	
+	@Override
+	protected double rotationVal(int x, int y) {
+		return 0d;
 	}
 }
