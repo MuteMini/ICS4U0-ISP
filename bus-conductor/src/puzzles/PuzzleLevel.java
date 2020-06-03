@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class PuzzleLevel {
 	
-	final private int FIRST_LEVEL_NUM = 5;
+	final private int FIRST_LEVEL_NUM = 6;
 	final private int SECOND_LEVEL_NUM = 1;
 	private int levelPos;
 	private int worldPos;
@@ -25,6 +25,7 @@ public class PuzzleLevel {
 		this.levels[0][2] = new LevelOneThree();
 		this.levels[0][3] = new LevelOneFour();
 		this.levels[0][4] = new LevelOneFive();
+		this.levels[0][5] = new LevelOneSix();
 		this.levels[1][0] = new TestScreen();
 	}
 	
