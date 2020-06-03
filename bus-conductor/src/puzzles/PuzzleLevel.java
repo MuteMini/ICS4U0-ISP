@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class PuzzleLevel {
 	
-	final private int FIRST_LEVEL_NUM = 4;
+	final private int FIRST_LEVEL_NUM = 5;
 	final private int SECOND_LEVEL_NUM = 1;
 	private int levelPos;
 	private int worldPos;
@@ -24,6 +24,7 @@ public class PuzzleLevel {
 		this.levels[0][1] = new LevelOneTwo();
 		this.levels[0][2] = new LevelOneThree();
 		this.levels[0][3] = new LevelOneFour();
+		this.levels[0][4] = new LevelOneFive();
 		this.levels[1][0] = new TestScreen();
 	}
 	
@@ -61,10 +62,6 @@ public class PuzzleLevel {
 			levels[worldPos][levelPos].processMovement(e);
 	}
 	
-	public void undoHold(KeyEvent e) {
-		levels[worldPos][levelPos].undoHold(e);
-	}
-
 	public void setLevelPos(int levelPos) {
 		this.levelPos = levelPos-1;
 	}

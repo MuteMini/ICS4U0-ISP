@@ -18,13 +18,11 @@ public abstract class Screen {
 	protected boolean remove;
 	protected boolean winState;
 	protected Integer[][] distanceGrid;
-	private Set<Integer> keysHeld;
 	private int animateCount;
 	private double powerCount;
 	
 	public Screen() {
 		resetGrid();
-		this.keysHeld = new TreeSet<Integer>();
 	}
 	
 	public void render(Graphics g) {
@@ -63,13 +61,13 @@ public abstract class Screen {
 		}
 		
 		//testing
-		for(int j = 0; j < 11; j++) {
+		/*for(int j = 0; j < 11; j++) {
 			for(int i = 0; i < 5; i++) {
 				System.out.print(distanceGrid[i][j] + "\t");
 			}
 			System.out.println();
 		}
-		System.out.println();
+		System.out.println();*/
 	}
 
 	public void resetGrid() {
@@ -109,40 +107,30 @@ public abstract class Screen {
 	
 	public void processMovement(KeyEvent e){
 		int code = e.getKeyCode();
-		if(keysHeld.contains(e.getKeyCode())) {
-			return;
+		if (code== KeyEvent.VK_ESCAPE) {
+			reset = true;
 		}
-		else {
-			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				reset = true;
-			}
-			else if(selected != -1){
-				if (!moveable.get(selected).move(distanceGrid, e) && moveable.get(selected).isPlaceable(distanceGrid, e)) {
-					moveable.get(selected).setSelected(false);
-					moveable.get(selected).fillDistance(distanceGrid);
-					remove = true;
-				}
-			}
-			else if(!moveable.isEmpty()){
-				if ((e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) && cursor > 0)
-					cursor--;
-				else if ((e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) && cursor < moveable.size()-1)
-					cursor++;
-				else if (e.getKeyCode() == KeyEvent.VK_ENTER && moveable.get(cursor).canSelect()) {
-					selected = cursor;
-					moveable.get(selected).setInGrid(true);
-					moveable.get(selected).spawn();
-					isSelected = true;
-				}
+		else if(selected != -1){
+			if (!moveable.get(selected).move(distanceGrid, e) && moveable.get(selected).isPlaceable(distanceGrid, e)) {
+				moveable.get(selected).setSelected(false);
+				moveable.get(selected).fillDistance(distanceGrid);
+				remove = true;
 			}
 		}
-		keysHeld.add(code);
+		else if(!moveable.isEmpty()){
+			if ((code == KeyEvent.VK_W || code == KeyEvent.VK_UP) && cursor > 0)
+				cursor--;
+			else if ((code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) && cursor < moveable.size()-1)
+				cursor++;
+			else if (code == KeyEvent.VK_ENTER && moveable.get(cursor).canSelect()) {
+				selected = cursor;
+				moveable.get(selected).setInGrid(true);
+				moveable.get(selected).spawn();
+				isSelected = true;
+			}
+		}
 	}
-	
-	public void undoHold(KeyEvent e) {
-		keysHeld.remove(e.getKeyCode());
-	}
-	
+
 	protected void fillGrid() {
 		for(Passenger pass : immoveable)
 			pass.fillDistance(distanceGrid);

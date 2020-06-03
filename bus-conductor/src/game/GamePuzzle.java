@@ -111,6 +111,5 @@ public class GamePuzzle extends Canvas implements Runnable{
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		pl.undoHold(e);
 	}
 }
