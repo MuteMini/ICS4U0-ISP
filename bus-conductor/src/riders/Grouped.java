@@ -25,6 +25,7 @@ public class Grouped extends Passenger{
 				arrPass[i].cl = this.cl;
 				arrPass[i].id = this.id;
 				arrPass[i].inGroup = true;
+				setPosition(i);
 			}
 		}
 	}
@@ -34,11 +35,14 @@ public class Grouped extends Passenger{
 		this.arrPass = arrPass;
 		this.offX = (arrPass.length >= 2 && (arrPass.length == 4 || arrPass.length != 3 || arrPass[1] != null)) ? 1 : 0;
 		this.offY = (arrPass.length >= 3) ? 1 : 0;
+		this.cl = Color.WHITE;
 		for(int i = 0; i < arrPass.length; i++) {
 			if(arrPass[i] != null) {
 				arrPass[i].cl = this.cl;
 				arrPass[i].id = this.id;
 				arrPass[i].inGroup = true;
+				arrPass[i].inGrid = true;
+				setPosition(i);
 			}
 		}
 	}
