@@ -34,7 +34,7 @@ public class PuzzleLevel {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(Loader.puzzleBackground, 0, 0, null);
+		g.drawImage(Loader.PUZZLE_BACKGROUND, 0, 0, null);
 		levels[worldPos][levelPos].render(g);
 	}
 	

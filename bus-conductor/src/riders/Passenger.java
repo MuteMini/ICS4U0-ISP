@@ -220,56 +220,64 @@ public abstract class Passenger{
 		g.fillOval(xPos, yPos, 10, 10);
 	}
 	
-	private BufferedImage readImage(int spriteID, int diff) {
+	protected BufferedImage readImage(int spriteID, int diff) {
 		if(spriteID == 1) {
-			return Loader.youngAdult;
+			return Loader.YOUNG_ADULT;
 		}
 		else if(spriteID == 2) {
-			return Loader.parent;
+			return Loader.PARENT;
 		}
 		else if(spriteID == 3) {
-			return Loader.children;
+			return Loader.CHILDREN;
 		}
 		else if(spriteID == 4) {
 			if(diff == 1)
-				return Loader.student1;
+				return Loader.STUDENT1;
 			else if(diff == 2)
-				return Loader.student2;
+				return Loader.STUDENT2;
 			else if(diff == 3)
-				return Loader.student3;
+				return Loader.STUDENT3;
 			else if(diff == 4)
-				return Loader.student4;
+				return Loader.STUDENT4;
+			else if(diff == 5)
+				return Loader.STUDENT_SIT1;
+			else if(diff == 6)
+				return Loader.STUDENT_SIT2;
+			else if(diff == 7)
+				return Loader.STUDENT_SIT3;
+			else if(diff == 8)
+				return Loader.STUDENT_SIT4;
 		}
 		else if(spriteID == 5) {
-			return Loader.elderly;
+			return Loader.ELDERLY;
 		}
 		else if(spriteID == 6) {
-			return Loader.pregnant;
+			return Loader.PREGNANT;
 		}
 		else if(spriteID == 7) {
 			if(diff == 1)
-				return Loader.disabled1;
+				return Loader.DISABLED1;
 			else if(diff == 2)
-				return Loader.disabled2;
+				return Loader.DISABLED2;
 		}
 		else if(spriteID == 8) {
-			return Loader.luggageman;
+			return Loader.LUGGAGEMAN;
 		}
 		else if(spriteID == 9) {
 			if(diff == 1)
-				return Loader.luggage1;
+				return Loader.LUGGAGE1;
 			else if(diff == 2)
-				return Loader.luggage2;
+				return Loader.LUGGAGE2;
 			else if(diff == 3)
-				return Loader.luggage3;
+				return Loader.LUGGAGE3;
 			else if(diff == 4)
-				return Loader.luggage4;
+				return Loader.LUGGAGE4;
 			else if(diff == 5)
-				return Loader.luggage5;
+				return Loader.LUGGAGE5;
 			else if(diff == 6)
-				return Loader.luggage6;
+				return Loader.LUGGAGE6;
 			else if(diff == 7)
-				return Loader.luggage7;
+				return Loader.LUGGAGE7;
 		}
 		return null;
 	}

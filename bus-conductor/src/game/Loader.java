@@ -12,30 +12,34 @@ import javax.imageio.ImageIO;
  */
 public final class Loader {
 	
-	public static final BufferedImage puzzleBackground = getPuzzleSprite(0, 0);
-	public static final BufferedImage youngAdult = getPuzzleSprite(1, 0);
-	public static final BufferedImage parent = getPuzzleSprite(2, 0);
-	public static final BufferedImage children = getPuzzleSprite(3, 0);
-	public static final BufferedImage student1 = getPuzzleSprite(4, 1);
-	public static final BufferedImage student2 = getPuzzleSprite(4, 2);
-	public static final BufferedImage student3 = getPuzzleSprite(4, 3);
-	public static final BufferedImage student4 = getPuzzleSprite(4, 4);
-	public static final BufferedImage elderly = getPuzzleSprite(5, 0);
-	public static final BufferedImage pregnant = getPuzzleSprite(6, 0);
-	public static final BufferedImage disabled1 = getPuzzleSprite(7, 1);
-	public static final BufferedImage disabled2 = getPuzzleSprite(7, 2);
-	public static final BufferedImage luggageman = getPuzzleSprite(8, 0);
-	public static final BufferedImage luggage1 = getPuzzleSprite(9, 1);
-	public static final BufferedImage luggage2 = getPuzzleSprite(9, 2);
-	public static final BufferedImage luggage3 = getPuzzleSprite(9, 3);
-	public static final BufferedImage luggage4 = getPuzzleSprite(9, 4);
-	public static final BufferedImage luggage5 = getPuzzleSprite(9, 5);
-	public static final BufferedImage luggage6 = getPuzzleSprite(9, 6);
-	public static final BufferedImage luggage7 = getPuzzleSprite(9, 7);
+	public static final BufferedImage PUZZLE_BACKGROUND = getPuzzleSprite(0, 0);
+	public static final BufferedImage YOUNG_ADULT = getPuzzleSprite(1, 0);
+	public static final BufferedImage PARENT = getPuzzleSprite(2, 0);
+	public static final BufferedImage CHILDREN = getPuzzleSprite(3, 0);
+	public static final BufferedImage STUDENT1 = getPuzzleSprite(4, 1);
+	public static final BufferedImage STUDENT2 = getPuzzleSprite(4, 2);
+	public static final BufferedImage STUDENT3 = getPuzzleSprite(4, 3);
+	public static final BufferedImage STUDENT4 = getPuzzleSprite(4, 4);
+	public static final BufferedImage STUDENT_SIT1 = getPuzzleSprite(4, 5);
+	public static final BufferedImage STUDENT_SIT2 = getPuzzleSprite(4, 6);
+	public static final BufferedImage STUDENT_SIT3 = getPuzzleSprite(4, 7);
+	public static final BufferedImage STUDENT_SIT4 = getPuzzleSprite(4, 8);
+	public static final BufferedImage ELDERLY = getPuzzleSprite(5, 0);
+	public static final BufferedImage PREGNANT = getPuzzleSprite(6, 0);
+	public static final BufferedImage DISABLED1 = getPuzzleSprite(7, 1);
+	public static final BufferedImage DISABLED2 = getPuzzleSprite(7, 2);
+	public static final BufferedImage LUGGAGEMAN = getPuzzleSprite(8, 0);
+	public static final BufferedImage LUGGAGE1 = getPuzzleSprite(9, 1);
+	public static final BufferedImage LUGGAGE2 = getPuzzleSprite(9, 2);
+	public static final BufferedImage LUGGAGE3 = getPuzzleSprite(9, 3);
+	public static final BufferedImage LUGGAGE4 = getPuzzleSprite(9, 4);
+	public static final BufferedImage LUGGAGE5 = getPuzzleSprite(9, 5);
+	public static final BufferedImage LUGGAGE6 = getPuzzleSprite(9, 6);
+	public static final BufferedImage LUGGAGE7 = getPuzzleSprite(9, 7);
 	
-	public static final Font balsamiqTitle = getFont(1).deriveFont(42f);
-	public static final Font balsamiqBody = getFont(1).deriveFont(18f);
-	public static final Font calibriBody = getFont(2);
+	public static final Font BALSAMIQ_TITLE = getFont(1).deriveFont(42f);
+	public static final Font BALSAMIQ_BODY = getFont(1).deriveFont(18f);
+	public static final Font CALIBRI_BODY = getFont(2);
 	
 	private Loader() {
 	}
@@ -62,8 +66,12 @@ public final class Loader {
 				return ImageIO.read(Loader.class.getResource("/parent.png"));
 			else if(spriteID == 3)
 				return ImageIO.read(Loader.class.getResource("/children.png"));
-			else if(spriteID == 4)
-				return ImageIO.read(Loader.class.getResource("/student"+diff+".png"));
+			else if(spriteID == 4) {
+				if(diff < 5)
+					return ImageIO.read(Loader.class.getResource("/student"+diff+".png"));
+				else
+					return ImageIO.read(Loader.class.getResource("/student_sit"+(diff-4)+".png"));
+			}
 			else if(spriteID == 5)
 				return ImageIO.read(Loader.class.getResource("/elderly.png"));
 			else if(spriteID == 6)
