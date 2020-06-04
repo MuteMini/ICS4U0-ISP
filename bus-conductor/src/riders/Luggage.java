@@ -12,6 +12,7 @@ public class Luggage extends Passenger {
 	
 	public Luggage(int orderX, int orderY, int id, int type, Color cl) {
 		super(9, type, -(id+2), orderX, orderY, cl);
+		this.seperate = true;
 		this.ableToSelect = false;
 		this.type = type;
 		this.offX = (type != 2) ? 1 : 0;

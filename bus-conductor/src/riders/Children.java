@@ -7,6 +7,7 @@ public class Children extends Passenger {
 
 	public Children(int orderX, int orderY, int id, Color cl) {
 		super(3, 0, id+1, orderX, orderY, cl);
+		this.seperate = true;
 		this.ableToSelect = false;
 	}
 	

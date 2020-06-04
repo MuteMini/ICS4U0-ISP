@@ -26,10 +26,11 @@ public abstract class Passenger{
 	protected int orderY;
 	protected double floating;
 	protected boolean inGrid;
-	protected boolean ableToSelect;
 	protected boolean selected;
-	protected boolean inGroup;
+	protected boolean seperate;
 	protected boolean placeable;
+	protected boolean ableToSelect;
+	protected boolean inGroup;
 	protected Color cl;
 	protected BufferedImage sprite;
 	
@@ -40,10 +41,11 @@ public abstract class Passenger{
 		this.orderX = orderX;
 		this.orderY = orderY;
 		this.inGrid = false;
-		this.ableToSelect = true;
 		this.selected = false;
-		this.inGroup = false;
+		this.seperate = false;
 		this.placeable = false;
+		this.ableToSelect = true;
+		this.inGroup = false;
 		this.cl = cl;
 		this.sprite = readImage(spriteID, diff);
 	}
@@ -55,10 +57,11 @@ public abstract class Passenger{
 		this.orderY = 0;
 		this.id = id;
 		this.inGrid = true;
-		this.ableToSelect = true;
 		this.selected = false;
-		this.inGroup = false;
+		this.seperate = false;
 		this.placeable = false;
+		this.ableToSelect = true;
+		this.inGroup = false;
 		this.cl = Color.WHITE;
 		this.sprite = readImage(spriteID, diff);
 	}
@@ -98,7 +101,7 @@ public abstract class Passenger{
 			highlight(g2d, xPosNew, yPosNew);
 			g2d.drawImage(sprite, xPosNew, yPosNew, null);
 		}
-		if(!inGrid || selected)
+		if((!inGrid || selected) || seperate)
 			drawTag(g2d, xPosNew, yPosNew);
 	}
 	

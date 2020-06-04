@@ -8,6 +8,7 @@ public class Parent extends Passenger{
 	
 	public Parent(int orderX, int orderY, int id, int numChild, Color cl) {
 		super(2, 0, id, orderX, orderY, cl);
+		this.seperate = true;
 		this.numChild = numChild;
 	}
 	

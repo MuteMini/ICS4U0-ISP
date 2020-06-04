@@ -6,6 +6,7 @@ public class Luggageman extends Passenger {
 
 	public Luggageman(int orderX, int orderY, int id, Color cl) {
 		super(8, 0, id, orderX, orderY, cl);
+		this.seperate = true;
 	}
 	
 	public Luggageman(int xPos, int yPos, int id) {
