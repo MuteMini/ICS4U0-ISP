@@ -1,6 +1,7 @@
 package riders;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
@@ -26,6 +27,45 @@ public class Student extends Passenger{
 		this.shiftX = (rotation == 4) ? 1 : 0;
 		this.shiftY = (rotation == 3) ? 1 : 0;
 		setRotationValue();
+	}
+	
+	@Override
+	public void render(Graphics g, Integer[][] grid) {
+		int xPosNew; 
+		int yPosNew;
+		
+		Graphics2D g2d = (Graphics2D) g;
+		
+		if(inGrid) {
+			int tempXPos = xPos+shiftX;
+			int tempYPos = yPos+shiftY;
+			if((tempXPos == 0 && tempYPos <= 6) 
+					|| ((tempXPos == 0 || tempXPos == 4) && tempYPos == 8) 
+					|| (tempXPos == 4 && tempYPos <= 5) 
+					|| (tempYPos == 10)) {
+				this.sprite = readImage(4, rotation+4);
+			}
+			else {
+				this.sprite = readImage(4, rotation);
+			}
+			
+			xPosNew = SPRITE_SIZE*xPos+OFFSET_X;
+			yPosNew = SPRITE_SIZE*yPos+OFFSET_Y;
+			if(selected) {
+				floating += (floating >= 6.28) ? -6.28 : 0.02d;
+				yPosNew += (int)(Math.sin(floating)*5);
+			}
+			highlight(g2d, xPosNew, yPosNew);
+			g2d.drawImage(sprite, xPosNew, yPosNew, null);
+		}
+		else {
+			xPosNew = SPRITE_SIZE*orderX+ORDERED_X;
+			yPosNew = SPRITE_SIZE*orderY+ORDERED_Y;
+			highlight(g2d, xPosNew, yPosNew);
+			g2d.drawImage(sprite, xPosNew, yPosNew, null);
+		}
+		if((!inGrid || selected) || seperate)
+			drawTag(g2d, xPosNew, yPosNew);
 	}
 	
 	@Override
@@ -97,6 +137,17 @@ public class Student extends Passenger{
 		}
 	}
 	
+	@Override
+	protected void drawTag(Graphics2D g, int xPos, int yPos) {
+		g.setColor(cl);
+		g.fillOval(xPos+(shiftX*32), yPos+(shiftY*32), 10, 10);
+	}
+	
+	@Override
+	protected double rotationVal(int x, int y) {
+		return 0d;
+	}
+	
 	protected void setRotationValue() {
 		this.offX = 0;
 		this.offY = 0;
@@ -109,10 +160,5 @@ public class Student extends Passenger{
 			this.offY = -1;
 		else if (rotation == 4)
 			this.offX = -1;
-	}
-	
-	@Override
-	protected double rotationVal(int x, int y) {
-		return 0d;
 	}
 }
