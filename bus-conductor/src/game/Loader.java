@@ -5,6 +5,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/**
+ * https://stackoverflow.com/questions/13604111/final-variable-assignment-with-try-catch
+ * @author Min
+ *
+ */
 public final class Loader {
 	
 	public static final BufferedImage puzzleBackground = getPuzzleSprite(0, 0);
