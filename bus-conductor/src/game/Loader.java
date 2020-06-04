@@ -34,6 +34,8 @@ public final class Loader {
 	public static final BufferedImage luggage7 = getPuzzleSprite(9, 7);
 	
 	public static final Font balsamiqTitle = getFont(1).deriveFont(42f);
+	public static final Font balsamiqBody = getFont(1).deriveFont(18f);
+	public static final Font calibriBody = getFont(2);
 	
 	private Loader() {
 	}
@@ -42,6 +44,8 @@ public final class Loader {
 		try {
 			if(fontID == 1)
 				return Font.createFont(Font.TRUETYPE_FONT, Loader.class.getResource("/BalsamiqSans-Regular.ttf").openStream());
+			if(fontID == 2)
+				return new Font("Calibri", 0, 12);
 		}
 		catch(Exception e) {
 		}
