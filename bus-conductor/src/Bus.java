@@ -4,6 +4,7 @@
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Area;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,6 +22,7 @@ public class Bus extends Entity {
 	final double MAX_TURN = 2;
 
 	public Bus() {
+		
 		super(0, 0, 64, 128);		
 		entityPoints = getOriginalPoints();
 		entityBody = createPolygon(entityPoints);
@@ -62,18 +64,21 @@ public class Bus extends Entity {
 		}
 		
 		calculateVel();
+		
 		for (int i = 0; i < 4; i++) {
 			entityPoints[i].translate((int) xVel, (int) yVel);
 		}		
+		
+		center = calculateCenter();
+		entityBody = createPolygon(entityPoints);
 	}
+	
 
 	@Override
 	public void draw(Graphics2D g2d) {
 		entityBody = createPolygon(entityPoints);
 		entityBody.translate((int) (-Game.c.getXPos() - xVel), (int) (-Game.c.getYPos() - yVel));
 
-		g2d.setColor(Color.BLUE);
-		g2d.fillRect(250 - Game.c.getXPos(), 450 - Game.c.getYPos(), 50, 50);
 		g2d.setColor(Color.RED);
 		g2d.fill(entityBody);
 
@@ -89,7 +94,11 @@ public class Bus extends Entity {
 		g2d.drawString("Right: " + turnRight, 10, 128);
 
 	}
-
+	
+	public boolean isColliding(Entity e) {
+		return this.entityBody.intersects(e.entityBody.getBounds());
+	}
+	
 	public void processMovement(KeyEvent e) {
 		int code = e.getKeyCode();
 		if (!keysHeld.contains(e.getKeyCode())) {

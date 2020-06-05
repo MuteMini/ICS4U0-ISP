@@ -68,6 +68,10 @@ public abstract class Entity {
 		}
 	}
 	
+	public Polygon getBody() {
+		return entityBody;
+	}
+	
 	public void setXVel(double x) {
 		xVel = x;
 	}
@@ -90,10 +94,6 @@ public abstract class Entity {
 
 	public Point getCenter() {
 		return center;
-	}
-
-	public boolean isColliding(Entity e) {
-		return entityBody.intersects(e.entityBody.getBounds2D());
 	}
 
 	public void setColor(Color c) {

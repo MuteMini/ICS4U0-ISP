@@ -3,6 +3,8 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -22,6 +24,7 @@ import javax.imageio.ImageIO;
  */
 
 public class Game extends Canvas implements Runnable, MouseListener {
+	
 	int displayFrames;
 	int mouseX;
 	int mouseY;
@@ -35,6 +38,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 	public BufferedImage map;
 	public ArrayList<Entity> entities;
 	private int secondCount;
+	Level level1;
 
 	public synchronized void start() {
 		if (!running) {
@@ -87,7 +91,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 			if (System.currentTimeMillis() - timer > 1000) {
 				displayFrames = frames;
 				timer += 1000;
-				System.out.println("Updates: " + updates + "\nFrames: " + frames);
+				//System.out.println("Updates: " + updates + "\nFrames: " + frames);
 				updates = 0;
 				frames = 0;
 				secondCount++;
@@ -103,7 +107,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
 
-		if (secondCount % 2 == 0) {
+		if (secondCount == 2) {
 			if (Math.random() >= 0.5) {
 				entities.add(new Car(-1235, -9000, 0d, 5d));
 			} else {
@@ -120,6 +124,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i).center.distance(b.center) <= 120) {
+				
 				entities.get(i).setColor(Color.green);
 				if (b.isColliding(entities.get(i))) {
 					entities.get(i).setColor(Color.red);
@@ -143,6 +148,12 @@ public class Game extends Canvas implements Runnable, MouseListener {
 				entities.remove(i);
 			}
 		}
+		
+		for (Rectangle r : level1.getBoundary()) {
+			if (b.getBody().intersects(r)) {
+				System.out.println(true);
+			}
+		}
 	}
 
 	private void render() {
@@ -156,9 +167,9 @@ public class Game extends Canvas implements Runnable, MouseListener {
 			s.render(g2d);
 		} else {
 			g2d.setColor(Color.WHITE);
-			g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+			g2d.fillRect(0, 0, WIDTH, HEIGHT);
 
-			g2d.drawImage(map, -1945 - c.getXPos(), -8920 - c.getYPos(), null);
+			level1.render(g2d);
 
 			g2d.setColor(Color.BLUE);
 			g2d.fillRect(250 - c.getXPos(), 450 - c.getYPos(), 50, 50);
@@ -207,10 +218,12 @@ public class Game extends Canvas implements Runnable, MouseListener {
 		entities = new ArrayList<Entity>();
 		b = new Bus();
 		s = new SplashScreen();
+		level1 = new Level(-1945, -8920, "/route-1.png");
 		setSize(WIDTH, HEIGHT);
 		setBackground(Color.BLACK);
 		addKeyListener(new Input(this));
 		addMouseListener(this);
+		
 
 		try {
 			URL mapLink = Game.class.getResource("/route-1.png");
@@ -221,26 +234,19 @@ public class Game extends Canvas implements Runnable, MouseListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
-
-	@Override
 	public void mousePressed(MouseEvent e) {
+		System.out.println((b.getCenter().x + e.getX() - WIDTH/2) + ", " + (b.getCenter().y + e.getY() - HEIGHT/2));
 	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseExited(MouseEvent e) {}
 }
