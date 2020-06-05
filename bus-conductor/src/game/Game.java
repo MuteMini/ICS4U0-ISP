@@ -1,3 +1,4 @@
+package game;
 
 
 import java.awt.Canvas;
@@ -14,6 +15,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+
+import drive.Bus;
+import drive.Car;
+import drive.Entity;
+import drive.Level;
 
 
 /**
@@ -126,7 +132,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
 
-			if (entities.get(i).center.distance(b.center) <= 120) {
+			if (entities.get(i).getCenter().distance(b.getCenter()) <= 120) {
 
 				entities.get(i).setColor(Color.green);
 				if (b.isColliding(entities.get(i))) {

@@ -112,7 +112,7 @@ public class GamePuzzle extends Canvas implements Runnable{
 	
 	public GamePuzzle() {
 		setSize(WIDTH, HEIGHT);
-		addKeyListener(new Input(this));
+		addKeyListener(new InputPuzzle(this));
 		pl = new PuzzleLevel();
 	}
 	

@@ -1,10 +1,9 @@
 package game;
-
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class Main {
 	public static void main(String[] args) {
-		GamePuzzle g = new GamePuzzle();
+		Game g = new Game();
 		JFrame frame = new JFrame("Puzzle Screen");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(g);

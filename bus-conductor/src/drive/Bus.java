@@ -1,3 +1,4 @@
+package drive;
 
 
 import java.awt.Color;
@@ -12,6 +13,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
+
+import game.Game;
 
 
 /**
@@ -37,7 +40,7 @@ public class Bus extends Entity {
 		keysHeld = new TreeSet<Integer>();
 		setAtWall(false);
 		try {
-			URL mapLink = Game.class.getResource("/bus.png");
+			URL mapLink = Bus.class.getResource("/bus.png");
 			bus = ImageIO.read(mapLink);
 		} catch (IOException e) {
 			System.out.println("Image not loaded");

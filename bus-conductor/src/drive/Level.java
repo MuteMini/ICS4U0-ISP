@@ -1,3 +1,4 @@
+package drive;
 
 
 import java.awt.Color;
@@ -10,6 +11,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import game.Game;
 
 
 public class Level {

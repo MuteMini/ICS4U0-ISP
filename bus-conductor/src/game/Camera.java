@@ -1,6 +1,4 @@
-
-
-
+package game;
 public class Camera {
 	private int xPos;
 	private int yPos;

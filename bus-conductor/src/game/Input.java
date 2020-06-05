@@ -1,15 +1,16 @@
 package game;
 
 
+
 import java.awt.event.*;
 
 public class Input extends KeyAdapter{
-	GamePuzzle game;
+	Game game;
 	
-	public Input(GamePuzzle g) {
+	public Input(Game g) {
 		game = g; 
 	}
-	
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		game.keyPressed(e);
