@@ -27,7 +27,7 @@ public abstract class Entity {
 		angle = 0;
 		xVel = 0;
 		yVel = 0;
-		angleVel = 0;
+		setAngleVel(0);
 		buildUp = 0;
 		entityPoints = new Point[4];
 		c = Color.blue;
@@ -109,4 +109,18 @@ public abstract class Entity {
 	public abstract void update();
 	
 	public abstract void calculateVel();
+
+	/**
+	 * @return the angleVel
+	 */
+	public double getAngleVel() {
+		return angleVel;
+	}
+
+	/**
+	 * @param angleVel the angleVel to set
+	 */
+	public void setAngleVel(double angleVel) {
+		this.angleVel = angleVel;
+	}
 }

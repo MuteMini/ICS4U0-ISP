@@ -34,6 +34,7 @@ public class Car extends Entity {
 		for (int i = 0; i < 4; i++) {
 			entityPoints[i].translate((int) xVel, (int) yVel);
 		}
+		entityBody = createPolygon(entityPoints);
 	}
 	
 	@Override

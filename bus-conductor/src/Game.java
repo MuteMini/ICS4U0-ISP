@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
+
 /**
  * Draws everything that needs drawing. Maintains objects displayed on the
  * screen.
@@ -24,7 +25,7 @@ import javax.imageio.ImageIO;
  */
 
 public class Game extends Canvas implements Runnable, MouseListener {
-	
+	public static boolean debug;
 	int displayFrames;
 	int mouseX;
 	int mouseY;
@@ -91,7 +92,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 			if (System.currentTimeMillis() - timer > 1000) {
 				displayFrames = frames;
 				timer += 1000;
-				//System.out.println("Updates: " + updates + "\nFrames: " + frames);
+				// System.out.println("Updates: " + updates + "\nFrames: " + frames);
 				updates = 0;
 				frames = 0;
 				secondCount++;
@@ -107,7 +108,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
 
-		if (secondCount == 2) {
+		if (secondCount == 3) {
 			if (Math.random() >= 0.5) {
 				entities.add(new Car(-1235, -9000, 0d, 5d));
 			} else {
@@ -123,16 +124,16 @@ public class Game extends Canvas implements Runnable, MouseListener {
 		}
 
 		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).update();
+
 			if (entities.get(i).center.distance(b.center) <= 120) {
-				
+
 				entities.get(i).setColor(Color.green);
 				if (b.isColliding(entities.get(i))) {
 					entities.get(i).setColor(Color.red);
 					((Car) entities.get(i)).setCrashed(true);
-					double tempXVel = (b.getXVel() < 2) ? b.getXVel() * 2 : 0;
-					double tempYVel = (b.getXVel() < 2) ? b.getYVel() * 2 : 0;
-					entities.get(i).setXVel(tempXVel);
-					entities.get(i).setYVel(tempYVel);
+					entities.get(i).setXVel(b.getXVel() * 2);
+					entities.get(i).setYVel(b.getYVel() * 2);
 				}
 			} else {
 				if (!entities.get(i).getColor().equals(Color.blue)) {
@@ -140,18 +141,20 @@ public class Game extends Canvas implements Runnable, MouseListener {
 				}
 			}
 
-			entities.get(i).update();
-
 			if ((entities.get(i).getCenter().y >= 800 && entities.get(i).getYVel() > 0)
 					|| (entities.get(i).getCenter().y <= -9000 && entities.get(i).getYVel() < 0)
 					|| (entities.get(i).getCenter().x >= 225) || (entities.get(i).getCenter().x <= -2000)) {
 				entities.remove(i);
 			}
 		}
-		
-		for (Rectangle r : level1.getBoundary()) {
-			if (b.getBody().intersects(r)) {
-				System.out.println(true);
+
+		for (int i = 0; i < level1.getBoundary().size(); i++) {
+			if (b.getBody().intersects(level1.getBoundary().get(i))) {
+				b.setAtWall(true);
+				break;
+			}
+			if (i == level1.getBoundary().size() - 1) {
+				b.setAtWall(false);
 			}
 		}
 	}
@@ -185,19 +188,21 @@ public class Game extends Canvas implements Runnable, MouseListener {
 						g2d.setColor(Color.red);
 					else
 						g2d.setColor(Color.green);
-
-					g2d.drawLine(b.getCenter().x - Game.c.getXPos(), b.getCenter().y - Game.c.getYPos(),
-							e.getCenter().x - Game.c.getXPos(), e.getCenter().y - Game.c.getYPos());
+					if (Game.debug)
+						g2d.drawLine(b.getCenter().x - Game.c.getXPos(), b.getCenter().y - Game.c.getYPos(),
+								e.getCenter().x - Game.c.getXPos(), e.getCenter().y - Game.c.getYPos());
 					e.draw(g2d);
 					drawnEntities++;
 				}
 
 			}
-			g2d.setColor(Color.black);
-			g2d.drawString("Frames: " + displayFrames, 10, 68);
-			g2d.drawString("Entity Count: " + entities.size(), 10, 140);
-			g2d.drawString("Entities drawn: " + drawnEntities, 10, 152);
-			g2d.drawString("Entities crashed: " + crashedEntities, 10, 164);
+			if (Game.debug) {
+				g2d.setColor(Color.black);
+				g2d.drawString("Frames: " + displayFrames, 10, 68);
+				g2d.drawString("Entity Count: " + entities.size(), 10, 140);
+				g2d.drawString("Entities drawn: " + drawnEntities, 10, 152);
+				g2d.drawString("Entities crashed: " + crashedEntities, 10, 164);
+			}
 		}
 		g2d.dispose();
 		bs.show();
@@ -205,6 +210,9 @@ public class Game extends Canvas implements Runnable, MouseListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+			debug = !debug;
+		}
 		b.processMovement(e);
 	}
 
@@ -223,7 +231,6 @@ public class Game extends Canvas implements Runnable, MouseListener {
 		setBackground(Color.BLACK);
 		addKeyListener(new Input(this));
 		addMouseListener(this);
-		
 
 		try {
 			URL mapLink = Game.class.getResource("/route-1.png");
@@ -235,18 +242,22 @@ public class Game extends Canvas implements Runnable, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println((b.getCenter().x + e.getX() - WIDTH/2) + ", " + (b.getCenter().y + e.getY() - HEIGHT/2));
+		System.out.println((b.getCenter().x + e.getX() - WIDTH / 2) + ", " + (b.getCenter().y + e.getY() - HEIGHT / 2));
 	}
-	
-	@Override
-	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {
+	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
 }
