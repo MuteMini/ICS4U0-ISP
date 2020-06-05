@@ -32,5 +32,4 @@ public class SplashScreen {
 	public boolean isLoadingDone() {
 		return loadingDone;
 	}
-
 }

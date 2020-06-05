@@ -96,7 +96,12 @@ public final class Loader {
 	private static BufferedImage getBusSprite(int spriteID, int diff){
 		try {	
 			if(spriteID == 0)
-				return ImageIO.read(Loader.class.getResource("/splashscreen"+diff+".png"));
+				return ImageIO.read(Loader.class.getResource("/bus.png"));
+			else if(spriteID == 1) {
+				if(diff == 8)
+					return ImageIO.read(Loader.class.getResource("/carthanos.png"));
+				return ImageIO.read(Loader.class.getResource("/car"+diff+".png"));
+			}
 		} catch (IOException e) {
 		}
 		return null;
@@ -105,12 +110,7 @@ public final class Loader {
 	private static BufferedImage getGeneralSprite(int spriteID, int diff){
 		try {	
 			if(spriteID == 0)
-				return ImageIO.read(Loader.class.getResource("/bus.png"));
-			else if(spriteID == 1) {
-				if(diff == 8)
-					return ImageIO.read(Loader.class.getResource("/carthanos.png"));
-				return ImageIO.read(Loader.class.getResource("/car"+diff+".png"));
-			}
+				return ImageIO.read(Loader.class.getResource("/splashscreen"+diff+".png"));
 		} catch (IOException e) {
 		}
 		return null;
