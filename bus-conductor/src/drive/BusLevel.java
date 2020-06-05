@@ -16,7 +16,6 @@ public class BusLevel {
 	
 	public static boolean debug;
 	public static Camera c;
-	private BufferedImage map;
 	private ArrayList<Entity> entities;
 	private int entityDelay;
 	private Bus b;
@@ -27,13 +26,6 @@ public class BusLevel {
 		entities = new ArrayList<Entity>();
 		b = new Bus();
 		level1 = new Level(-1945, -8920, "/route-1.png");
-
-		try {
-			URL mapLink = Game.class.getResource("/route-1.png");
-			map = ImageIO.read(mapLink);
-		} catch (IOException e) {
-			System.out.println("Image not loaded");
-		}
 	}
 	
 	public void update() {

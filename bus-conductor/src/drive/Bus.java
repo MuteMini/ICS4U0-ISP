@@ -14,6 +14,7 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 
 import game.Game;
+import game.Loader;
 
 
 /**
@@ -22,7 +23,6 @@ import game.Game;
  */
 public class Bus extends Entity {
 	private Set<Integer> keysHeld;
-	BufferedImage bus;
 	private boolean forward;
 	private boolean backward;
 	private boolean turnLeft;
@@ -38,12 +38,6 @@ public class Bus extends Entity {
 		center = calculateCenter();
 		keysHeld = new TreeSet<Integer>();
 		setAtWall(false);
-		try {
-			URL mapLink = Bus.class.getResource("/bus.png");
-			bus = ImageIO.read(mapLink);
-		} catch (IOException e) {
-			System.out.println("Image not loaded");
-		}
 	}
 
 	@Override
@@ -101,7 +95,7 @@ public class Bus extends Entity {
 		AffineTransform temp = g2d.getTransform();
 		
 		g2d.rotate(Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
-		g2d.drawImage(bus,(int)(center.x - BusLevel.c.getXPos() - WIDTH/2  - xVel), (int)(center.y - BusLevel.c.getYPos() - HEIGHT/2 - yVel), null);
+		g2d.drawImage(Loader.BUS_SPRITE,(int)(center.x - BusLevel.c.getXPos() - WIDTH/2  - xVel), (int)(center.y - BusLevel.c.getYPos() - HEIGHT/2 - yVel), null);
 		g2d.setTransform(temp);
 		if (BusLevel.debug) {
 			g2d.setColor(Color.RED);
