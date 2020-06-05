@@ -2,6 +2,11 @@ package game;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
 
 import puzzles.PuzzleLevel;
 
@@ -73,10 +78,12 @@ public class GamePuzzle extends Canvas implements Runnable{
 			}
 			
 			if (System.currentTimeMillis() - timer > 1000) {
+				displayFrames = frames;
 				timer += 1000;
-				System.out.println("Updates: " + updates + "\nFrames: " + frames);
+				// System.out.println("Updates: " + updates + "\nFrames: " + frames);
 				updates = 0;
 				frames = 0;
+				secondCount++;
 			}
 		}
 		stop();
@@ -98,6 +105,14 @@ public class GamePuzzle extends Canvas implements Runnable{
         pl.render(g2d);
         g2d.dispose();
 		bs.show();
+
+	}
+
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+			debug = !debug;
+		}
+		b.processMovement(e);
 	}
 	
 	public GamePuzzle() {

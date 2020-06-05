@@ -1,4 +1,5 @@
 package game;
+
 import javax.swing.*;
 
 public class Main {
@@ -14,4 +15,3 @@ public class Main {
 		g.start();
 	}
 }
-
