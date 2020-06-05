@@ -20,6 +20,8 @@ import puzzles.PuzzleLevel;
 
 @SuppressWarnings("serial")
 public class GamePuzzle extends Canvas implements Runnable{
+	int displayFrames;
+	int secondCount;
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 640;
 	private boolean running = false;
@@ -106,13 +108,6 @@ public class GamePuzzle extends Canvas implements Runnable{
         g2d.dispose();
 		bs.show();
 
-	}
-
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-			debug = !debug;
-		}
-		b.processMovement(e);
 	}
 	
 	public GamePuzzle() {
