@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import game.GamePuzzle;
+import game.Game;
 
 public class LevelOneTwo extends Screen {
 
@@ -80,13 +80,13 @@ public class LevelOneTwo extends Screen {
 		
 		g2d.setColor(new Color(0,0,0,160));
 		if(contour) {
-			g2d.fillRect(0, 0, GamePuzzle.WIDTH, contourY);
+			g2d.fillRect(0, 0, Game.WIDTH, contourY);
 			g2d.fillRect(0, contourY, contourX, contourH);
-			g2d.fillRect(contourX+contourW, contourY, GamePuzzle.WIDTH-(contourX+contourW), contourH);
-			g2d.fillRect(0, contourY+contourH, GamePuzzle.WIDTH, GamePuzzle.HEIGHT-(contourY+contourH));
+			g2d.fillRect(contourX+contourW, contourY, Game.WIDTH-(contourX+contourW), contourH);
+			g2d.fillRect(0, contourY+contourH, Game.WIDTH, Game.HEIGHT-(contourY+contourH));
 		}
 		else {
-			g2d.fillRect(0, 0, GamePuzzle.WIDTH, GamePuzzle.HEIGHT);
+			g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		}
 		showBox(g2d, boxX, boxY, boxW, boxH, tutText.split("\n"));
 	}

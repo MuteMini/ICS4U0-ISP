@@ -39,7 +39,7 @@ public class PuzzleLevel {
 		levels[worldPos][levelPos].render(g);
 	}
 	
-	public void processMovement(KeyEvent e) {
+	public void keyPressed(KeyEvent e) {
 		int levelNum = (worldPos == 0) ? FIRST_LEVEL_NUM : SECOND_LEVEL_NUM;
 		//testing
 		if(levelPos > 0 && e.getKeyCode() == KeyEvent.VK_MINUS) {

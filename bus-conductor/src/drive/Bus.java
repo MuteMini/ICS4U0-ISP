@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -98,18 +97,18 @@ public class Bus extends Entity {
 	@Override
 	public void draw(Graphics2D g2d) {
 		entityBody = createPolygon(entityPoints);
-		entityBody.translate((int) (-Game.c.getXPos() - xVel), (int) (-Game.c.getYPos() - yVel));
+		entityBody.translate((int) (-BusLevel.c.getXPos() - xVel), (int) (-BusLevel.c.getYPos() - yVel));
 		AffineTransform temp = g2d.getTransform();
 		
 		g2d.rotate(Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
-		g2d.drawImage(bus,(int)(center.x - Game.c.getXPos() - WIDTH/2  - xVel), (int)(center.y - Game.c.getYPos() - HEIGHT/2 - yVel), null);
+		g2d.drawImage(bus,(int)(center.x - BusLevel.c.getXPos() - WIDTH/2  - xVel), (int)(center.y - BusLevel.c.getYPos() - HEIGHT/2 - yVel), null);
 		g2d.setTransform(temp);
-		if (Game.debug) {
+		if (BusLevel.debug) {
 			g2d.setColor(Color.RED);
 			g2d.fill(entityBody);
 		}
 
-		if (Game.debug) {
+		if (BusLevel.debug) {
 			g2d.setColor(Color.black);
 			g2d.drawString("xPosition, yPosition: " + center.x + ", " + center.y, 10, 20);
 			g2d.drawString("xVelocity, yVelocity: " + xVel + ", " + yVel, 10, 32);

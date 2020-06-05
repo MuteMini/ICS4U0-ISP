@@ -17,7 +17,7 @@ public class SplashScreen {
 
 	public SplashScreen() {
 		alpha = 0;
-		loadingDone = true;
+		loadingDone = false;
 		try {
 			URL splashScreenLink = SplashScreen.class.getResource("/SplashScreen.png");
 			logo = ImageIO.read(splashScreenLink);
@@ -29,7 +29,6 @@ public class SplashScreen {
 		alpha+=0.005;
 		if (alpha > 1)
 			loadingDone = true;
-		
 	}
 
 	public void render(Graphics2D g2d) {

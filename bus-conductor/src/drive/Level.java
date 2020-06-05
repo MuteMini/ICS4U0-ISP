@@ -44,14 +44,14 @@ public class Level {
 	}
 
 	public void render(Graphics2D g2d) {
-		g2d.drawImage(map, startPos.x - Game.c.getXPos(), startPos.y - Game.c.getYPos(), null);
+		g2d.drawImage(map, startPos.x - BusLevel.c.getXPos(), startPos.y - BusLevel.c.getYPos(), null);
 		g2d.setColor(Color.black);
-		if (Game.debug) {
+		if (BusLevel.debug) {
 			for (Rectangle r : boundary) {
-				r.translate(Game.c.getXPos() * -1, Game.c.getYPos() * -1);
+				r.translate(BusLevel.c.getXPos() * -1, BusLevel.c.getYPos() * -1);
 				g2d.setColor(Color.darkGray);
 				g2d.fill(r);
-				r.translate(Game.c.getXPos(), Game.c.getYPos());
+				r.translate(BusLevel.c.getXPos(), BusLevel.c.getYPos());
 			}
 
 		}

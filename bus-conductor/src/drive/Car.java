@@ -1,11 +1,7 @@
 package drive;
 
-
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-
-import game.Game;
 
 public class Car extends Entity {
 	
@@ -24,7 +20,7 @@ public class Car extends Entity {
 	@Override
 	public void draw(Graphics2D g2d) {
 		entityBody = createPolygon(entityPoints);
-		entityBody.translate((int) (-Game.c.getXPos()), (int) (-Game.c.getYPos()));
+		entityBody.translate((int) (-BusLevel.c.getXPos()), (int) (-BusLevel.c.getYPos()));
 		g2d.setColor(c);
 		g2d.fill(entityBody);
 
