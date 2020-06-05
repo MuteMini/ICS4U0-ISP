@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
+import drive.world.WorldOne;
 import game.Camera;
 import game.Game;
 
@@ -19,13 +20,13 @@ public class BusLevel {
 	private ArrayList<Entity> entities;
 	private int entityDelay;
 	private Bus b;
-	private Level level1;
+	private World currentWorld;
 	
 	public BusLevel() {
 		c = new Camera();
 		entities = new ArrayList<Entity>();
 		b = new Bus();
-		level1 = new Level(-1945, -8920, "/route-1.png");
+		currentWorld = new WorldOne();
 	}
 	
 	public void update() {
@@ -73,12 +74,12 @@ public class BusLevel {
 			}
 		}
 
-		for (int i = 0; i < level1.getBoundary().size(); i++) {
-			if (b.getBody().intersects(level1.getBoundary().get(i))) {
+		for (int i = 0; i < currentWorld.getBoundary().size(); i++) {
+			if (b.getBody().intersects(currentWorld.getBoundary().get(i))) {
 				b.setAtWall(true);
 				break;
 			}
-			if (i == level1.getBoundary().size() - 1) {
+			if (i == currentWorld.getBoundary().size() - 1) {
 				b.setAtWall(false);
 			}
 		}
@@ -88,7 +89,7 @@ public class BusLevel {
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
-		level1.render(g2d);
+		currentWorld.render(g2d);
 
 		g2d.setColor(Color.BLUE);
 		g2d.fillRect(250 - c.getXPos(), 450 - c.getYPos(), 50, 50);
