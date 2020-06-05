@@ -84,7 +84,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 			long tTime = System.nanoTime() - cTime;
 			if (tTime < ns) {
 				try {
-					Thread.sleep(((long) ns - tTime) / 1200000);
+					Thread.sleep(((long) ns - tTime) / 1000000);
 				} catch (InterruptedException e) {
 				}
 			}
