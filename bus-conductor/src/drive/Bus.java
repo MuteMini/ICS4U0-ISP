@@ -73,7 +73,7 @@ public class Bus extends Entity {
 		if (isAtWall()) {
 			calculateVel();
 			for (int i = 0; i < 4; i++) {
-				entityPoints[i].translate((int) -xVel / 2, (int) -yVel / 2);
+			//	entityPoints[i].translate((int) -xVel / 2, (int) -yVel / 2);
 			}
 			xVel = 0;
 			yVel = 0;
