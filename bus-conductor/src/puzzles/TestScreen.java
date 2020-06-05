@@ -13,11 +13,12 @@ public class TestScreen extends Screen{
 	@Override
 	public void resetGrid() {
 		super.resetGrid();
+		moveable.add(new Student(3, 4, 3, Color.CYAN));
 		
-		moveable.add(new Luggageman(0, 0, 2, Color.PINK));
+		/*moveable.add(new Luggageman(0, 0, 2, Color.PINK));
 		moveable.add(new Luggage(2, 0, 2, 2, Color.PINK));
 		moveable.add(new Luggageman(0, 2, 3, Color.PINK));
-		moveable.add(new Luggage(2, 2, 3, 7, Color.PINK));
+		moveable.add(new Luggage(2, 2, 3, 7, Color.PINK));*/
 		
 		/*Passenger[] g1 = { new Student(0,0,1,null), new YoungAdult(0,0,null)};
 		Passenger[] g2 = { new Student(0,0,3,null), null, null, new YoungAdult(0,0,null)};

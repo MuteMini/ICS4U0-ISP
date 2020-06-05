@@ -10,6 +10,7 @@ public class Main {
 		frame.pack();
 		frame.setVisible(true);
 		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
 		g.start();
 	}
 }
