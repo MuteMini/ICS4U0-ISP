@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import game.Game;
+import game.Loader;
 
 
 public abstract class World {
@@ -20,15 +21,10 @@ public abstract class World {
 	protected BufferedImage map;
 	protected ArrayList<Rectangle> boundary;
 
-	public World(int x, int y, String filePath) {
-		startPos = new Point(x, y);
-		boundary = new ArrayList<Rectangle>();
-		try {
-			URL mapLink = Game.class.getResource(filePath);
-			map = ImageIO.read(mapLink);
-		} catch (IOException e) {
-			System.out.println("Image not loaded");
-		}
+	public World(int x, int y, int imageID) {
+		this.startPos = new Point(x, y);
+		this.boundary = new ArrayList<Rectangle>();
+		this.map = getImage(imageID);
 	}
 
 	public void render(Graphics2D g2d) {
@@ -42,7 +38,6 @@ public abstract class World {
 				g2d.fill(r);
 				r.translate(BusLevel.c.getXPos(), BusLevel.c.getYPos());
 			}
-
 		}
 	}
 
@@ -52,5 +47,12 @@ public abstract class World {
 
 	public ArrayList<Rectangle> getBoundary() {
 		return boundary;
+	}
+	
+	private BufferedImage getImage(int imageID) {
+		if(imageID == 1) {
+			return Loader.WORLD1;
+		}
+		return null;
 	}
 }

@@ -118,6 +118,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 			return;
 		}
 		Graphics2D g2d = (Graphics2D) bs.getDrawGraphics();
+		
 		if (!s.isLoadingDone()) {
 			s.render(g2d);
 		} else {
@@ -127,6 +128,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 				pl.render(g2d);
 			}
 		}
+		
 		g2d.dispose();
 		bs.show();
 	}

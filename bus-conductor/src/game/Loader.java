@@ -46,8 +46,8 @@ public final class Loader {
 	public static final BufferedImage CAR_SPRITE6 = getBusSprite(1, 6);
 	public static final BufferedImage CAR_SPRITE7 = getBusSprite(1, 7);
 	public static final BufferedImage CAR_SPRITE8 = getBusSprite(1, 8);
-	public static final BufferedImage TUT_WORLD = getBusSprite(2, 1);
-	public static final BufferedImage WORLD1 = getBusSprite(2, 2);
+	//public static final BufferedImage TUT_WORLD = getBusSprite(2, 0);
+	public static final BufferedImage WORLD1 = getBusSprite(2, 1);
 	
 	public static final BufferedImage SPLASH1 = getGeneralSprite(0, 1);
 	
@@ -101,6 +101,9 @@ public final class Loader {
 				if(diff == 8)
 					return ImageIO.read(Loader.class.getResource("/carthanos.png"));
 				return ImageIO.read(Loader.class.getResource("/car"+diff+".png"));
+			}
+			else if(spriteID == 2) {
+				return ImageIO.read(Loader.class.getResource("/route-"+diff+".png"));
 			}
 		} catch (IOException e) {
 		}

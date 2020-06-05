@@ -6,7 +6,7 @@ import drive.World;
 public class WorldOne extends World{
 
 	public WorldOne() {
-		super(-1945, -8920, "/route-2.png");
+		super(-1945, -8920, 1);
 		boundary.add(new Rectangle(75, -1845, 50, 2015));
 		boundary.add(new Rectangle(-570, -1830, 650, 50));
 		boundary.add(new Rectangle(-570, -8645, 50, 6815));
