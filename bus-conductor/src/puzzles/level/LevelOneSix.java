@@ -3,12 +3,85 @@ package puzzles.level;
 import puzzles.Screen;
 import riders.*;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import game.GamePuzzle;
 
 public class LevelOneSix  extends Screen{
 	
 	public LevelOneSix() {
 		super();
-		resetGrid();
+		this.hasTutorial = true;
+	}
+	
+	@Override
+	public void showTutorial(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		
+		int boxX = 0, boxY = 0, boxW = 0, boxH = 0;
+		int contourX = 32, contourY = 32, contourW = 32, contourH = 32;
+		boolean contour = false;
+		String tutText = "";
+		
+		switch(tutorialPage) {
+			case 0:
+				boxX = 200;
+				boxY = 290;
+				boxW = 420;
+				boxH = 60;
+				tutText = "Huh, seems like they're KIND OF keeping distancing...";
+				break;
+			case 1:
+				boxX = 90;
+				boxY = 180;
+				boxW = 350;
+				boxH = 70;
+				tutText = "These groups are identified by their tag.\nThey cannot change their shape.";
+				contour = true;
+				contourX *= 14;
+				contourY *= 4;
+				contourW *= 3;
+				contourH *= 4;
+				g2d.setColor(new Color(255,0,0,140));
+				g2d.fillRect(contourX, contourY+32, contourW, 64);
+				g2d.fillRect(contourX+32, contourY, 32, 32);
+				g2d.fillRect(contourX+32, contourY+contourH-32, 32, 32);
+				break;
+			case 2:
+				boxX = 225;
+				boxY = 280;
+				boxW = 350;
+				boxH = 70;
+				tutText = "Although not recommended, there are times\nwhen people HAVE to travel together.";
+				break;
+			case 3:
+				boxX = 140;
+				boxY = 300;
+				boxW = 330;
+				boxH = 70;
+				tutText = "Whoa, this guy has a big luggage,\nI wonder what's up with him!";
+				contour = true;
+				contourX *= 8;
+				contourY *= 12;
+				contourW *= 2;
+				contourH *= 2;
+				break;
+			default:
+				hasTutorial = false;
+		}
+		
+		g2d.setColor(new Color(0,0,0,160));
+		if(contour) {
+			g2d.fillRect(0, 0, GamePuzzle.WIDTH, contourY);
+			g2d.fillRect(0, contourY, contourX, contourH);
+			g2d.fillRect(contourX+contourW, contourY, GamePuzzle.WIDTH-(contourX+contourW), contourH);
+			g2d.fillRect(0, contourY+contourH, GamePuzzle.WIDTH, GamePuzzle.HEIGHT-(contourY+contourH));
+		}
+		else {
+			g2d.fillRect(0, 0, GamePuzzle.WIDTH, GamePuzzle.HEIGHT);
+		}
+		showBox(g2d, boxX, boxY, boxW, boxH, tutText.split("\n"));
 	}
 	
 	@Override

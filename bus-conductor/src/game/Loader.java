@@ -38,8 +38,8 @@ public final class Loader {
 	public static final BufferedImage LUGGAGE7 = getPuzzleSprite(9, 7);
 	
 	public static final Font BALSAMIQ_TITLE = getFont(1).deriveFont(42f);
-	public static final Font BALSAMIQ_BODY = getFont(1).deriveFont(18f);
-	public static final Font CALIBRI_BODY = getFont(2);
+	public static final Font CALIBRI_BODY1 = getFont(2);
+	public static final Font CALIBRI_BODY2 = getFont(3);
 	
 	private Loader() {
 	}
@@ -49,6 +49,8 @@ public final class Loader {
 			if(fontID == 1)
 				return Font.createFont(Font.TRUETYPE_FONT, Loader.class.getResource("/BalsamiqSans-Regular.ttf").openStream());
 			if(fontID == 2)
+				return new Font("Calibri", 1, 18);
+			if(fontID == 3)
 				return new Font("Calibri", 0, 12);
 		}
 		catch(Exception e) {

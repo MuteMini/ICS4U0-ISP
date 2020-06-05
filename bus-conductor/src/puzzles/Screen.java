@@ -3,20 +3,27 @@ package puzzles;
 import game.Loader;
 import riders.*;
 import java.util.*;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 
 public abstract class Screen {
+	protected final int PADDING = 10;
+	protected final int ASCENT = 17;
 	protected ArrayList<Passenger> moveable;
 	protected ArrayList<Passenger> placed;
 	protected ArrayList<Passenger> immoveable;
 	protected int cursor;
 	protected int selected;
+	protected int tutorialPage;
 	protected boolean reset;
 	protected boolean isSelected;
 	protected boolean remove;
 	protected boolean winState;
+	protected boolean hasTutorial;
 	protected Integer[][] distanceGrid;
 	private int animateCount;
 	private double powerCount;
@@ -25,6 +32,29 @@ public abstract class Screen {
 		resetGrid();
 	}
 	
+	public void showTutorial(Graphics g) {}
+	
+	public void resetGrid() {
+		this.moveable = new ArrayList<Passenger>();
+		this.immoveable = new ArrayList<Passenger>();
+		this.placed = new ArrayList<Passenger>();
+		this.cursor = 0;
+		this.selected = -1;
+		this.tutorialPage = 0;
+		this.animateCount = 0;
+		this.powerCount = 0;
+		this.reset = false;
+		this.isSelected = false;
+		this.remove = false;
+		this.winState = false;
+		this.distanceGrid = new Integer[5][11];
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 11; j++) {
+				distanceGrid[i][j] = 0;
+			}
+		}
+	}
+
 	public void render(Graphics g) {
 		for(Passenger pass : immoveable)
 			pass.render(g, distanceGrid);
@@ -34,6 +64,9 @@ public abstract class Screen {
 			pass.render(g, distanceGrid);
 		if(winState) {
 			winAnimation(g);
+		}
+		if(hasTutorial) {
+			showTutorial(g);
 		}
 	}
 	
@@ -70,26 +103,6 @@ public abstract class Screen {
 		System.out.println();*/
 	}
 
-	public void resetGrid() {
-		this.moveable = new ArrayList<Passenger>();
-		this.immoveable = new ArrayList<Passenger>();
-		this.placed = new ArrayList<Passenger>();
-		this.cursor = 0;
-		this.selected = -1;
-		this.animateCount = 0;
-		this.powerCount = 0;
-		this.reset = false;
-		this.isSelected = false;
-		this.remove = false;
-		this.winState = false;
-		this.distanceGrid = new Integer[5][11];
-		for(int i = 0; i < 5; i++) {
-			for(int j = 0; j < 11; j++) {
-				distanceGrid[i][j] = 0;
-			}
-		}
-	}
-	
 	public boolean checkSolution() {
 		for(Passenger pass : immoveable) {
 			if(!pass.isCorrect(distanceGrid)) {
@@ -117,7 +130,7 @@ public abstract class Screen {
 				remove = true;
 			}
 		}
-		else if(!moveable.isEmpty()){
+		else if(!moveable.isEmpty() && !hasTutorial){
 			if ((code == KeyEvent.VK_W || code == KeyEvent.VK_UP) && cursor > 0)
 				cursor--;
 			else if ((code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) && cursor < moveable.size()-1)
@@ -127,6 +140,11 @@ public abstract class Screen {
 				moveable.get(selected).setInGrid(true);
 				moveable.get(selected).spawn();
 				isSelected = true;
+			}
+		}
+		else if(hasTutorial) {
+			if (code == KeyEvent.VK_ENTER) {
+				tutorialPage++;
 			}
 		}
 	}
@@ -148,10 +166,28 @@ public abstract class Screen {
 		g.fillRect(0, 640-animateCount, 800, 320);
 		if(animateCount > 310) {
 			g.setColor(Color.WHITE);
-			g.setFont(Loader.balsamiqTitle);
+			g.setFont(Loader.BALSAMIQ_TITLE);
 			g.drawString("Puzzle Solved!", 260, 330);
 		}
 		powerCount += 0.01;
 		animateCount += (animateCount < 320) ? (int)(Math.pow(2, -powerCount)*5) : 0;
+	}
+	
+	protected void showBox(Graphics2D g2d, int x, int y, int w, int h, String[] tempLine) {
+		Stroke normalStroke = g2d.getStroke();
+		g2d.setColor(Color.WHITE);
+		g2d.fillRoundRect(x, y, w, h, 20, 20);
+		g2d.setStroke(new BasicStroke(5));
+		g2d.setColor(Color.BLACK);
+		g2d.drawRoundRect(x, y, w, h, 20, 20);
+		g2d.setStroke(normalStroke);
+		g2d.setColor(Color.GRAY);
+		g2d.setFont(Loader.CALIBRI_BODY1);
+		for (int i = 0; i < tempLine.length; i++) {
+			g2d.drawString(tempLine[i], x+PADDING, y+(ASCENT*(i+1))+PADDING);
+		}
+		g2d.setFont(Loader.CALIBRI_BODY2);
+		g2d.drawString("Press enter to continue", x+w-PADDING-120, y+h-PADDING);
+		g2d.dispose();
 	}
 }
