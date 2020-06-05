@@ -85,6 +85,12 @@ public class Disabled extends Passenger{
 	}
 	
 	@Override
+	protected void drawTag(Graphics2D g, int xPos, int yPos) {
+		g.setColor(cl);
+		g.fillOval(xPos, yPos+(addY*32), 10, 10);
+	}
+	
+	@Override
 	protected double rotationVal(int x, int y) {
 		return 0d;
 	}
