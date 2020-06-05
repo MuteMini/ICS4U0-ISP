@@ -17,16 +17,22 @@ public class BusLevel {
 	
 	public static boolean debug;
 	public static Camera c;
-	private ArrayList<Entity> entities;
+	private final int WORLD_NUM = 1;
 	private int entityDelay;
+	private int currentWorld;
+	private ArrayList<Entity> entities;
 	private Bus b;
-	private World currentWorld;
+	private World[] worldArr;
+	
 	
 	public BusLevel() {
 		c = new Camera();
-		entities = new ArrayList<Entity>();
-		b = new Bus();
-		currentWorld = new WorldOne();
+		this.entityDelay = 0;
+		this.currentWorld = 0;
+		this.entities = new ArrayList<Entity>();
+		this.b = new Bus();
+		this.worldArr = new World[WORLD_NUM];
+		this.worldArr[0] = new WorldOne();
 	}
 	
 	public void update() {
@@ -74,12 +80,12 @@ public class BusLevel {
 			}
 		}
 
-		for (int i = 0; i < currentWorld.getBoundary().size(); i++) {
-			if (b.getBody().intersects(currentWorld.getBoundary().get(i))) {
+		for (int i = 0; i < worldArr[currentWorld].getBoundary().size(); i++) {
+			if (b.getBody().intersects(worldArr[currentWorld].getBoundary().get(i))) {
 				b.setAtWall(true);
 				break;
 			}
-			if (i == currentWorld.getBoundary().size() - 1) {
+			if (i == worldArr[currentWorld].getBoundary().size() - 1) {
 				b.setAtWall(false);
 			}
 		}
@@ -89,7 +95,7 @@ public class BusLevel {
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
-		currentWorld.render(g2d);
+		worldArr[currentWorld].render(g2d);
 
 		g2d.setColor(Color.BLUE);
 		g2d.fillRect(250 - c.getXPos(), 450 - c.getYPos(), 50, 50);
