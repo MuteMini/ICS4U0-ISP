@@ -96,13 +96,11 @@ public class Bus extends Entity {
 		
 		g2d.rotate(Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
 		g2d.drawImage(Loader.BUS_SPRITE,(int)(center.x - BusLevel.c.getXPos() - WIDTH/2  - xVel), (int)(center.y - BusLevel.c.getYPos() - HEIGHT/2 - yVel), null);
-		g2d.setTransform(temp);
+		g2d.rotate(-Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
+		
 		if (BusLevel.debug) {
 			g2d.setColor(Color.RED);
 			g2d.fill(entityBody);
-		}
-
-		if (BusLevel.debug) {
 			g2d.setColor(Color.black);
 			g2d.drawString("xPosition, yPosition: " + center.x + ", " + center.y, 10, 20);
 			g2d.drawString("xVelocity, yVelocity: " + xVel + ", " + yVel, 10, 32);

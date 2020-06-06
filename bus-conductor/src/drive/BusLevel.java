@@ -40,7 +40,7 @@ public class BusLevel {
 		b.update();
 		entityDelay++;
 		
-		if (entityDelay == 2*60) {
+		if (entityDelay == 60) {
 			if (Math.random() >= 0.5) {
 				entities.add(new Car(-1235, -9000, 0d, 5d));
 			} else {
@@ -104,8 +104,10 @@ public class BusLevel {
 		int crashedEntities = 0;
 		int drawnEntities = 0;
 		for (Entity e : entities) {
-			if (e.crashed)
+			if (e.crashed) {
 				crashedEntities++;
+				e.setAngleVel((int)(Math.random() * 4 - 2));
+			}
 			if (Math.abs(e.getCenter().distance(b.getCenter())) <= 578) {
 				if (e.crashed)
 					g2d.setColor(Color.red);
