@@ -98,8 +98,6 @@ public final class Loader {
 			if(spriteID == 0)
 				return ImageIO.read(Loader.class.getResource("/bus.png"));
 			else if(spriteID == 1) {
-				if(diff == 8)
-					return ImageIO.read(Loader.class.getResource("/carthanos.png"));
 				return ImageIO.read(Loader.class.getResource("/car"+diff+".png"));
 			}
 			else if(spriteID == 2) {

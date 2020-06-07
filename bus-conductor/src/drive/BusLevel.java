@@ -14,7 +14,6 @@ import game.Camera;
 import game.Game;
 
 public class BusLevel {
-	
 	public static boolean debug;
 	public static Camera c;
 	private final int WORLD_NUM = 1;
@@ -39,6 +38,7 @@ public class BusLevel {
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
 		entityDelay++;
+		System.out.println(b.getXVel() + ", " + b.getYVel());
 		
 		if (entityDelay == 60) {
 			if (Math.random() >= 0.5) {
@@ -57,15 +57,21 @@ public class BusLevel {
 
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
-
 			if (entities.get(i).getCenter().distance(b.getCenter()) <= 120) {
-
 				entities.get(i).setColor(Color.green);
 				if (b.isColliding(entities.get(i))) {
 					entities.get(i).setColor(Color.red);
 					((Car) entities.get(i)).setCrashed(true);
-					entities.get(i).setXVel(b.getXVel() * 2);
-					entities.get(i).setYVel(b.getYVel() * 2);
+					if (Math.abs(b.getXVel()) < 0.9)
+						entities.get(i).setXVel(0);
+					else
+						entities.get(i).setXVel(b.getXVel() * 2);
+					if (Math.abs(b.getYVel()) < 0.9)
+						entities.get(i).setYVel(0);
+					else
+						entities.get(i).setYVel(b.getYVel() * 2);
+					if (entities.get(i).getXVel() != 0 || entities.get(i).getYVel() != 0)
+						entities.get(i).setAngleVel(Math.round(Math.random()) * 4 - 2);
 				}
 			} else {
 				if (!entities.get(i).getColor().equals(Color.blue)) {
@@ -106,7 +112,6 @@ public class BusLevel {
 		for (Entity e : entities) {
 			if (e.crashed) {
 				crashedEntities++;
-				e.setAngleVel((int)(Math.random() * 4 - 2));
 			}
 			if (Math.abs(e.getCenter().distance(b.getCenter())) <= 578) {
 				if (e.crashed)

@@ -20,6 +20,7 @@ public abstract class World {
 	protected Point startPos;
 	protected BufferedImage map;
 	protected ArrayList<Rectangle> boundary;
+	protected Point[] SpawnPoints;
 
 	public World(int x, int y, int imageID) {
 		this.startPos = new Point(x, y);
