@@ -1,18 +1,12 @@
 package drive;
 
-
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Set;
 import java.util.TreeSet;
-
-import javax.imageio.ImageIO;
-
 import game.Game;
 import game.Loader;
 
@@ -71,18 +65,15 @@ public class Bus extends Entity {
 
 		calculateVel();
 		if (isAtWall()) {
-			calculateVel();
-			for (int i = 0; i < 4; i++) {
-			//	entityPoints[i].translate((int) -xVel / 2, (int) -yVel / 2);
-			}
-			xVel = 0;
-			yVel = 0;
-			keysHeld.clear();
-		} else {
+			//calculateVel();
+
+			System.out.println(true);
+			//keysHeld.clear();
+		} 
 			for (int i = 0; i < 4; i++) {
 				entityPoints[i].translate((int) xVel, (int) yVel);
 			}
-		}
+
 
 		center = calculateCenter();
 		entityBody = createPolygon(entityPoints);

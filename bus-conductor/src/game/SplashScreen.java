@@ -10,7 +10,7 @@ public class SplashScreen {
 
 	public SplashScreen() {
 		alpha = 0;
-		loadingDone = false;
+		loadingDone = true;
 	}
 
 	public void update() {

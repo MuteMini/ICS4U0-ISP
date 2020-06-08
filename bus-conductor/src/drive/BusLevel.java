@@ -3,12 +3,7 @@ package drive;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-
 import drive.world.WorldOne;
 import game.Camera;
 import game.Game;
@@ -75,12 +70,14 @@ public class BusLevel {
 		}
 
 		for (int i = 0; i < currentWorld.getBoundary().size(); i++) {
-			if (b.getBody().intersects(currentWorld.getBoundary().get(i))) {
-				b.setAtWall(true);
+			Integer[] boundP = currentWorld.getBoundary().get(i);
+			boolean ahead = (boundP[3] == 1 && b.getCenter().getY() <= boundP[1] && (b.getCenter().getX() <= Math.max(boundP[0], boundP[2]) && b.getCenter().getX() >= Math.min(boundP[0], boundP[2])))
+					|| (boundP[3] == 2 && b.getCenter().getX() >= boundP[0] && (b.getCenter().getY() <= Math.max(boundP[1], boundP[2]) && b.getCenter().getY() >= Math.min(boundP[1], boundP[2])))
+					|| (boundP[3] == 3 && b.getCenter().getY() >= boundP[1] && (b.getCenter().getX() <= Math.max(boundP[0], boundP[2]) && b.getCenter().getX() >= Math.min(boundP[0], boundP[2])))
+					|| (boundP[3] == 4 && b.getCenter().getX() <= boundP[0] && (b.getCenter().getY() <= Math.max(boundP[1], boundP[2]) && b.getCenter().getY() >= Math.min(boundP[1], boundP[2])));
+			b.setAtWall(ahead);
+			if(ahead) {
 				break;
-			}
-			if (i == currentWorld.getBoundary().size() - 1) {
-				b.setAtWall(false);
 			}
 		}
 	}

@@ -4,26 +4,19 @@ package drive;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-
-import game.Game;
 import game.Loader;
 
 
 public abstract class World {
 	protected Point startPos;
 	protected BufferedImage map;
-	protected ArrayList<Rectangle> boundary;
+	protected ArrayList<Integer[]> boundary;
 
 	public World(int x, int y, int imageID) {
 		this.startPos = new Point(x, y);
-		this.boundary = new ArrayList<Rectangle>();
+		this.boundary = new ArrayList<Integer[]>();
 		this.map = getImage(imageID);
 	}
 
@@ -32,11 +25,14 @@ public abstract class World {
 		
 		if (BusLevel.debug) {
 			g2d.setColor(Color.black);
-			for (Rectangle r : boundary) {
-				r.translate(BusLevel.c.getXPos() * -1, BusLevel.c.getYPos() * -1);
+			for (Integer[] r : boundary) {
+				int xOffset = BusLevel.c.getXPos() * -1;
+				int yOffset = BusLevel.c.getYPos() * -1;
 				g2d.setColor(Color.darkGray);
-				g2d.fill(r);
-				r.translate(BusLevel.c.getXPos(), BusLevel.c.getYPos());
+				if(r[3] % 2 == 0)
+					g2d.drawLine(r[0]+xOffset, r[1]+yOffset, r[0]+xOffset, r[2]+yOffset); //draws a line up and down
+				else
+					g2d.drawLine(r[0]+xOffset, r[1]+yOffset, r[2]+xOffset, r[1]+yOffset); //draws a line left to right
 			}
 		}
 	}
@@ -45,7 +41,7 @@ public abstract class World {
 		return startPos;
 	}
 
-	public ArrayList<Rectangle> getBoundary() {
+	public ArrayList<Integer[]> getBoundary() {
 		return boundary;
 	}
 	
