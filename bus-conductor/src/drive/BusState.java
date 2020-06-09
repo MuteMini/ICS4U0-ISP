@@ -26,7 +26,7 @@ public class BusState implements States{
 		this.b = new Bus();
 		this.worlds[0] = new WorldOne();
 		this.worlds[1] = new WorldTwo();
-		this.currentWorld = 1;
+		this.currentWorld = 0;
 		this.onStop = false;
 	}
 	
@@ -113,7 +113,7 @@ public class BusState implements States{
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			debug = !debug;
 		}
-		else if(b.getCenter().distance(worlds[currentWorld].getBusStop()) <= 20 && e.getKeyCode() == KeyEvent.VK_ENTER) {
+		else if(b.getCenter().distance(worlds[currentWorld].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER) {
 			onStop = true;
 		}
 		b.processMovement(e);
@@ -136,8 +136,6 @@ public class BusState implements States{
 	}
 	
 	//here for testing
-	
-	
 	public Bus getBus() {
 		return b;
 	}
