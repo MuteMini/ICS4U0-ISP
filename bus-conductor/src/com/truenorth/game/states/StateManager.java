@@ -76,6 +76,10 @@ public class StateManager{
 		}
 	}
 	
+	public boolean gameClosed() {
+		return ((MenuState)state[0]).getClosed(); 
+	}
+	
 	//testing
 	public Bus getBus() {
 		return ((BusState)state[1]).getBus();
