@@ -9,7 +9,7 @@ import game.Camera;
 import game.Game;
 import game.states.States;
 
-public class BusLevel implements States{
+public class BusState implements States{
 	
 	public static boolean debug;
 	public static Camera c;
@@ -20,7 +20,7 @@ public class BusLevel implements States{
 	private int currentWorld;
 	private boolean onStop;
 	
-	public BusLevel() {
+	public BusState() {
 		c = new Camera();
 		this.entities = new ArrayList<Entity>();
 		this.b = new Bus();

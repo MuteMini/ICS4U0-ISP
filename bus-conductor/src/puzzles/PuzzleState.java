@@ -3,11 +3,10 @@ package puzzles;
 import game.Loader;
 import game.states.States;
 import puzzles.level.*;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-public class PuzzleLevel implements States{
+public class PuzzleState implements States{
 	
 	final private int FIRST_LEVEL_NUM = 7;
 	final private int SECOND_LEVEL_NUM = 1;
@@ -15,7 +14,7 @@ public class PuzzleLevel implements States{
 	private int worldPos;
 	private Screen[][] levels;
 	
-	public PuzzleLevel() {
+	public PuzzleState() {
 		this.levelPos = 0;
 		this.worldPos = 0;
 		this.levels = new Screen[2][];

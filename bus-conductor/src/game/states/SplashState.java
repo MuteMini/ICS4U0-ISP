@@ -8,13 +8,13 @@ import java.awt.event.KeyEvent;
 import game.Game;
 import game.Loader;
 
-public class SplashScreen implements States{
+public class SplashState implements States{
 	private boolean loadingDone;
 	private float alpha;
 
-	public SplashScreen() {
+	public SplashState() {
 		alpha = 0;
-		loadingDone = true;
+		loadingDone = false;
 	}
 	
 	@Override
