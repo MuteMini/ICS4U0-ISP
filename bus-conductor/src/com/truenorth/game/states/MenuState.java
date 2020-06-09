@@ -29,6 +29,15 @@ public class MenuState implements States{
 		resetMenu();
 	}
 	
+	public void resetMenu() {
+		this.screenState = 0;
+		this.cursorPos = 0;
+		this.cursorMaxPos = 0;
+		this.entityDelay = 0;
+		this.titlePos = 800;
+		this.floating = 0;
+	}
+	
 	@Override
 	public void update() {
 		entityDelay++;
@@ -113,12 +122,13 @@ public class MenuState implements States{
 				else if (screenState == 1) {
 					if(cursorPos == 0) {
 						screenState = 2;
+						screenState = 4;
 					}
 					else if(cursorPos == 1) {
 						screenState = 3;
 					}
 					else if(cursorPos == 2) {
-						screenState = 4;
+						screenState = 5;
 					}
 				}
 			}
@@ -132,15 +142,14 @@ public class MenuState implements States{
 	}
 	
 	public boolean getClosed() {
+		return (screenState == 5);
+	}
+	
+	public boolean startGame() {
 		return (screenState == 4);
 	}
 	
-	private void resetMenu() {
-		this.screenState = 0;
-		this.cursorPos = 0;
-		this.cursorMaxPos = 0;
-		this.entityDelay = 0;
-		this.titlePos = 800;
-		this.floating = 0;
+	public int getCursorPos() {
+		return cursorPos;
 	}
 }

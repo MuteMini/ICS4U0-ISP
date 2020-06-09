@@ -57,21 +57,6 @@ public abstract class Level {
 		}
 	}
 
-	public void render(Graphics2D g2d) {
-		for(Passenger pass : immoveable)
-			pass.render(g2d, distanceGrid);
-		for(Passenger pass : placed)
-			pass.render(g2d, distanceGrid);
-		for(Passenger pass : moveable)
-			pass.render(g2d, distanceGrid);
-		if(winState) {
-			winAnimation(g2d);
-		}
-		if(hasTutorial) {
-			showTutorial(g2d);
-		}
-	}
-	
 	public void update() {
 		if(isSelected) {
 			placed.add(moveable.get(selected));
@@ -104,6 +89,21 @@ public abstract class Level {
 		}
 		System.out.println();*/
 	}
+	
+	public void render(Graphics2D g2d) {
+		for(Passenger pass : immoveable)
+			pass.render(g2d, distanceGrid);
+		for(Passenger pass : placed)
+			pass.render(g2d, distanceGrid);
+		for(Passenger pass : moveable)
+			pass.render(g2d, distanceGrid);
+		if(winState) {
+			winAnimation(g2d);
+		}
+		if(hasTutorial) {
+			showTutorial(g2d);
+		}
+	}
 
 	public boolean checkSolution() {
 		for(Passenger pass : immoveable) {
@@ -122,7 +122,7 @@ public abstract class Level {
 	
 	public void processMovement(KeyEvent e){
 		int code = e.getKeyCode();
-		if (code== KeyEvent.VK_ESCAPE) {
+		if (code == KeyEvent.VK_R) {
 			reset = true;
 		}
 		else if(selected != -1){

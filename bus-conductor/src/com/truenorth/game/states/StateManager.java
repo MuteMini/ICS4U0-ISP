@@ -17,6 +17,7 @@ public class StateManager{
 	
 	public StateManager() {
 		this.statePos = 0;
+		this.fileNum = 0;
 		this.paused = false;
 		this.pauseHold = false;
 	}
@@ -29,7 +30,12 @@ public class StateManager{
 				p.update();
 			} else {
 				state[statePos].update();
-				if(statePos == 1 && ((BusState)state[1]).isOnStop()) {
+				if(statePos == 0 && ((MenuState)state[0]).startGame()) {
+					fileNum = ((MenuState)state[0]).getCursorPos();
+					loadFile();
+					statePos = 1;
+					((MenuState)state[0]).resetMenu();
+				} else if(statePos == 1 && ((BusState)state[1]).isOnStop()) {
 					statePos = 2;
 					((BusState)state[1]).setOnStop(false);
 				}
@@ -78,6 +84,17 @@ public class StateManager{
 	
 	public boolean gameClosed() {
 		return ((MenuState)state[0]).getClosed(); 
+	}
+	
+	private void loadFile() {
+		//load the file here. Find what driving level they were on and what puzzle level they were going to. Start the user on that driving level.
+	}
+	
+	private void saveFile() {
+		/*save the file here, tutorial and main game as different files.
+		 * - each driving level and how long they took
+		 * - each puzzle level and how long they took
+		 */
 	}
 	
 	//testing
