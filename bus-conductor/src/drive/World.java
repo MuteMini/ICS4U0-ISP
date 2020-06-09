@@ -46,6 +46,7 @@ public abstract class World {
 			}
 			entityDelay = 0;
 		}
+		
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			if ((e.getCenter().y >= spawnYBot && e.getYVel() > 0)
