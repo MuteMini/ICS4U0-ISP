@@ -14,12 +14,15 @@ public class StateManager{
 	private int statePos;
 	private boolean paused;
 	private boolean pauseHold;
+	private boolean loaded;
 	
 	public StateManager() {
 		this.statePos = 0;
 		this.fileNum = 0;
 		this.paused = false;
 		this.pauseHold = false;
+		this.loaded = false;
+		loadFile();
 	}
 	
 	public void update() {
@@ -30,11 +33,17 @@ public class StateManager{
 				p.update();
 			} else {
 				state[statePos].update();
-				if(statePos == 0 && ((MenuState)state[0]).startGame()) {
-					fileNum = ((MenuState)state[0]).getCursorPos();
-					loadFile();
-					statePos = 1;
-					((MenuState)state[0]).resetMenu();
+				if(statePos == 0) {
+					if(!loaded) {
+						loadFile();
+						loaded = true;
+					}
+					if(((MenuState)state[0]).startGame()) {
+						fileNum = ((MenuState)state[0]).getCursorPos();
+						statePos = 1;
+						loaded = false;
+						((MenuState)state[0]).resetMenu();
+					}
 				} else if(statePos == 1 && ((BusState)state[1]).isOnStop()) {
 					statePos = 2;
 					((BusState)state[1]).setOnStop(false);
