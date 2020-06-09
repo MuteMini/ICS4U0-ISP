@@ -51,6 +51,8 @@ public final class Loader {
 	
 	public static final BufferedImage SPLASH1 = getGeneralSprite(0, 1);
 	public static final BufferedImage MAINMENU_BACKGROUND = getGeneralSprite(1, 0);
+	public static final BufferedImage MAINMENU_TITLE = getGeneralSprite(1, 1);
+	public static final BufferedImage MAINMENU_CHOICES = getGeneralSprite(1, 2);
 	
 	public static final Font BALSAMIQ_TITLE = getFont(1).deriveFont(42f);
 	public static final Font CALIBRI_BODY1 = getFont(2);
@@ -113,8 +115,14 @@ public final class Loader {
 		try {	
 			if(spriteID == 0)
 				return ImageIO.read(Loader.class.getResource("/splashscreen"+diff+".png"));
-			if(spriteID == 1)
-				return ImageIO.read(Loader.class.getResource("/mainmenu.png"));
+			else if(spriteID == 1) {
+				if(diff == 0)
+					return ImageIO.read(Loader.class.getResource("/mainmenu.png"));
+				else if(diff == 1)
+					return ImageIO.read(Loader.class.getResource("/title.png"));
+				else if(diff == 2)
+					return ImageIO.read(Loader.class.getResource("/choices.png"));
+			}
 		} catch (IOException e) {
 		}
 		return null;
@@ -124,9 +132,9 @@ public final class Loader {
 		try {
 			if(fontID == 1)
 				return Font.createFont(Font.TRUETYPE_FONT, Loader.class.getResource("/BalsamiqSans-Regular.ttf").openStream());
-			if(fontID == 2)
+			else if(fontID == 2)
 				return new Font("Calibri", 1, 18);
-			if(fontID == 3)
+			else if(fontID == 3)
 				return new Font("Calibri", 0, 12);
 		}
 		catch(Exception e) {
