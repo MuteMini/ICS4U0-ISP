@@ -12,14 +12,14 @@ public class PuzzleState implements States{
 	final private int SECOND_LEVEL_NUM = 1;
 	private int levelPos;
 	private int worldPos;
-	private Screen[][] levels;
+	private Level[][] levels;
 	
 	public PuzzleState() {
 		this.levelPos = 0;
 		this.worldPos = 0;
-		this.levels = new Screen[2][];
-		this.levels[0] = new Screen[FIRST_LEVEL_NUM];
-		this.levels[1] = new Screen[SECOND_LEVEL_NUM];
+		this.levels = new Level[2][];
+		this.levels[0] = new Level[FIRST_LEVEL_NUM];
+		this.levels[1] = new Level[SECOND_LEVEL_NUM];
 		
 		this.levels[0][0] = new LevelOneOne();
 		this.levels[0][1] = new LevelOneTwo();

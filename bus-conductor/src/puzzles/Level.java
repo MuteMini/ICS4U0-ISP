@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 
-public abstract class Screen {
+public abstract class Level {
 	protected final int PADDING = 10;
 	protected final int ASCENT = 17;
 	protected ArrayList<Passenger> moveable;
@@ -28,7 +28,7 @@ public abstract class Screen {
 	private int animateCount;
 	private double powerCount;
 	
-	public Screen() {
+	public Level() {
 		resetGrid();
 	}
 	
@@ -66,6 +66,7 @@ public abstract class Screen {
 			winAnimation(g2d);
 		}
 		if(hasTutorial) {
+			showTutorial(g2d);
 		}
 	}
 	

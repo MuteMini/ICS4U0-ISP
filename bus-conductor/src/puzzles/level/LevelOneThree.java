@@ -1,6 +1,6 @@
 package puzzles.level;
 
-import puzzles.Screen;
+import puzzles.Level;
 import riders.*;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 
 import game.Game;
 
-public class LevelOneThree extends Screen {
+public class LevelOneThree extends Level {
 	
 	public LevelOneThree() {
 		super();

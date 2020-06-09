@@ -3,7 +3,7 @@ package puzzles;
 import riders.*;
 import java.awt.Color;
 
-public class TestScreen extends Screen{
+public class TestScreen extends Level{
 	
 	public TestScreen() {
 		super();
