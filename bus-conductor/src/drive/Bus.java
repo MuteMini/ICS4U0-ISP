@@ -2,7 +2,6 @@ package drive;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.util.Set;
@@ -16,22 +15,22 @@ import game.Loader;
  *
  */
 public class Bus extends Entity {
-	private Set<Integer> keysHeld;
+	final double MAX_SPEED = 8;
+	final double MAX_TURN = 2;
 	private boolean forward;
 	private boolean backward;
 	private boolean turnLeft;
 	private boolean turnRight;
-	final double MAX_SPEED = 8;
-	final double MAX_TURN = 2;
-	private boolean atWall;
+	private boolean outside;
+	private Set<Integer> keysHeld;
 
 	public Bus() {
 		super(0, 0, 64, 128);
-		entityPoints = getOriginalPoints();
-		entityBody = createPolygon(entityPoints);
-		center = calculateCenter();
-		keysHeld = new TreeSet<Integer>();
-		setAtWall(false);
+		this.entityPoints = getOriginalPoints();
+		this.entityBody = createPolygon(entityPoints);
+		this.center = calculateCenter();
+		this.keysHeld = new TreeSet<Integer>();
+		this.outside = false;
 	}
 
 	@Override
@@ -64,16 +63,12 @@ public class Bus extends Entity {
 		}
 
 		calculateVel();
-		if (isAtWall()) {
-			//calculateVel();
-
+		if (outside) {
 			System.out.println(true);
-			//keysHeld.clear();
 		} 
-			for (int i = 0; i < 4; i++) {
-				entityPoints[i].translate((int) xVel, (int) yVel);
-			}
-
+		for (int i = 0; i < 4; i++) {
+			entityPoints[i].translate((int) xVel, (int) yVel);
+		}
 
 		center = calculateCenter();
 		entityBody = createPolygon(entityPoints);
@@ -155,16 +150,16 @@ public class Bus extends Entity {
 	}
 
 	/**
-	 * @return the atWall
+	 * @return the outside
 	 */
-	public boolean isAtWall() {
-		return atWall;
+	public boolean isOutside() {
+		return outside;
 	}
 
 	/**
-	 * @param atWall the atWall to set
+	 * @param outside the outside value to set
 	 */
-	public void setAtWall(boolean atWall) {
-		this.atWall = atWall;
+	public void setOutside(boolean outside) {
+		this.outside = outside;
 	}
 }

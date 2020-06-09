@@ -2,7 +2,6 @@ package riders;
 
 import game.Loader;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
@@ -66,11 +65,9 @@ public abstract class Passenger{
 		this.sprite = readImage(spriteID, diff);
 	}
 
-	public void render(Graphics g, Integer[][] grid) {
+	public void render(Graphics2D g2d, Integer[][] grid) {
 		int xPosNew; 
 		int yPosNew;
-		
-		Graphics2D g2d = (Graphics2D) g;
 		
 		if(inGrid) {
 			xPosNew = SPRITE_SIZE*xPos+OFFSET_X;
