@@ -3,60 +3,42 @@ package drive;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-
-import drive.world.WorldOne;
+import drive.world.*;
 import game.Camera;
 import game.Game;
+import game.States;
 
-public class BusLevel {
+public class BusLevel implements States{
+	
 	public static boolean debug;
 	public static Camera c;
-	private final int WORLD_NUM = 1;
-	private int entityDelay;
-	private int currentWorld;
+	private final int WORLDS_NUM = 2;
+	private final World[] worlds = new World[WORLDS_NUM];
 	private ArrayList<Entity> entities;
 	private Bus b;
-	private World[] worldArr;
-	
+	private int currentWorld;
+	private boolean onStop;
 	
 	public BusLevel() {
 		c = new Camera();
-		this.entityDelay = 0;
-		this.currentWorld = 0;
 		this.entities = new ArrayList<Entity>();
 		this.b = new Bus();
-		this.worldArr = new World[WORLD_NUM];
-		this.worldArr[0] = new WorldOne();
+		this.worlds[0] = new WorldOne();
+		this.worlds[1] = new WorldTwo();
+		this.currentWorld = 1;
+		this.onStop = false;
 	}
 	
 	public void update() {
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
-		entityDelay++;
-		System.out.println(b.getXVel() + ", " + b.getYVel());
+    
+		worlds[currentWorld].update(entities);
 		
-		if (entityDelay == 60) {
-			if (Math.random() >= 0.5) {
-				entities.add(new Car(-1235, -9000, 0d, 5d));
-			} else {
-				entities.add(new Car(-1080, -9000, 0d, 5d));
-			}
-
-			if (Math.random() >= 0.5) {
-				entities.add(new Car(-765, 800, 0d, -5d));
-			} else {
-				entities.add(new Car(-910, 800, 0d, -5d));
-			}
-			entityDelay = 0;
-		}
-
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
+
 			if (entities.get(i).getCenter().distance(b.getCenter()) <= 120) {
 				entities.get(i).setColor(Color.green);
 				if (b.isColliding(entities.get(i))) {
@@ -86,13 +68,15 @@ public class BusLevel {
 			}
 		}
 
-		for (int i = 0; i < worldArr[currentWorld].getBoundary().size(); i++) {
-			if (b.getBody().intersects(worldArr[currentWorld].getBoundary().get(i))) {
-				b.setAtWall(true);
+		for (int i = 0; i < worlds[currentWorld].getBoundary().size(); i++) {
+			Integer[] boundP = worlds[currentWorld].getBoundary().get(i);
+			boolean ahead = (boundP[3] == 1 && b.getCenter().getY() <= boundP[1] && (b.getCenter().getX() <= Math.max(boundP[0], boundP[2]) && b.getCenter().getX() >= Math.min(boundP[0], boundP[2])))
+					|| (boundP[3] == 2 && b.getCenter().getX() >= boundP[0] && (b.getCenter().getY() <= Math.max(boundP[1], boundP[2]) && b.getCenter().getY() >= Math.min(boundP[1], boundP[2])))
+					|| (boundP[3] == 3 && b.getCenter().getY() >= boundP[1] && (b.getCenter().getX() <= Math.max(boundP[0], boundP[2]) && b.getCenter().getX() >= Math.min(boundP[0], boundP[2])))
+					|| (boundP[3] == 4 && b.getCenter().getX() <= boundP[0] && (b.getCenter().getY() <= Math.max(boundP[1], boundP[2]) && b.getCenter().getY() >= Math.min(boundP[1], boundP[2])));
+			b.setOutside(ahead);
+			if(ahead) {
 				break;
-			}
-			if (i == worldArr[currentWorld].getBoundary().size() - 1) {
-				b.setAtWall(false);
 			}
 		}
 	}
@@ -101,10 +85,7 @@ public class BusLevel {
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
-		worldArr[currentWorld].render(g2d);
-
-		g2d.setColor(Color.BLUE);
-		g2d.fillRect(250 - c.getXPos(), 450 - c.getYPos(), 50, 50);
+		worlds[currentWorld].render(g2d);
 
 		b.draw(g2d);
 		int crashedEntities = 0;
@@ -138,6 +119,9 @@ public class BusLevel {
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			debug = !debug;
 		}
+		else if(b.getCenter().distance(worlds[currentWorld].getBusStop()) <= 20 && e.getKeyCode() == KeyEvent.VK_ENTER) {
+			onStop = true;
+		}
 		b.processMovement(e);
 	}
 
@@ -145,8 +129,15 @@ public class BusLevel {
 		b.unholdKey(e);
 	}
 	
-	
 	//here for testing
+	public boolean isOnStop(){
+		return onStop;
+	}
+	
+	public void setOnStop(boolean onStop){
+		this.onStop = onStop;
+	}
+	
 	public Bus getBus() {
 		return b;
 	}

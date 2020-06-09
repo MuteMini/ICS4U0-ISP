@@ -1,7 +1,6 @@
 package riders;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
@@ -30,11 +29,9 @@ public class Student extends Passenger{
 	}
 	
 	@Override
-	public void render(Graphics g, Integer[][] grid) {
+	public void render(Graphics2D g2d, Integer[][] grid) {
 		int xPosNew; 
 		int yPosNew;
-		
-		Graphics2D g2d = (Graphics2D) g;
 		
 		if(inGrid) {
 			int tempXPos = xPos+shiftX;

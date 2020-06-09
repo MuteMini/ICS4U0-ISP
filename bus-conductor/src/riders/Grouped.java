@@ -1,7 +1,7 @@
 package riders;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 public class Grouped extends Passenger{
@@ -48,11 +48,11 @@ public class Grouped extends Passenger{
 	}
 
 	@Override
-	public void render(Graphics g, Integer[][] grid) {
+	public void render(Graphics2D g2d, Integer[][] grid) {
 		for(int i = 0; i < arrPass.length; i++) {
 			if(arrPass[i] != null) {
 				setPosition(i);
-				arrPass[i].render(g, grid);
+				arrPass[i].render(g2d, grid);
 			}
 		}
 	}

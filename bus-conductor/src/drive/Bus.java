@@ -1,18 +1,11 @@
 package drive;
 
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Set;
 import java.util.TreeSet;
-
-import javax.imageio.ImageIO;
-
 import game.Game;
 import game.Loader;
 
@@ -22,22 +15,22 @@ import game.Loader;
  *
  */
 public class Bus extends Entity {
-	private Set<Integer> keysHeld;
+	final double MAX_SPEED = 8;
+	final double MAX_TURN = 2;
 	private boolean forward;
 	private boolean backward;
 	private boolean turnLeft;
 	private boolean turnRight;
-	final double MAX_SPEED = 8;
-	final double MAX_TURN = 2;
-	private boolean atWall;
+	private boolean outside;
+	private Set<Integer> keysHeld;
 
 	public Bus() {
 		super(0, 0, 64, 128);
-		entityPoints = getOriginalPoints();
-		entityBody = createPolygon(entityPoints);
-		center = calculateCenter();
-		keysHeld = new TreeSet<Integer>();
-		setAtWall(false);
+		this.entityPoints = getOriginalPoints();
+		this.entityBody = createPolygon(entityPoints);
+		this.center = calculateCenter();
+		this.keysHeld = new TreeSet<Integer>();
+		this.outside = false;
 	}
 
 	@Override
@@ -70,18 +63,11 @@ public class Bus extends Entity {
 		}
 
 		calculateVel();
-		if (isAtWall()) {
-			calculateVel();
-			for (int i = 0; i < 4; i++) {
-			//	entityPoints[i].translate((int) -xVel / 2, (int) -yVel / 2);
-			}
-			xVel = 0;
-			yVel = 0;
-			keysHeld.clear();
-		} else {
-			for (int i = 0; i < 4; i++) {
-				entityPoints[i].translate((int) xVel, (int) yVel);
-			}
+		if (outside) {
+			System.out.println(true);
+		} 
+		for (int i = 0; i < 4; i++) {
+			entityPoints[i].translate((int) xVel, (int) yVel);
 		}
 
 		center = calculateCenter();
@@ -162,16 +148,16 @@ public class Bus extends Entity {
 	}
 
 	/**
-	 * @return the atWall
+	 * @return the outside
 	 */
-	public boolean isAtWall() {
-		return atWall;
+	public boolean isOutside() {
+		return outside;
 	}
 
 	/**
-	 * @param atWall the atWall to set
+	 * @param outside the outside value to set
 	 */
-	public void setAtWall(boolean atWall) {
-		this.atWall = atWall;
+	public void setOutside(boolean outside) {
+		this.outside = outside;
 	}
 }

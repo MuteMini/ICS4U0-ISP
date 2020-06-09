@@ -55,18 +55,17 @@ public abstract class Screen {
 		}
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g2d) {
 		for(Passenger pass : immoveable)
-			pass.render(g, distanceGrid);
+			pass.render(g2d, distanceGrid);
 		for(Passenger pass : placed)
-			pass.render(g, distanceGrid);
+			pass.render(g2d, distanceGrid);
 		for(Passenger pass : moveable)
-			pass.render(g, distanceGrid);
+			pass.render(g2d, distanceGrid);
 		if(winState) {
-			winAnimation(g);
+			winAnimation(g2d);
 		}
 		if(hasTutorial) {
-			showTutorial(g);
 		}
 	}
 	
@@ -160,15 +159,16 @@ public abstract class Screen {
 		}
 	}
 	
-	protected void winAnimation(Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, 800, animateCount);
-		g.fillRect(0, 640-animateCount, 800, 320);
+	protected void winAnimation(Graphics2D g2d) {
+		g2d.setColor(Color.DARK_GRAY);
+		g2d.fillRect(0, 0, 800, animateCount);
+		g2d.fillRect(0, 640-animateCount, 800, 320);
 		if(animateCount > 310) {
-			g.setColor(Color.WHITE);
-			g.setFont(Loader.BALSAMIQ_TITLE);
-			g.drawString("Puzzle Solved!", 260, 330);
+			g2d.setColor(Color.WHITE);
+			g2d.setFont(Loader.BALSAMIQ_TITLE);
+			g2d.drawString("Puzzle Solved!", 260, 330);
 		}
+		g2d.dispose();
 		powerCount += 0.01;
 		animateCount += (animateCount < 320) ? (int)(Math.pow(2, -powerCount)*5) : 0;
 	}

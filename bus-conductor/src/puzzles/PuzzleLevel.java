@@ -1,11 +1,13 @@
 package puzzles;
 
 import game.Loader;
+import game.States;
 import puzzles.level.*;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-public class PuzzleLevel {
+public class PuzzleLevel implements States{
 	
 	final private int FIRST_LEVEL_NUM = 7;
 	final private int SECOND_LEVEL_NUM = 1;
@@ -34,9 +36,10 @@ public class PuzzleLevel {
 		levels[worldPos][levelPos].update();
 	}
 	
-	public void render(Graphics g) {
-		g.drawImage(Loader.PUZZLE_BACKGROUND, 0, 0, null);
-		levels[worldPos][levelPos].render(g);
+	@Override
+	public void render(Graphics2D g2d) {
+		g2d.drawImage(Loader.PUZZLE_BACKGROUND, 0, 0, null);
+		levels[worldPos][levelPos].render(g2d);
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -71,4 +74,7 @@ public class PuzzleLevel {
 	public void setWorldPos(int worldPos) {
 		this.worldPos = worldPos-1;
 	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {}
 }

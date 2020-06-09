@@ -13,5 +13,12 @@ public class Main {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		g.start();
+		synchronized(g){
+			try {
+				g.wait();
+			} catch (InterruptedException e) {
+			}
+		}
+		frame.dispose();
 	}
 }

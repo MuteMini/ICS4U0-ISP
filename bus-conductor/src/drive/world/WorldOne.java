@@ -1,23 +1,20 @@
 package drive.world;
 
-import java.awt.Rectangle;
+import java.awt.Point;
+
 import drive.World;
 
 public class WorldOne extends World{
-
 	public WorldOne() {
-		super(-1945, -8920, 1);
-		boundary.add(new Rectangle(75, -1845, 50, 2015));
-		boundary.add(new Rectangle(-570, -1830, 650, 50));
-		boundary.add(new Rectangle(-570, -8645, 50, 6815));
-		boundary.add(new Rectangle(-570, -1460, 50, 1955));
-		boundary.add(new Rectangle(-1430, 490, 910, 50));
-		boundary.add(new Rectangle(-1480, -8695, 50, 9235));
-		boundary.add(new Rectangle(-1430, -8695, 910, 50));
-		boundary.add(new Rectangle(-380, -180, 250, 350));
-		boundary.add(new Rectangle(-380, 165, 505, 50));
-		boundary.add(new Rectangle(-570, -1460, 280, 50));
-		boundary.add(new Rectangle(-340, -1410, 50, 1235));
+		super(-1945, -8920, 1, -1235, -9000, 800);
+		boundary.add(new Integer[]{75, -1845, 170, 2} );
+		boundary.add(new Integer[]{-570, -1830, 650+(-570), 1});
+		boundary.add(new Integer[]{-570, -8645, (-8645)+6815, 2});
+		boundary.add(new Integer[]{-400, -1960, (-1460)+1955, 4});
+		boundary.add(new Integer[]{-1430, -1460, (-1430)+1100, 3});
+		boundary.add(new Integer[]{-1480, -8695, (-8695)+9235, 4});
+		boundary.add(new Integer[]{-1430, -8695, (-1430)+910, 1});
+		boundary.add(new Integer[]{-380, 165, (-380)+505, 3});
+		busStop = new Point(-250, -1300);
 	}
-
 }

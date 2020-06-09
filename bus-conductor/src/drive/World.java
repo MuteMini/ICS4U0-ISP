@@ -4,41 +4,67 @@ package drive;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-
-import game.Game;
 import game.Loader;
 
 
 public abstract class World {
 	protected Point startPos;
 	protected BufferedImage map;
-	protected ArrayList<Rectangle> boundary;
-	protected Point[] SpawnPoints;
-
-	public World(int x, int y, int imageID) {
+	protected ArrayList<Integer[]> boundary;
+	protected Point busStop;
+	private int entityDelay;
+	private int spawnX;
+	private int spawnYTop;
+	private int spawnYBot;
+	
+	public World(int x, int y, int imageID, int spawnX, int spawnYTop, int spawnYBot) {
 		this.startPos = new Point(x, y);
-		this.boundary = new ArrayList<Rectangle>();
+		this.boundary = new ArrayList<Integer[]>();
 		this.map = getImage(imageID);
+		this.entityDelay = 0;
+		this.spawnX = spawnX;
+		this.spawnYTop = spawnYTop;
+		this.spawnYBot = spawnYBot;
 	}
+	
+	public void update(ArrayList<Entity> entities) {
+		entityDelay++;
+		
+		if (entityDelay == 2*60) {
+			if (Math.random() >= 0.5) {
+				entities.add(new Car(spawnX, spawnYTop, 0d, 5d));
+			} else {
+				entities.add(new Car(spawnX+155, spawnYTop, 0d, 5d));
+			}
 
+			if (Math.random() >= 0.5) {
+				entities.add(new Car(spawnX+325, spawnYBot, 0d, -5d));
+			} else {
+				entities.add(new Car(spawnX+470, spawnYBot, 0d, -5d));
+			}
+			entityDelay = 0;
+		}
+	}
+	
 	public void render(Graphics2D g2d) {
 		g2d.drawImage(map, startPos.x - BusLevel.c.getXPos(), startPos.y - BusLevel.c.getYPos(), null);
 		
 		if (BusLevel.debug) {
+			int xOffset = -BusLevel.c.getXPos();
+			int yOffset = -BusLevel.c.getYPos();
 			g2d.setColor(Color.black);
-			for (Rectangle r : boundary) {
-				r.translate(BusLevel.c.getXPos() * -1, BusLevel.c.getYPos() * -1);
+			for (Integer[] r : boundary) {
 				g2d.setColor(Color.darkGray);
-				g2d.fill(r);
-				r.translate(BusLevel.c.getXPos(), BusLevel.c.getYPos());
+				if(r[3] % 2 == 0)
+					g2d.drawLine(r[0]+xOffset, r[1]+yOffset, r[0]+xOffset, r[2]+yOffset); //draws a line up and down
+				else
+					g2d.drawLine(r[0]+xOffset, r[1]+yOffset, r[2]+xOffset, r[1]+yOffset); //draws a line left to right
 			}
+			busStop.translate(xOffset, yOffset);
+			g2d.drawRect((int)busStop.getX(), (int)busStop.getY(), 5, 5);
+			busStop.translate(-xOffset, -yOffset);
 		}
 	}
 
@@ -46,8 +72,12 @@ public abstract class World {
 		return startPos;
 	}
 
-	public ArrayList<Rectangle> getBoundary() {
+	public ArrayList<Integer[]> getBoundary() {
 		return boundary;
+	}
+	
+	public Point getBusStop() {
+		return busStop;
 	}
 	
 	private BufferedImage getImage(int imageID) {

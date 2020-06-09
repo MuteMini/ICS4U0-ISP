@@ -22,16 +22,16 @@ public abstract class Entity {
 	public boolean crashed;
 
 	public Entity(int xPos, int yPos, int w, int h) {
-		HEIGHT = h;
-		WIDTH = w;
-		center = new Point(xPos, yPos);
-		angle = 0;
-		xVel = 0;
-		yVel = 0;
+		this.HEIGHT = h;
+		this.WIDTH = w;
+		this.center = new Point(xPos, yPos);
+		this.angle = 0;
+		this.xVel = 0;
+		this.yVel = 0;
 		setAngleVel(0);
-		buildUp = 0;
-		entityPoints = new Point[4];
-		c = Color.blue;
+		this.buildUp = 0;
+		this.entityPoints = new Point[4];
+		this.c = Color.blue;
 	}
 
 	protected Polygon createPolygon(Point[] polyPoints) {
