@@ -1,7 +1,9 @@
 package game.states;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import game.Game;
 
 public class PauseState implements States {
 
@@ -12,8 +14,8 @@ public class PauseState implements States {
 
 	@Override
 	public void render(Graphics2D g2d) {
-		// TODO Auto-generated method stub
-
+		g2d.setColor(new Color(0, 0, 0, 150));
+		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 	}
 
 	@Override

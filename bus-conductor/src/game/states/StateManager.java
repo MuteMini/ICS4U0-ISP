@@ -2,21 +2,22 @@ package game.states;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-
 import drive.Bus;
-import drive.BusLevel;
-import puzzles.PuzzleLevel;
+import drive.BusState;
+import puzzles.PuzzleState;
 
 public class StateManager{
-	private final SplashScreen s = new SplashScreen();
-	private final PauseScreen p = new PauseScreen();
-	private final States[] state = {new MainMenu(), new BusLevel(), new PuzzleLevel()};
+	private final SplashState s = new SplashState();
+	private final PauseState p = new PauseState();
+	private final States[] state = {new MenuState(), new BusState(), new PuzzleState()};
 	private int statePos;
 	private boolean paused;
+	private boolean pauseHold;
 	
 	public StateManager() {
 		this.statePos = 1;
 		this.paused = false;
+		this.pauseHold = false;
 	}
 	
 	public void update() {
@@ -27,10 +28,10 @@ public class StateManager{
 				p.update();
 			} else {
 				state[statePos].update();
-			}
-			if(statePos == 1 && ((BusLevel)state[1]).isOnStop()) {
-				statePos = 2;
-				((BusLevel)state[1]).setOnStop(false);
+				if(statePos == 1 && ((BusState)state[1]).isOnStop()) {
+					statePos = 2;
+					((BusState)state[1]).setOnStop(false);
+				}
 			}
 		}
 	}
@@ -39,15 +40,18 @@ public class StateManager{
 		if (!s.isLoadingDone()) {
 			s.render(g2d);
 		} else {
+			state[statePos].render(g2d);
 			if(paused)
 				p.render(g2d);
-			state[statePos].render(g2d);
 		}
 	}
 	
 	public void keyPressed(KeyEvent e) {
 		if (s.isLoadingDone()) {
-			if(paused) {
+			if(!pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				paused = !paused;
+				pauseHold = true;
+			} else if(paused) {
 				p.keyPressed(e);
 			} else {
 				state[statePos].keyPressed(e);
@@ -62,12 +66,18 @@ public class StateManager{
 			} else {
 				state[statePos].keyReleased(e);
 			}
+			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				pauseHold = false;
+				if(statePos == 1) {
+					((BusState)state[1]).resetHold();
+				}
+			}
 		}
 	}
 	
 	//testing
 	public Bus getBus() {
-		return ((BusLevel)state[1]).getBus();
+		return ((BusState)state[1]).getBus();
 	}
 }
 	
