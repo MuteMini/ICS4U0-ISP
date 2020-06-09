@@ -33,18 +33,27 @@ public class BusLevel implements States{
 	public void update() {
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
+    
 		worlds[currentWorld].update(entities);
 		
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
-			
+
 			if (entities.get(i).getCenter().distance(b.getCenter()) <= 120) {
 				entities.get(i).setColor(Color.green);
 				if (b.isColliding(entities.get(i))) {
 					entities.get(i).setColor(Color.red);
 					((Car) entities.get(i)).setCrashed(true);
-					entities.get(i).setXVel(b.getXVel() * 2);
-					entities.get(i).setYVel(b.getYVel() * 2);
+					if (Math.abs(b.getXVel()) < 0.9)
+						entities.get(i).setXVel(0);
+					else
+						entities.get(i).setXVel(b.getXVel() * 2);
+					if (Math.abs(b.getYVel()) < 0.9)
+						entities.get(i).setYVel(0);
+					else
+						entities.get(i).setYVel(b.getYVel() * 2);
+					if (entities.get(i).getXVel() != 0 || entities.get(i).getYVel() != 0)
+						entities.get(i).setAngleVel(Math.round(Math.random()) * 4 - 2);
 				}
 			} else {
 				if (!entities.get(i).getColor().equals(Color.blue)) {
@@ -82,8 +91,9 @@ public class BusLevel implements States{
 		int crashedEntities = 0;
 		int drawnEntities = 0;
 		for (Entity e : entities) {
-			if (e.crashed)
+			if (e.crashed) {
 				crashedEntities++;
+			}
 			if (Math.abs(e.getCenter().distance(b.getCenter())) <= 578) {
 				if (e.crashed)
 					g2d.setColor(Color.red);
