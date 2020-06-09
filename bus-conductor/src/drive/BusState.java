@@ -123,7 +123,10 @@ public class BusState implements States{
 		b.unholdKey(e);
 	}
 	
-	//here for testing
+	public void resetHold() {
+		b.resetHold();
+	}
+	
 	public boolean isOnStop(){
 		return onStop;
 	}
@@ -131,6 +134,9 @@ public class BusState implements States{
 	public void setOnStop(boolean onStop){
 		this.onStop = onStop;
 	}
+	
+	//here for testing
+	
 	
 	public Bus getBus() {
 		return b;

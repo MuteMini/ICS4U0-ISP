@@ -160,4 +160,8 @@ public class Bus extends Entity {
 	public void setOutside(boolean outside) {
 		this.outside = outside;
 	}
+	
+	public void resetHold() {
+		this.keysHeld = new TreeSet<Integer>();
+	}
 }
