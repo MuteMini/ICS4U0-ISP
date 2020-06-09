@@ -44,13 +44,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 	}
 
 	private synchronized void stop() {
-		if (running) {
-			running = false;
-			try {
-				t.join();
-			} catch (Exception e) {
-			}
-		}
+		notify();
 	}
 
 	@Override
@@ -113,6 +107,10 @@ public class Game extends Canvas implements Runnable, MouseListener {
 
 	public void keyReleased(KeyEvent e) {
 		st.keyReleased(e);
+	}
+	
+	public void setRunning(boolean running) {
+		this.running = running;
 	}
 	
 	@Override

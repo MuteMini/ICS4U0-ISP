@@ -78,9 +78,6 @@ public class BusLevel implements States{
 
 		worlds[currentWorld].render(g2d);
 
-		g2d.setColor(Color.BLUE);
-		g2d.fillRect(250 - c.getXPos(), 450 - c.getYPos(), 50, 50);
-
 		b.draw(g2d);
 		int crashedEntities = 0;
 		int drawnEntities = 0;
