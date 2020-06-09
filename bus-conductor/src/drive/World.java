@@ -34,17 +34,25 @@ public abstract class World {
 		
 		if (entityDelay == 2*60) {
 			if (Math.random() >= 0.5) {
-				entities.add(new Car(spawnX, spawnYTop, 0d, 5d));
+				entities.add(new Car(spawnX, spawnYTop+10, 0d, 5d));
 			} else {
-				entities.add(new Car(spawnX+155, spawnYTop, 0d, 5d));
+				entities.add(new Car(spawnX+155, spawnYTop+10, 0d, 5d));
 			}
 
 			if (Math.random() >= 0.5) {
-				entities.add(new Car(spawnX+325, spawnYBot, 0d, -5d));
+				entities.add(new Car(spawnX+325, spawnYBot-10, 0d, -5d));
 			} else {
-				entities.add(new Car(spawnX+470, spawnYBot, 0d, -5d));
+				entities.add(new Car(spawnX+470, spawnYBot-10, 0d, -5d));
 			}
 			entityDelay = 0;
+		}
+		for(int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			if ((e.getCenter().y >= spawnYBot && e.getYVel() > 0)
+					|| (e.getCenter().y <= spawnYTop && e.getYVel() < 0)
+					|| (e.getCenter().x <= spawnX-600) || (e.getCenter().x >= spawnX+1770)) {
+				entities.remove(i);
+			}
 		}
 	}
 	

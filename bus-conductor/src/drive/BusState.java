@@ -1,4 +1,4 @@
-package drive;
+  package drive;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -34,8 +34,6 @@ public class BusState implements States{
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
     
-		worlds[currentWorld].update(entities);
-		
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
 
@@ -60,14 +58,10 @@ public class BusState implements States{
 					entities.get(i).setColor(Color.blue);
 				}
 			}
-
-			if ((entities.get(i).getCenter().y >= 800 && entities.get(i).getYVel() > 0)
-					|| (entities.get(i).getCenter().y <= -9000 && entities.get(i).getYVel() < 0)
-					|| (entities.get(i).getCenter().x >= 225) || (entities.get(i).getCenter().x <= -2000)) {
-				entities.remove(i);
-			}
 		}
 
+		worlds[currentWorld].update(entities);
+		
 		for (int i = 0; i < worlds[currentWorld].getBoundary().size(); i++) {
 			Integer[] boundP = worlds[currentWorld].getBoundary().get(i);
 			boolean ahead = (boundP[3] == 1 && b.getCenter().getY() <= boundP[1] && (b.getCenter().getX() <= Math.max(boundP[0], boundP[2]) && b.getCenter().getX() >= Math.min(boundP[0], boundP[2])))
