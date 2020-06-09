@@ -77,14 +77,14 @@ public class Bus extends Entity {
 	@Override
 	public void draw(Graphics2D g2d) {
 		entityBody = createPolygon(entityPoints);
-		entityBody.translate((int) (-BusLevel.c.getXPos() - xVel), (int) (-BusLevel.c.getYPos() - yVel));
+		entityBody.translate((int) (-BusState.c.getXPos() - xVel), (int) (-BusState.c.getYPos() - yVel));
 		AffineTransform temp = g2d.getTransform();
 		
 		g2d.rotate(Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
-		g2d.drawImage(Loader.BUS_SPRITE,(int)(center.x - BusLevel.c.getXPos() - WIDTH/2  - xVel), (int)(center.y - BusLevel.c.getYPos() - HEIGHT/2 - yVel), null);
+		g2d.drawImage(Loader.BUS_SPRITE,(int)(center.x - BusState.c.getXPos() - WIDTH/2  - xVel), (int)(center.y - BusState.c.getYPos() - HEIGHT/2 - yVel), null);
 		g2d.rotate(-Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
 		
-		if (BusLevel.debug) {
+		if (BusState.debug) {
 			g2d.setColor(Color.RED);
 			g2d.fill(entityBody);
 			g2d.setColor(Color.black);

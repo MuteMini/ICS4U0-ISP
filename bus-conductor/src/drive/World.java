@@ -49,11 +49,11 @@ public abstract class World {
 	}
 	
 	public void render(Graphics2D g2d) {
-		g2d.drawImage(map, startPos.x - BusLevel.c.getXPos(), startPos.y - BusLevel.c.getYPos(), null);
+		g2d.drawImage(map, startPos.x - BusState.c.getXPos(), startPos.y - BusState.c.getYPos(), null);
 		
-		if (BusLevel.debug) {
-			int xOffset = -BusLevel.c.getXPos();
-			int yOffset = -BusLevel.c.getYPos();
+		if (BusState.debug) {
+			int xOffset = -BusState.c.getXPos();
+			int yOffset = -BusState.c.getYPos();
 			g2d.setColor(Color.black);
 			for (Integer[] r : boundary) {
 				g2d.setColor(Color.darkGray);

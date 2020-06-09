@@ -35,20 +35,20 @@ public class Car extends Entity {
 	@Override
 	public void draw(Graphics2D g2d) {
 		entityBody = createPolygon(entityPoints);
-		entityBody.translate((int) (-BusLevel.c.getXPos()), (int) (-BusLevel.c.getYPos()));
+		entityBody.translate((int) (-BusState.c.getXPos()), (int) (-BusState.c.getYPos()));
 
 		AffineTransform temp = g2d.getTransform();
 
-		g2d.rotate(Math.toRadians(angle), center.x - BusLevel.c.getXPos(), center.y - BusLevel.c.getYPos());
-		g2d.drawImage(carSprite, center.x - WIDTH / 2 - (int) (BusLevel.c.getXPos()),
-				center.y - HEIGHT / 2 - (int) (BusLevel.c.getYPos()), null);
+		g2d.rotate(Math.toRadians(angle), center.x - BusState.c.getXPos(), center.y - BusState.c.getYPos());
+		g2d.drawImage(carSprite, center.x - WIDTH / 2 - (int) (BusState.c.getXPos()),
+				center.y - HEIGHT / 2 - (int) (BusState.c.getYPos()), null);
 		g2d.setTransform(temp);
 
-		if (BusLevel.debug) {
+		if (BusState.debug) {
 			g2d.setColor(c);
 			g2d.fill(entityBody);
 			g2d.setColor(Color.pink);
-			g2d.fillOval(getCenter().x - BusLevel.c.getXPos() - 5, getCenter().y - BusLevel.c.getYPos() - 5, 10, 10);
+			g2d.fillOval(getCenter().x - BusState.c.getXPos() - 5, getCenter().y - BusState.c.getYPos() - 5, 10, 10);
 		}
 	}
 

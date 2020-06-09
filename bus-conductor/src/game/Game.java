@@ -7,9 +7,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
-import drive.BusLevel;
+import drive.BusState;
 import game.states.StateManager;
-import puzzles.PuzzleLevel;
+import puzzles.PuzzleState;
 
 
 /**
