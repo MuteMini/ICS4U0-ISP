@@ -66,31 +66,27 @@ public final class Loader {
 			if(spriteID == 0)
 				return ImageIO.read(Loader.class.getResource("/puzzlescreen.png"));
 			else if(spriteID == 1)
-				return ImageIO.read(Loader.class.getResource("/youngadult.png"));
+				return ImageIO.read(Loader.class.getResource("/Passenger/youngadult.png"));
 			else if(spriteID == 2)
-				return ImageIO.read(Loader.class.getResource("/parent.png"));
+				return ImageIO.read(Loader.class.getResource("/Passenger/parent.png"));
 			else if(spriteID == 3)
-				return ImageIO.read(Loader.class.getResource("/children.png"));
+				return ImageIO.read(Loader.class.getResource("/Passenger/children.png"));
 			else if(spriteID == 4) {
 				if(diff < 5)
-					return ImageIO.read(Loader.class.getResource("/student"+diff+".png"));
+					return ImageIO.read(Loader.class.getResource("/Passenger/student"+diff+".png"));
 				else
-					return ImageIO.read(Loader.class.getResource("/student_sit"+(diff-4)+".png"));
+					return ImageIO.read(Loader.class.getResource("/Passenger/student_sit"+(diff-4)+".png"));
 			}
 			else if(spriteID == 5)
-				return ImageIO.read(Loader.class.getResource("/elderly.png"));
+				return ImageIO.read(Loader.class.getResource("/Passenger/elderly.png"));
 			else if(spriteID == 6)
-				return ImageIO.read(Loader.class.getResource("/pregnant.png"));
-			else if(spriteID == 5)
-				return ImageIO.read(Loader.class.getResource("/elderly.png"));
-			else if(spriteID == 6)
-				return ImageIO.read(Loader.class.getResource("/pregnant.png"));
+				return ImageIO.read(Loader.class.getResource("/Passenger/pregnant.png"));
 			else if(spriteID == 7)
-				return ImageIO.read(Loader.class.getResource("/disabled"+diff+".png"));
+				return ImageIO.read(Loader.class.getResource("/Passenger/disabled"+diff+".png"));
 			else if(spriteID == 8)
-				return ImageIO.read(Loader.class.getResource("/luggageman.png"));
+				return ImageIO.read(Loader.class.getResource("/Passenger/luggageman.png"));
 			else if(spriteID == 9)
-				return ImageIO.read(Loader.class.getResource("/luggage"+diff+".png"));
+				return ImageIO.read(Loader.class.getResource("/Passenger/luggage"+diff+".png"));
 		} catch (IOException e) {
 		}
 		return null;
@@ -101,7 +97,7 @@ public final class Loader {
 			if(spriteID == 0)
 				return ImageIO.read(Loader.class.getResource("/bus.png"));
 			else if(spriteID == 1) {
-				return ImageIO.read(Loader.class.getResource("/car"+diff+".png"));
+				return ImageIO.read(Loader.class.getResource("/Car/car"+diff+".png"));
 			}
 			else if(spriteID == 2) {
 				return ImageIO.read(Loader.class.getResource("/route-"+diff+".png"));
@@ -117,11 +113,11 @@ public final class Loader {
 				return ImageIO.read(Loader.class.getResource("/splashscreen"+diff+".png"));
 			else if(spriteID == 1) {
 				if(diff == 0)
-					return ImageIO.read(Loader.class.getResource("/mainmenu.png"));
+					return ImageIO.read(Loader.class.getResource("/Menu/mainmenu.png"));
 				else if(diff == 1)
-					return ImageIO.read(Loader.class.getResource("/title.png"));
+					return ImageIO.read(Loader.class.getResource("/Menu/title.png"));
 				else if(diff == 2)
-					return ImageIO.read(Loader.class.getResource("/choices.png"));
+					return ImageIO.read(Loader.class.getResource("/Menu/choices.png"));
 			}
 		} catch (IOException e) {
 		}
