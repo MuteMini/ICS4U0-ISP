@@ -63,7 +63,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 			sTime = cTime;
 
 			if (delta >= 1) {
-				st.update();
+				update();
 				updates++;
 				delta--;
 			}
@@ -85,6 +85,12 @@ public class Game extends Canvas implements Runnable, MouseListener {
 			}
 		}
 		stop();
+	}
+	
+	private void update() {
+		st.update();
+		if(st.gameClosed())
+			running = false;
 	}
 	
 	private void render() {
