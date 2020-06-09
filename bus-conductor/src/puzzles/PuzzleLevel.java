@@ -1,7 +1,7 @@
 package puzzles;
 
 import game.Loader;
-import game.States;
+import game.states.States;
 import puzzles.level.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;

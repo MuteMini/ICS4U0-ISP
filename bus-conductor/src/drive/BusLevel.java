@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import drive.world.*;
 import game.Camera;
 import game.Game;
-import game.States;
+import game.states.States;
 
 public class BusLevel implements States{
 	

@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import drive.BusLevel;
+import game.states.StateManager;
 import puzzles.PuzzleLevel;
 
 
@@ -79,7 +80,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				//System.out.println("Updates: " + updates + "\nFrames: " + frames);
+				System.out.println("Updates: " + updates + "\nFrames: " + frames);
 				updates = 0;
 				frames = 0;
 			}

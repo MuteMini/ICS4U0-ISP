@@ -1,9 +1,12 @@
-package game;
+package game.states;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+
+import game.Game;
+import game.Loader;
 
 public class SplashScreen implements States{
 	private boolean loadingDone;
