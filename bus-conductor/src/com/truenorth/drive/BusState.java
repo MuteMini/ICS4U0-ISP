@@ -19,9 +19,8 @@ public class BusState implements States{
 	private final World[] worlds = new World[WORLDS_NUM];
 	private ArrayList<Entity> entities;
 	private Bus b;
-	private int currentWorld;
+	private int worldPos;
 	private boolean onStop;
-	
 	private float alpha;
 	
 	public BusState() {
@@ -30,7 +29,7 @@ public class BusState implements States{
 		this.b = new Bus();
 		this.worlds[0] = new WorldOne();
 		this.worlds[1] = new WorldTwo();
-		this.currentWorld = 1;
+		this.worldPos = 1;
 		this.onStop = false;
 		this.alpha = 0.5f;
 	}
@@ -65,10 +64,10 @@ public class BusState implements States{
 			}
 		}
 
-		worlds[currentWorld].update(entities);
+		worlds[worldPos].update(entities);
 		
-		for (int i = 0; i < worlds[currentWorld].getBoundary().size(); i++) {
-			Integer[] boundP = worlds[currentWorld].getBoundary().get(i);
+		for (int i = 0; i < worlds[worldPos].getBoundary().size(); i++) {
+			Integer[] boundP = worlds[worldPos].getBoundary().get(i);
 			boolean ahead = (boundP[3] == 1 && b.getCenter().getY() <= boundP[1] && (b.getCenter().getX() <= Math.max(boundP[0], boundP[2]) && b.getCenter().getX() >= Math.min(boundP[0], boundP[2])))
 					|| (boundP[3] == 2 && b.getCenter().getX() >= boundP[0] && (b.getCenter().getY() <= Math.max(boundP[1], boundP[2]) && b.getCenter().getY() >= Math.min(boundP[1], boundP[2])))
 					|| (boundP[3] == 3 && b.getCenter().getY() >= boundP[1] && (b.getCenter().getX() <= Math.max(boundP[0], boundP[2]) && b.getCenter().getX() >= Math.min(boundP[0], boundP[2])))
@@ -86,7 +85,7 @@ public class BusState implements States{
 		g2d.setColor(new Color(29, 174, 5));
 		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
-		worlds[currentWorld].render(g2d, c.getXPos(), c.getYPos());
+		worlds[worldPos].render(g2d, c.getXPos(), c.getYPos());
 
 		b.draw(g2d, c.getXPos(), c.getYPos());
 		int crashedEntities = 0;
@@ -116,16 +115,16 @@ public class BusState implements States{
 		
 		if (debug) {
 			g2d.setColor(Color.orange);
-			g2d.drawLine(b.center.x - c.getXPos(), b.center.y - c.getYPos(), worlds[currentWorld].getBusStop().x - c.getXPos(), worlds[currentWorld].getBusStop().y - c.getYPos());
+			g2d.drawLine(b.center.x - c.getXPos(), b.center.y - c.getYPos(), worlds[worldPos].getBusStop().x - c.getXPos(), worlds[worldPos].getBusStop().y - c.getYPos());
 			g2d.setColor(Color.black);
 			g2d.drawString("Entity Count: " + entities.size(), 10, 140);
 			g2d.drawString("Entities drawn: " + drawnEntities, 10, 152);
 			g2d.drawString("Entities crashed: " + crashedEntities, 10, 164);
 		}
-		if (b.center.distance(worlds[currentWorld].getBusStop()) >= 450) {
+		if (b.center.distance(worlds[worldPos].getBusStop()) >= 450) {
 			AffineTransform temp = g2d.getTransform();
-			double arrowAngle = Math.toDegrees(Math.atan((b.center.y-worlds[currentWorld].getBusStop().getY())/(b.center.x - worlds[currentWorld].getBusStop().getX())));
-			if (b.center.getX() >= worlds[currentWorld].getBusStop().getX()) {
+			double arrowAngle = Math.toDegrees(Math.atan((b.center.y-worlds[worldPos].getBusStop().getY())/(b.center.x - worlds[worldPos].getBusStop().getX())));
+			if (b.center.getX() >= worlds[worldPos].getBusStop().getX()) {
 				arrowAngle += 270;
 			} else {
 				arrowAngle += 90;
@@ -143,7 +142,7 @@ public class BusState implements States{
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			debug = !debug;
 		}
-		else if(b.getCenter().distance(worlds[currentWorld].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER) {
+		else if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER) {
 			onStop = true;
 		}
 		b.processMovement(e);
@@ -165,7 +164,13 @@ public class BusState implements States{
 		this.onStop = onStop;
 	}
 	
+	public void setWorldPos(int worldPos){	
+		this.worldPos = worldPos;
+	}
 	
+	public int getWorldPos(){
+		return worldPos;
+	}
 	
 	//here for testing
 	public Bus getBus() {

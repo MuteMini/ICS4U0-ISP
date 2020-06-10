@@ -2,113 +2,190 @@ package com.truenorth.game.states;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import com.truenorth.drive.Bus;
 import com.truenorth.drive.BusState;
 import com.truenorth.puzzles.PuzzleState;
 
 public class StateManager{
-	private final SplashState s = new SplashState();
-	private final PauseState p = new PauseState();
-	private final States[] state = {new MenuState(), new BusState(), new PuzzleState()};
-	private int fileNum;
+	protected static final String EMPTYNAME = "|null|";
+	private final File LOCATION;
+	private final SplashState SS = new SplashState();
+	private final PauseState PS = new PauseState();
+	private final States[] STATE = {new MenuState(), new BusState(), new PuzzleState()};
+	private String[] fileNames;
+	private int[] busWorldPos;
+	private int[] puzzleLevelPos;
+	private int[] times;
 	private int statePos;
-	private boolean paused;
+	private int fileNum;
 	private boolean pauseHold;
 	private boolean loaded;
 	
 	public StateManager() {
+		this.LOCATION = new File(System.getProperty("user.dir") + "/BusConductorSaves");
+		this.LOCATION.mkdirs();
+		this.fileNames = new String[3];
+		this.busWorldPos = new int[3];
+		this.puzzleLevelPos = new int[3];
+		this.times = new int[3];
 		this.statePos = 0;
 		this.fileNum = 0;
-		this.paused = false;
 		this.pauseHold = false;
 		this.loaded = false;
-		loadFile();
 	}
 	
 	public void update() {
-		if (!s.isLoadingDone()) {
-			s.update();
+		if (!SS.isLoadingDone()) {
+			SS.update();
 		} else {
-			if(paused) {
-				p.update();
+			if(PS.getPaused()) {
+				PS.update();
+				PS.setInstructionPage(statePos);
+				if(PS.getExit()) {
+					statePos = 0;
+					saveSave();
+					loaded = false;
+					PS.setPaused(false);
+					PS.resetScreen();
+				}
 			} else {
-				state[statePos].update();
+				STATE[statePos].update();
 				if(statePos == 0) {
 					if(!loaded) {
-						loadFile();
+						loadAllFile();
+						((MenuState)STATE[0]).setSaveFiles(fileNames, times);
 						loaded = true;
 					}
-					if(((MenuState)state[0]).startGame()) {
-						fileNum = ((MenuState)state[0]).getCursorPos();
+					else if(((MenuState)STATE[0]).getDelete()) {
+						int filePos = ((MenuState)STATE[0]).getCursorPos()+1;
+						createFile(filePos);
+						loadFile(filePos);
+						((MenuState)STATE[0]).setDelete(false);
+					}
+					else if(((MenuState)STATE[0]).startGame()) {
+						fileNum = ((MenuState)STATE[0]).getCursorPos();
+						loadSave();
 						statePos = 1;
 						loaded = false;
-						((MenuState)state[0]).resetMenu();
+						((MenuState)STATE[0]).resetScreen();
 					}
-				} else if(statePos == 1 && ((BusState)state[1]).isOnStop()) {
+				} else if(statePos == 1 && ((BusState)STATE[1]).isOnStop()) {
 					statePos = 2;
-					((BusState)state[1]).setOnStop(false);
+					((BusState)STATE[1]).setOnStop(false);
 				}
 			}
 		}
 	}
 	
 	public void render(Graphics2D g2d) {
-		if (!s.isLoadingDone()) {
-			s.render(g2d);
+		if (!SS.isLoadingDone()) {
+			SS.render(g2d);
 		} else {
-			state[statePos].render(g2d);
-			if(paused)
-				p.render(g2d);
+			STATE[statePos].render(g2d);
+			if(PS.getPaused())
+				PS.render(g2d);
 		}
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		if (s.isLoadingDone()) {
-			if(statePos != 0 && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				paused = !paused;
+		if (SS.isLoadingDone()) {
+			if( ((statePos == 1) || (statePos == 2 && !((PuzzleState)STATE[2]).hasTutorial())) && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				PS.setPaused(!PS.getPaused());
 				pauseHold = true;
-			} else if(paused) {
-				p.keyPressed(e);
+			} else if(PS.getPaused()) {
+				PS.keyPressed(e);
 			} else {
-				state[statePos].keyPressed(e);
+				STATE[statePos].keyPressed(e);
 			}
 		}
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		if (s.isLoadingDone()) {
-			if(paused) {
-				p.keyReleased(e);
+		if (SS.isLoadingDone()) {
+			if(PS.getPaused()) {
+				PS.keyReleased(e);
 			} else {
-				state[statePos].keyReleased(e);
+				STATE[statePos].keyReleased(e);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				pauseHold = false;
 				if(statePos == 1) {
-					((BusState)state[1]).resetHold();
+					((BusState)STATE[1]).resetHold();
 				}
 			}
 		}
 	}
 	
 	public boolean gameClosed() {
-		return ((MenuState)state[0]).getClosed(); 
+		return ((MenuState)STATE[0]).getClosed(); 
 	}
 	
-	private void loadFile() {
-		//load the file here. Find what driving level they were on and what puzzle level they were going to. Start the user on that driving level.
+	private void loadAllFile() {
+		for(int i = 0; i < 3; i++) {
+			if(!loadFile(i+1)) {
+				createFile(i+1);
+				loadFile(i+1);
+			}
+		}
 	}
 	
-	private void saveFile() {
-		/*save the file here, tutorial and main game as different files.
-		 * - each driving level and how long they took
-		 * - each puzzle level and how long they took
-		 */
+	private boolean loadFile(int saveFile) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(LOCATION.getPath()+"/save"+saveFile+".ismk"));
+			if(!br.readLine().equals("This File Is The Correct File For Save "+saveFile)) {
+				br.close();
+				throw new FileNotFoundException();
+			}
+			fileNames[saveFile-1] = br.readLine();
+			busWorldPos[saveFile-1] = Integer.parseInt(br.readLine());
+			puzzleLevelPos[saveFile-1] = Integer.parseInt(br.readLine());
+			times[saveFile-1] = Integer.parseInt(br.readLine());
+			br.close();
+		} 
+		catch(FileNotFoundException e) {
+			return false;
+		}
+		catch(IOException e) {}
+		return true;
+	}
+	
+	private void createFile(String name, int busPos, int puzzlePos, int time, int saveFile) {
+		try {
+			PrintWriter pr = new PrintWriter(LOCATION.getPath()+"/save"+saveFile+".ismk");
+			pr.println("This File Is The Correct File For Save "+saveFile);
+			pr.println(name);
+			pr.println(busPos);
+			pr.println(puzzlePos);
+			pr.println(time);
+			pr.close();
+		} catch(IOException e) {}
+	}
+	
+	private void createFile(int saveFile) {
+		createFile(EMPTYNAME, 0, 0, 0, saveFile);
+	}
+
+	private void saveSave() {
+		createFile(fileNames[fileNum], ((BusState)STATE[1]).getWorldPos(), ((PuzzleState)STATE[2]).getLevelPos(), 0, fileNum+1);
+	}
+	
+	private void loadSave() {
+		((BusState)STATE[1]).setWorldPos(busWorldPos[fileNum]);
+		((BusState)STATE[1]).resetWorlds();
+		((PuzzleState)STATE[2]).setLevelPos(puzzleLevelPos[fileNum]);
+		((PuzzleState)STATE[2]).resetLevels();
 	}
 	
 	//testing
 	public Bus getBus() {
-		return ((BusState)state[1]).getBus();
+		return ((BusState)STATE[1]).getBus();
 	}
 }
 	

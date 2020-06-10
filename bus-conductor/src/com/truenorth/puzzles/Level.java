@@ -182,7 +182,7 @@ public abstract class Level {
 		if(animateCount > 310) {
 			g2d.setColor(Color.WHITE);
 			g2d.setFont(Loader.TTC_TITLE);
-			g2d.drawString("Puzzle Solved!", 260, 330);
+			g2d.drawString("Puzzle Solved!", 240, 330);
 		}
 		g2d.dispose();
 		powerCount += 0.01;

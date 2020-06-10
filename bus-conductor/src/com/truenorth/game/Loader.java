@@ -48,6 +48,18 @@ public final class Loader {
 	public static final BufferedImage CAR_SPRITE8 = getBusSprite(1, 8);
 	//public static final BufferedImage TUT_WORLD = getBusSprite(2, 0);
 	public static final BufferedImage WORLD1 = getBusSprite(2, 1);
+	public static final BufferedImage WORLD2 = getBusSprite(2, 2);
+	public static final BufferedImage WORLD3 = getBusSprite(2, 3);
+	public static final BufferedImage WORLD4 = getBusSprite(2, 4);
+	public static final BufferedImage WORLD5 = getBusSprite(2, 5);
+	public static final BufferedImage WORLD6 = getBusSprite(2, 6);
+	public static final BufferedImage WORLD7 = getBusSprite(2, 7);
+	public static final BufferedImage WORLD8 = getBusSprite(2, 8);
+	public static final BufferedImage WORLD9 = getBusSprite(2, 9);
+	public static final BufferedImage WORLD10 = getBusSprite(2, 10);
+	public static final BufferedImage WORLD11 = getBusSprite(2, 11);
+	public static final BufferedImage WORLD12 = getBusSprite(2, 12);
+	public static final BufferedImage WORLD13 = getBusSprite(2, 13);
 	public static final BufferedImage WARNING_IMAGE = getBusSprite(3,0);
 	public static final BufferedImage ARROW = getBusSprite(4,0);
 	
@@ -55,8 +67,9 @@ public final class Loader {
 	public static final BufferedImage MAINMENU_BACKGROUND = getGeneralSprite(1, 0);
 	public static final BufferedImage MAINMENU_TITLE = getGeneralSprite(1, 1);
 	public static final BufferedImage MAINMENU_CHOICES = getGeneralSprite(1, 2);
+	public static final BufferedImage PAUSE_CHOICES = getGeneralSprite(2, 0);
 	
-	public static final Font TTC_TITLE = getFont(1).deriveFont(42f);
+	public static final Font TTC_TITLE = getFont(1).deriveFont(56f);
 	public static final Font TTC_BODY = getFont(1).deriveFont(28f);
 	public static final Font CALIBRI_BODY1 = getFont(2);
 	public static final Font CALIBRI_BODY2 = getFont(3);
@@ -107,7 +120,8 @@ public final class Loader {
 			}
 			else if (spriteID == 3) {
 				return ImageIO.read(Loader.class.getResource("/Warning.png"));
-			} else if (spriteID == 4) {
+			} 
+			else if (spriteID == 4) {
 				return ImageIO.read(Loader.class.getResource("/Arrow.png"));
 			}
 		} catch (IOException e) {
@@ -126,6 +140,10 @@ public final class Loader {
 					return ImageIO.read(Loader.class.getResource("/Menu/title.png"));
 				else if(diff == 2)
 					return ImageIO.read(Loader.class.getResource("/Menu/choices.png"));
+			}
+			else if(spriteID == 2) {
+				if(diff == 0)
+					return ImageIO.read(Loader.class.getResource("/Menu/pause.png"));
 			}
 		} catch (IOException e) {
 		}
