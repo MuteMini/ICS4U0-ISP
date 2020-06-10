@@ -13,6 +13,7 @@ public class PauseState implements States {
 
 	private int cursorPos;
 	private int screenPos;
+	private int instructionPage;
 	private boolean paused;
 	private boolean exitClick;
 	private Set<Integer> keysHeld;
@@ -24,6 +25,7 @@ public class PauseState implements States {
 	public void resetScreen() {
 		this.cursorPos = 0;
 		this.screenPos = 0;
+		this.instructionPage = 0;
 		this.paused = false;
 		this.exitClick = false;
 		this.keysHeld = new TreeSet<Integer>();
@@ -39,8 +41,14 @@ public class PauseState implements States {
 		g2d.setColor(new Color(0, 0, 0, 150));
 		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		
-		g2d.setColor(new Color(0,255,0,100));
-		g2d.fillRoundRect(60, 120+(cursorPos*157), Game.WIDTH-120, 90, 30, 30);
+		switch(screenPos) {
+			case 0:
+				g2d.setColor(new Color(0,255,0,100));
+				g2d.fillRoundRect(60, 120+(cursorPos*157), Game.WIDTH-120, 90, 30, 30);
+				break;
+			case 1:
+				break;
+		}
 
 		g2d.drawImage(Loader.PAUSE_CHOICES, 172, 120, null);
 	}
@@ -92,5 +100,9 @@ public class PauseState implements States {
 	
 	public int getCursorPos() {
 		return cursorPos;
+	}
+	
+	public void setInstructionPage(int instructionPage) {
+		this.instructionPage = instructionPage;
 	}
 }

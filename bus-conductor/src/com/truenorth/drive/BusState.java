@@ -25,15 +25,19 @@ public class BusState implements States{
 	
 	public BusState() {
 		this.c = new Camera();
-		this.entities = new ArrayList<Entity>();
-		this.b = new Bus();
-		this.worlds[0] = new WorldOne();
-		this.worlds[1] = new WorldTwo();
-		this.worldPos = 1;
+		this.worldPos = 0;
 		this.onStop = false;
 		this.alpha = 0.5f;
+		resetWorlds();
 	}
 	
+	public void resetWorlds() {
+		this.worlds[0] = new WorldOne();
+		this.worlds[1] = new WorldTwo();
+		this.b = new Bus();
+		this.entities = new ArrayList<Entity>(); //needs to be recreated after world change
+	}
+		
 	public void update() {
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
