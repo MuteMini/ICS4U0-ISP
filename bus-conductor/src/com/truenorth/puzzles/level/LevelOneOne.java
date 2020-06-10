@@ -63,22 +63,18 @@ public class LevelOneOne extends Level {
 				boxY = 120;
 				boxW = 320;
 				boxH = 70;
-				tutText = "Your job is to fit these other\npassengers onto your bus. Good luck!";
+				tutText = "Your job is to fit these other\npassengers onto your bus.";
 				contour = true;
 				contourX *= 15;
 				contourY *= 5;
 				contourH *= 7;
 				break;
 			case 4:
-				boxX = 140;
-				boxY = 120;
-				boxW = 320;
+				boxX = 200;
+				boxY = 290;
+				boxW = 400;
 				boxH = 70;
-				tutText = "Your job is to fit these other\npassengers onto your bus. Good luck!";
-				contour = true;
-				contourX *= 15;
-				contourY *= 5;
-				contourH *= 7;
+				tutText = "You can reset the bus by pressing R and unhold\nsomebody with the key Z. Good luck!";
 				break;
 			default:
 				hasTutorial = false;
