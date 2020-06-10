@@ -48,6 +48,8 @@ public final class Loader {
 	public static final BufferedImage CAR_SPRITE8 = getBusSprite(1, 8);
 	//public static final BufferedImage TUT_WORLD = getBusSprite(2, 0);
 	public static final BufferedImage WORLD1 = getBusSprite(2, 1);
+	public static final BufferedImage WARNING_IMAGE = getBusSprite(3,0);
+	public static final BufferedImage ARROW = getBusSprite(4,0);
 	
 	public static final BufferedImage SPLASH1 = getGeneralSprite(0, 1);
 	public static final BufferedImage MAINMENU_BACKGROUND = getGeneralSprite(1, 0);
@@ -101,6 +103,11 @@ public final class Loader {
 			}
 			else if(spriteID == 2) {
 				return ImageIO.read(Loader.class.getResource("/route-"+diff+".png"));
+			}
+			else if (spriteID == 3) {
+				return ImageIO.read(Loader.class.getResource("/Warning.png"));
+			} else if (spriteID == 4) {
+				return ImageIO.read(Loader.class.getResource("/Arrow.png"));
 			}
 		} catch (IOException e) {
 		}

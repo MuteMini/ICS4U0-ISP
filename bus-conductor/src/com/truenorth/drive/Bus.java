@@ -16,7 +16,7 @@ import com.truenorth.game.Loader;
  *
  */
 public class Bus extends Entity {
-	final double MAX_SPEED = 8;
+	final double MAX_SPEED = 10;
 	final double MAX_TURN = 2;
 	private boolean forward;
 	private boolean backward;
@@ -37,7 +37,7 @@ public class Bus extends Entity {
 	@Override
 	public void update() {
 		center = calculateCenter();
-
+		
 		if (turnRight && getAngleVel() < MAX_TURN) {
 			setAngleVel(getAngleVel() + 0.05);
 		} else if (turnLeft && getAngleVel() > -MAX_TURN) {
@@ -65,8 +65,10 @@ public class Bus extends Entity {
 
 		calculateVel();
 		if (outside) {
-			System.out.println(true);
-		} 
+			
+		} else {
+			
+		}
 		for (int i = 0; i < 4; i++) {
 			entityPoints[i].translate((int) xVel, (int) yVel);
 		}
@@ -78,11 +80,13 @@ public class Bus extends Entity {
 	@Override
 	public void draw(Graphics2D g2d, double xOffset, double yOffset) {
 		entityBody = createPolygon(entityPoints);
-		entityBody.translate((int) (xOffset - xVel), (int) (yOffset - yVel));
+		entityBody.translate((int) (-xOffset - xVel), (int) (-yOffset - yVel));
 		
 		g2d.rotate(Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
 		g2d.drawImage(Loader.BUS_SPRITE,(int)(center.x - xOffset - WIDTH/2  - xVel), (int)(center.y - yOffset - HEIGHT/2 - yVel), null);
 		g2d.rotate(-Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
+		
+		
 		
 		if (BusState.debug) {
 			g2d.setColor(Color.RED);

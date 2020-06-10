@@ -14,7 +14,7 @@ public class SplashState implements States{
 
 	public SplashState() {
 		alpha = 0;
-		loadingDone = false;
+		loadingDone = true;
 	}
 	
 	@Override
