@@ -23,6 +23,7 @@ public abstract class Level {
 	protected int tutorialPage;
 	protected boolean reset;
 	protected boolean isSelected;
+	protected boolean unselected;
 	protected boolean remove;
 	protected boolean winState;
 	protected boolean hasTutorial;
@@ -47,6 +48,7 @@ public abstract class Level {
 		this.powerCount = 0;
 		this.reset = false;
 		this.isSelected = false;
+		this.unselected = false;
 		this.remove = false;
 		this.winState = false;
 		this.distanceGrid = new Integer[5][11];
@@ -61,6 +63,12 @@ public abstract class Level {
 		if(isSelected) {
 			placed.add(moveable.get(selected));
 			isSelected = false;
+		}
+		if(unselected) {
+			placed.remove(moveable.get(selected));
+			cursor = 0;
+			selected = -1;
+			unselected = false;
 		}
 		if(remove) {
 			moveable.remove(selected);
@@ -126,7 +134,12 @@ public abstract class Level {
 			reset = true;
 		}
 		else if(selected != -1){
-			if (!moveable.get(selected).move(distanceGrid, e) && moveable.get(selected).isPlaceable(distanceGrid, e)) {
+			if(code == KeyEvent.VK_Z) {
+				moveable.get(selected).setInGrid(false);
+				moveable.get(selected).setSelected(false);
+				unselected = true;
+			}
+			else if (!moveable.get(selected).move(distanceGrid, e) && moveable.get(selected).isPlaceable(distanceGrid, e)) {
 				moveable.get(selected).setSelected(false);
 				moveable.get(selected).fillDistance(distanceGrid);
 				remove = true;
@@ -168,7 +181,7 @@ public abstract class Level {
 		g2d.fillRect(0, 640-animateCount, 800, 320);
 		if(animateCount > 310) {
 			g2d.setColor(Color.WHITE);
-			g2d.setFont(Loader.BALSAMIQ_TITLE);
+			g2d.setFont(Loader.TTC_TITLE);
 			g2d.drawString("Puzzle Solved!", 260, 330);
 		}
 		g2d.dispose();

@@ -56,7 +56,8 @@ public final class Loader {
 	public static final BufferedImage MAINMENU_TITLE = getGeneralSprite(1, 1);
 	public static final BufferedImage MAINMENU_CHOICES = getGeneralSprite(1, 2);
 	
-	public static final Font BALSAMIQ_TITLE = getFont(1).deriveFont(42f);
+	public static final Font TTC_TITLE = getFont(1).deriveFont(42f);
+	public static final Font TTC_BODY = getFont(1).deriveFont(28f);
 	public static final Font CALIBRI_BODY1 = getFont(2);
 	public static final Font CALIBRI_BODY2 = getFont(3);
 	
@@ -102,7 +103,7 @@ public final class Loader {
 				return ImageIO.read(Loader.class.getResource("/Car/car"+diff+".png"));
 			}
 			else if(spriteID == 2) {
-				return ImageIO.read(Loader.class.getResource("/route-"+diff+".png"));
+				return ImageIO.read(Loader.class.getResource("/Route/route-"+diff+".png"));
 			}
 			else if (spriteID == 3) {
 				return ImageIO.read(Loader.class.getResource("/Warning.png"));
@@ -134,7 +135,7 @@ public final class Loader {
 	private static Font getFont(int fontID){
 		try {
 			if(fontID == 1)
-				return Font.createFont(Font.TRUETYPE_FONT, Loader.class.getResource("/BalsamiqSans-Regular.ttf").openStream());
+				return Font.createFont(Font.TRUETYPE_FONT, Loader.class.getResource("/Toronto Subway.ttf").openStream());
 			else if(fontID == 2)
 				return new Font("Calibri", 1, 18);
 			else if(fontID == 3)
