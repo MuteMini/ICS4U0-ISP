@@ -48,11 +48,11 @@ public class BusState implements States{
 					entities.get(i).setColor(Color.red);
 					((Car) entities.get(i)).setCrashed(true);
 					if (Math.abs(b.getXVel()) < 0.9)
-						entities.get(i).setXVel(-entities.get(i).getXVel()*3/4);
+						entities.get(i).setXVel(-entities.get(i).getXVel());
 					else
 						entities.get(i).setXVel(b.getXVel() * 2);
 					if (Math.abs(b.getYVel()) < 0.9)
-						entities.get(i).setYVel(-entities.get(i).getYVel()*3/4);
+						entities.get(i).setYVel(-entities.get(i).getYVel());
 					else
 						entities.get(i).setYVel(b.getYVel() * 2);
 					if (entities.get(i).getXVel() != 0 || entities.get(i).getYVel() != 0)
