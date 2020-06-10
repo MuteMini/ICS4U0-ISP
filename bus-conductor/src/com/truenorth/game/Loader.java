@@ -48,18 +48,8 @@ public final class Loader {
 	public static final BufferedImage CAR_SPRITE8 = getBusSprite(1, 8);
 	//public static final BufferedImage TUT_WORLD = getBusSprite(2, 0);
 	public static final BufferedImage WORLD1 = getBusSprite(2, 1);
-	public static final BufferedImage WORLD2 = getBusSprite(2, 2);
-	public static final BufferedImage WORLD3 = getBusSprite(2, 3);
-	public static final BufferedImage WORLD4 = getBusSprite(2, 4);
-	public static final BufferedImage WORLD5 = getBusSprite(2, 5);
-	public static final BufferedImage WORLD6 = getBusSprite(2, 6);
-	public static final BufferedImage WORLD7 = getBusSprite(2, 7);
-	public static final BufferedImage WORLD8 = getBusSprite(2, 8);
-	public static final BufferedImage WORLD9 = getBusSprite(2, 9);
-	public static final BufferedImage WORLD10 = getBusSprite(2, 10);
-	public static final BufferedImage WORLD11 = getBusSprite(2, 11);
-	public static final BufferedImage WORLD12 = getBusSprite(2, 12);
-	public static final BufferedImage WORLD13 = getBusSprite(2, 13);
+	public static final BufferedImage WARNING_IMAGE = getBusSprite(3,0);
+	public static final BufferedImage ARROW = getBusSprite(4,0);
 	
 	public static final BufferedImage SPLASH1 = getGeneralSprite(0, 1);
 	public static final BufferedImage MAINMENU_BACKGROUND = getGeneralSprite(1, 0);
@@ -114,6 +104,11 @@ public final class Loader {
 			}
 			else if(spriteID == 2) {
 				return ImageIO.read(Loader.class.getResource("/Route/route-"+diff+".png"));
+			}
+			else if (spriteID == 3) {
+				return ImageIO.read(Loader.class.getResource("/Warning.png"));
+			} else if (spriteID == 4) {
+				return ImageIO.read(Loader.class.getResource("/Arrow.png"));
 			}
 		} catch (IOException e) {
 		}

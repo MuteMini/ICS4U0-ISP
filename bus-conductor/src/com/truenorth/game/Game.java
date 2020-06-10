@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 
+import com.truenorth.drive.world.WorldTwo;
 import com.truenorth.game.states.StateManager;
 
 
@@ -79,7 +80,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				System.out.println("Updates: " + updates + "\nFrames: " + frames);
+			//	System.out.println("Updates: " + updates + "\nFrames: " + frames);
 				updates = 0;
 				frames = 0;
 			}
@@ -121,7 +122,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println((st.getBus().getCenter().x + e.getX() - WIDTH / 2) + ", " + (st.getBus().getCenter().y + e.getY() - HEIGHT / 2));
+		System.out.println((st.getBus().getCenter().x + e.getX() - WIDTH / 2- WorldTwo.xOffset) + ", " + (st.getBus().getCenter().y + e.getY() - HEIGHT / 2  - WorldTwo.yOffset ));
 	}
 
 	@Override
