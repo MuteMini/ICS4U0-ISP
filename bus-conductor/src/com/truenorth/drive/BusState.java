@@ -22,6 +22,7 @@ public class BusState implements States{
 	private int worldPos;
 	private boolean onStop;
 	private float alpha;
+	private double floating;
 	
 	public BusState() {
 		this.c = new Camera();
@@ -59,7 +60,7 @@ public class BusState implements States{
 					else
 						entities.get(i).setYVel(b.getYVel() * 2);
 					if (entities.get(i).getXVel() != 0 || entities.get(i).getYVel() != 0)
-						entities.get(i).setAngleVel(Math.round(Math.random()) * 4 - 2);
+						entities.get(i).setAngleVel(Math.round(Math.random()) * 8 - 4);
 				}
 			} else {
 				if (!entities.get(i).getColor().equals(Color.blue)) {
@@ -125,6 +126,14 @@ public class BusState implements States{
 			g2d.drawString("Entities drawn: " + drawnEntities, 10, 152);
 			g2d.drawString("Entities crashed: " + crashedEntities, 10, 164);
 		}
+				
+		if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100) {
+			floating = (floating <= 6.28) ? floating+0.05d : 0;
+			int yOffset = (int)(Math.sin(floating)*6);
+			g2d.drawImage(Loader.ENTER_MESSAGE, Game.WIDTH/2 - 254, 500 +yOffset, null);
+			
+		}
+		
 		if (b.center.distance(worlds[worldPos].getBusStop()) >= 450) {
 			AffineTransform temp = g2d.getTransform();
 			double arrowAngle = Math.toDegrees(Math.atan((b.center.y-worlds[worldPos].getBusStop().getY())/(b.center.x - worlds[worldPos].getBusStop().getX())));

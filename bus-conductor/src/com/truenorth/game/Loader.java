@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
  *
  */
 public final class Loader {
-	
 	public static final BufferedImage PUZZLE_BACKGROUND = getPuzzleSprite(0, 0);
 	public static final BufferedImage YOUNG_ADULT = getPuzzleSprite(1, 0);
 	public static final BufferedImage PARENT = getPuzzleSprite(2, 0);
@@ -62,6 +61,7 @@ public final class Loader {
 	public static final BufferedImage WORLD13 = getBusSprite(2, 13);
 	public static final BufferedImage WARNING_IMAGE = getBusSprite(3,0);
 	public static final BufferedImage ARROW = getBusSprite(4,0);
+	public static final BufferedImage ENTER_MESSAGE = getBusSprite(5,0);
 	
 	public static final BufferedImage SPLASH1 = getGeneralSprite(0, 1);
 	public static final BufferedImage MAINMENU_BACKGROUND = getGeneralSprite(1, 0);
@@ -123,6 +123,8 @@ public final class Loader {
 			} 
 			else if (spriteID == 4) {
 				return ImageIO.read(Loader.class.getResource("/Arrow.png"));
+			} else if (spriteID == 5) {
+				return ImageIO.read(Loader.class.getResource("/Enter.png"));
 			}
 		} catch (IOException e) {
 		}

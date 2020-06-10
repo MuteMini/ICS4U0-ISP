@@ -3,7 +3,6 @@ package com.truenorth.drive;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
 import java.util.Set;
 import java.util.TreeSet;
 
