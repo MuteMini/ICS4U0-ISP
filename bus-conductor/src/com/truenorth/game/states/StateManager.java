@@ -25,7 +25,8 @@ public class StateManager{
 	private int[] busWorldPos;
 	private int[] puzzleLevelPos;
 	private int[] times;
-	private int[] savedState;
+	private byte[] savedState;
+	private byte[] fileFinished;
 	private int statePos;
 	private int fileNum;
 	private boolean pauseHold;
@@ -38,7 +39,8 @@ public class StateManager{
 		this.busWorldPos = new int[3];
 		this.puzzleLevelPos = new int[3];
 		this.times = new int[3];
-		this.savedState = new int[3];
+		this.savedState = new byte[3];
+		this.fileFinished = new byte[3];
 		this.statePos = 0;
 		this.fileNum = 0;
 		this.pauseHold = false;
@@ -84,9 +86,17 @@ public class StateManager{
 				else if(statePos == 1) {
 					BS.update();
 					if(BS.isOnStop()) {
-						statePos = 2;
-						BS.setOnStop(false);
-						saveSave();
+						if(BS.getWorldPos() == 8) {
+							//do something to signal the "real route"
+						}
+						else if(BS.getWorldPos() == 21) {
+							//wait you won the game
+						}
+						else {
+							statePos = 2;
+							BS.setOnStop(false);
+							saveSave();
+						}
 					}
 				} 
 				else if(statePos == 2) {
@@ -183,7 +193,8 @@ public class StateManager{
 			busWorldPos[saveFile-1] = Integer.parseInt(br.readLine());
 			puzzleLevelPos[saveFile-1] = Integer.parseInt(br.readLine());
 			times[saveFile-1] = Integer.parseInt(br.readLine());
-			savedState[saveFile-1] = Integer.parseInt(br.readLine());
+			savedState[saveFile-1] = Byte.parseByte(br.readLine());
+			fileFinished[saveFile-1] = Byte.parseByte(br.readLine());
 			if(savedState[saveFile-1] == 0) {
 				br.close();
 				throw new FileNotFoundException();
@@ -201,7 +212,7 @@ public class StateManager{
 		return true;
 	}
 	
-	private void createFile(String name, int busPos, int puzzlePos, int time, int state, int saveFile) {
+	private void createFile(String name, int busPos, int puzzlePos, int time, int state, int saveFinished, int saveFile) {
 		try {
 			PrintWriter pr = new PrintWriter(LOCATION.getPath()+"/save"+saveFile+".ismk");
 			pr.println("This File Is The Correct File For Save "+saveFile);
@@ -210,16 +221,17 @@ public class StateManager{
 			pr.println(puzzlePos);
 			pr.println(time);
 			pr.println(state);
+			pr.println(saveFinished);
 			pr.close();
 		} catch(IOException e) {}
 	}
 	
 	private void createFile(int saveFile) {
-		createFile(EMPTYNAME, 0, 0, 0, 1, saveFile);
+		createFile(EMPTYNAME, 0, 0, 0, 1, 0, saveFile);
 	}
 
 	private void saveSave() {
-		createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), 0, statePos, fileNum+1);
+		createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), 0, statePos, fileFinished[fileNum], fileNum+1);
 	}
 	
 	private void loadSave() {
