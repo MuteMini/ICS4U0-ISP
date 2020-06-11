@@ -27,6 +27,8 @@ public class StateManager{
 	private int[] times;
 	private byte[] savedState;
 	private byte[] fileFinished;
+	private long builtMilli;
+	private long lastMilli;
 	private int statePos;
 	private int fileNum;
 	private boolean pauseHold;
@@ -41,6 +43,8 @@ public class StateManager{
 		this.times = new int[3];
 		this.savedState = new byte[3];
 		this.fileFinished = new byte[3];
+		this.builtMilli = 0;
+		this.lastMilli = 0;
 		this.statePos = 0;
 		this.fileNum = 0;
 		this.pauseHold = false;
@@ -53,6 +57,7 @@ public class StateManager{
 		} else {
 			if(PS.getPaused()) {
 				PS.setInstructionPage(statePos);
+				lastMilli = 0;
 				if(PS.getExit()) {
 					saveSave();
 					statePos = 0;
@@ -62,6 +67,18 @@ public class StateManager{
 				}
 			} 
 			else {
+				if(statePos != 0) {
+					if(lastMilli == 0) {
+						lastMilli = System.currentTimeMillis();
+					}
+					long currentTime = System.currentTimeMillis();
+					builtMilli += currentTime-lastMilli;
+					if(builtMilli / 1000 >= 1) {
+						times[fileNum] += (int)(builtMilli / 1000);
+						builtMilli %= 1000;
+					}
+					lastMilli = currentTime;
+				}
 				if(statePos == 0) {
 					MS.update();
 					if(!loaded) {
@@ -80,6 +97,8 @@ public class StateManager{
 						fileNames[fileNum] = MS.getSaveName();
 						loadSave();
 						loaded = false;
+						builtMilli = 0;
+						lastMilli = 0;
 						MS.resetScreen();
 					}
 				} 
@@ -175,7 +194,7 @@ public class StateManager{
 	}
 	
 	public void saveSave() {
-		createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), 0, statePos, fileFinished[fileNum], fileNum+1);
+		createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), times[fileNum], statePos, fileFinished[fileNum], fileNum+1);
 	}
 	
 	private void loadAllFile() {
