@@ -18,7 +18,9 @@ public class StateManager{
 	private final File LOCATION;
 	private final SplashState SS = new SplashState();
 	private final PauseState PS = new PauseState();
-	private final States[] STATE = {new MenuState(), new BusState(), new PuzzleState()};
+	private final MenuState MS = new MenuState();
+	private final BusState BS= new BusState(); 
+	private final PuzzleState PU_S = new PuzzleState();
 	private String[] fileNames;
 	private int[] busWorldPos;
 	private int[] puzzleLevelPos;
@@ -57,29 +59,43 @@ public class StateManager{
 					PS.resetScreen();
 				}
 			} else {
-				STATE[statePos].update();
 				if(statePos == 0) {
+					MS.update();
 					if(!loaded) {
 						loadAllFile();
-						((MenuState)STATE[0]).setSaveFiles(fileNames, times);
+						MS.setSaveFiles(fileNames, times);
 						loaded = true;
 					}
-					else if(((MenuState)STATE[0]).getDelete()) {
-						int filePos = ((MenuState)STATE[0]).getCursorPos()+1;
+					else if(MS.getDelete()) {
+						int filePos = MS.getCursorPos()+1;
 						createFile(filePos);
 						loadFile(filePos);
-						((MenuState)STATE[0]).setDelete(false);
+						MS.setDelete(false);
 					}
-					else if(((MenuState)STATE[0]).startGame()) {
-						fileNum = ((MenuState)STATE[0]).getCursorPos();
-						fileNames[fileNum] = ((MenuState)STATE[0]).getSaveName();
+					else if(MS.startGame()) {
+						fileNum = MS.getCursorPos();
+						fileNames[fileNum] = MS.getSaveName();
 						loadSave();
 						loaded = false;
-						((MenuState)STATE[0]).resetScreen();
+						MS.resetScreen();
 					}
-				} else if(statePos == 1 && ((BusState)STATE[1]).isOnStop()) {
-					statePos = 2;
-					((BusState)STATE[1]).setOnStop(false);
+				} 
+				else if(statePos == 1) {
+					BS.update();
+					if(BS.isOnStop()) {
+						statePos = 2;
+						BS.setOnStop(false);
+						saveSave();
+					}
+				} 
+				else if(statePos == 2) {
+					PU_S.update();
+					if(PU_S.isFinished()) {
+						statePos = 1;
+						BS.setWorldPos(BS.getWorldPos()+1);
+						PU_S.setLevelPos(PU_S.getLevelPos()+1);
+						saveSave();
+					}
 				}
 			}
 		}
@@ -89,7 +105,13 @@ public class StateManager{
 		if (!SS.isLoadingDone()) {
 			SS.render(g2d);
 		} else {
-			STATE[statePos].render(g2d);
+			if(statePos == 0)
+				MS.update();
+			else if(statePos == 1)
+				BS.update();
+			else if(statePos == 2)
+				PU_S.update();
+			
 			if(PS.getPaused())
 				PS.render(g2d);
 		}
@@ -97,13 +119,18 @@ public class StateManager{
 	
 	public void keyPressed(KeyEvent e) {
 		if (SS.isLoadingDone()) {
-			if( ((statePos == 1) || (statePos == 2 && !((PuzzleState)STATE[2]).hasTutorial())) && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			if( ((statePos == 1) || (statePos == 2 && !PU_S.hasTutorial())) && !PU_S.isImpossible() && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				PS.setPaused(!PS.getPaused());
 				pauseHold = true;
 			} else if(PS.getPaused()) {
 				PS.keyPressed(e);
 			} else {
-				STATE[statePos].keyPressed(e);
+				if(statePos == 0)
+					MS.keyPressed(e);
+				else if(statePos == 1)
+					BS.keyPressed(e);
+				else if(statePos == 2)
+					PU_S.keyPressed(e);
 			}
 		}
 	}
@@ -113,19 +140,24 @@ public class StateManager{
 			if(PS.getPaused()) {
 				PS.keyReleased(e);
 			} else {
-				STATE[statePos].keyReleased(e);
+				if(statePos == 0)
+					MS.keyReleased(e);
+				else if(statePos == 1)
+					BS.keyReleased(e);
+				else if(statePos == 2)
+					PU_S.keyReleased(e);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				pauseHold = false;
 				if(statePos == 1) {
-					((BusState)STATE[1]).resetHold();
+					BS.resetHold();
 				}
 			}
 		}
 	}
 	
 	public boolean gameClosed() {
-		return ((MenuState)STATE[0]).getClosed(); 
+		return MS.getClosed(); 
 	}
 	
 	private void loadAllFile() {
@@ -159,6 +191,9 @@ public class StateManager{
 			return false;
 		}
 		catch(IOException e) {}
+		catch(Exception e){
+			return false;
+		}
 		
 		return true;
 	}
@@ -181,20 +216,21 @@ public class StateManager{
 	}
 
 	private void saveSave() {
-		createFile(fileNames[fileNum], ((BusState)STATE[1]).getWorldPos(), ((PuzzleState)STATE[2]).getLevelPos(), 0, statePos, fileNum+1);
+		createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), 0, statePos, fileNum+1);
 	}
 	
 	private void loadSave() {
-		((BusState)STATE[1]).setWorldPos(busWorldPos[fileNum]);
-		((BusState)STATE[1]).resetWorlds();
-		((PuzzleState)STATE[2]).setLevelPos(puzzleLevelPos[fileNum]);
-		((PuzzleState)STATE[2]).resetLevels();
+		BS.setWorldPos(busWorldPos[fileNum]);
+		BS.resetWorlds();
+		BS.resetBus();
+		PU_S.setLevelPos(puzzleLevelPos[fileNum]);
+		PU_S.resetLevels();
 		statePos = savedState[fileNum];
 	}
 	
 	//testing
 	public Bus getBus() {
-		return ((BusState)STATE[1]).getBus();
+		return BS.getBus();
 	}
 }
 	

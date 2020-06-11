@@ -24,38 +24,43 @@ public class Parent extends Passenger{
 	
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
-		int count = 0;
-		if(!(grid[xPos][yPos] == 0 || (!selected && grid[xPos][yPos] == id)))
+		if(super.isCorrect(grid))
 			return false;
-		if(xPos > 0) {
-			if(grid[xPos-1][yPos] == id+1)
-				count++;
-			else if(grid[xPos-1][yPos] > 0)
-				return false;
+		int count = 0;
+		if(xPos > 0 && grid[xPos-1][yPos] == id+1) {
+			count++;
 		}
-		if(xPos < MAX_X) {
-			if(grid[xPos+1][yPos] == id+1)
-				count++;
-			else if(grid[xPos+1][yPos] > 0)
-				return false;
+		if(xPos < MAX_X && grid[xPos+1][yPos] == id+1) {
+			count++;
 		}
-		if(!belowWindow(xPos, yPos) && yPos > 0) {
-			if(grid[xPos][yPos-1] == id+1)
-				count++;
-			else if(grid[xPos][yPos-1] > 0)
-				return false;
+		if(!belowWindow(xPos, yPos) && yPos > 0 && grid[xPos][yPos-1] == id+1) {
+			count++;
 		}
-		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y) {
-			if(grid[xPos][yPos+1] == id+1)
-				count++;
-			else if(grid[xPos][yPos+1] > 0)
-				return false;
+		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y && grid[xPos][yPos+1] == id+1) {
+			count++;
+		}
+		return numChild == count;
+	}
+	
+	public boolean notImpossible(Integer[][] grid) {
+		int count = 0;
+		if(xPos > 0 && grid[xPos-1][yPos] == 0) {
+			count++;
+		}
+		if(xPos < MAX_X && grid[xPos+1][yPos] == 0) {
+			count++;
+		}
+		if(!belowWindow(xPos, yPos) && yPos > 0 && grid[xPos][yPos-1] == 0) {
+			count++;
+		}
+		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y && grid[xPos][yPos+1] == 0) {
+			count++;
 		}
 		return numChild == count;
 	}
 	
 	@Override
-	public void fillDistance (Integer[][] grid) {
+	public void fillDistance(Integer[][] grid) {
 		grid[xPos][yPos] = id;
 		if(xPos > 0 && grid[xPos-1][yPos] == 0)
 			grid[xPos-1][yPos] = CHILD_SPACE;

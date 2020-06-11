@@ -20,16 +20,15 @@ public class Luggageman extends Passenger {
 	
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
-		boolean surrounding = (grid[xPos][yPos] == 0 || (!selected && grid[xPos][yPos] == id))
-							&& (xPos == 0 || grid[xPos-1][yPos] <= 0) 
-							&& (xPos == MAX_X || grid[xPos+1][yPos] <= 0) 
-							&& (yPos == 0 || belowWindow(xPos, yPos) || grid[xPos][yPos-1] <= 0) 
-							&& (yPos == MAX_Y || aboveWindow(xPos, yPos) || grid[xPos][yPos+1] <= 0);
 		boolean nextToBaggage = (xPos > 0 && grid[xPos-1][yPos] == -(id+2)) 
 							|| (xPos < MAX_X && grid[xPos+1][yPos] == -(id+2)) 
 							|| (yPos > 0 && !belowWindow(xPos, yPos) && grid[xPos][yPos-1] == -(id+2)) 
 							|| (yPos < MAX_Y && !aboveWindow(xPos, yPos) && grid[xPos][yPos+1] == -(id+2));
-		return surrounding && nextToBaggage;
+		return notImpossible(grid) && nextToBaggage;
+	}
+	
+	public boolean notImpossible(Integer[][] grid) {
+		return super.isCorrect(grid);
 	}
 	
 	@Override

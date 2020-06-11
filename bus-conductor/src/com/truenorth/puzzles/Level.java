@@ -26,7 +26,9 @@ public abstract class Level {
 	protected boolean unselected;
 	protected boolean remove;
 	protected boolean winState;
+	protected boolean finished;
 	protected boolean hasTutorial;
+	protected boolean impossible;
 	protected Integer[][] distanceGrid;
 	private int animateCount;
 	private double powerCount;
@@ -51,6 +53,8 @@ public abstract class Level {
 		this.unselected = false;
 		this.remove = false;
 		this.winState = false;
+		this.finished = false;
+		this.impossible = false;
 		this.distanceGrid = new Integer[5][11];
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 11; j++) {
@@ -87,15 +91,6 @@ public abstract class Level {
 		else {
 			winState = checkSolution();
 		}
-		
-		//testing
-		/*for(int j = 0; j < 11; j++) {
-			for(int i = 0; i < 5; i++) {
-				System.out.print(distanceGrid[i][j] + "\t");
-			}
-			System.out.println();
-		}
-		System.out.println();*/
 	}
 	
 	public void render(Graphics2D g2d) {
@@ -107,6 +102,9 @@ public abstract class Level {
 			pass.render(g2d, distanceGrid);
 		if(winState) {
 			winAnimation(g2d);
+		}
+		if(impossible) {
+			impossibleAnimation(g2d);
 		}
 		if(hasTutorial) {
 			showTutorial(g2d);
@@ -154,6 +152,7 @@ public abstract class Level {
 				selected = cursor;
 				moveable.get(selected).setInGrid(true);
 				moveable.get(selected).spawn();
+				impossible = checkImpossible();
 				isSelected = true;
 			}
 		}
@@ -164,6 +163,14 @@ public abstract class Level {
 		}
 	}
 
+	public boolean isFinished() {
+		return finished;
+	}
+	
+	public boolean isImpossible() {
+		return impossible;
+	}
+	
 	protected void fillGrid() {
 		for(Passenger pass : immoveable)
 			pass.fillDistance(distanceGrid);
@@ -176,6 +183,12 @@ public abstract class Level {
 	}
 	
 	protected void winAnimation(Graphics2D g2d) {
+		if(animateCount > 321) {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {}
+			finished = true;
+		}
 		g2d.setColor(Color.DARK_GRAY);
 		g2d.fillRect(0, 0, 800, animateCount);
 		g2d.fillRect(0, 640-animateCount, 800, 320);
@@ -186,7 +199,23 @@ public abstract class Level {
 		}
 		g2d.dispose();
 		powerCount += 0.01;
-		animateCount += (animateCount < 320) ? (int)(Math.pow(2, -powerCount)*5) : 0;
+		animateCount += (animateCount <= 321) ? (int)(Math.pow(2, -powerCount)*5) : 0;
+	}
+	
+	protected void impossibleAnimation(Graphics2D g2d) {
+		g2d.setColor(Color.DARK_GRAY);
+		g2d.fillRect(0, 0, animateCount, 800);
+		g2d.fillRect(800-animateCount, 0, 400, 800);
+		if(animateCount > 310) {
+			g2d.setColor(Color.WHITE);
+			g2d.setFont(Loader.TTC_TITLE);
+			g2d.drawString("Impossible State...", 210, 315);
+			g2d.setFont(Loader.TTC_BODY);
+			g2d.drawString("Press R to retry", 230, 350);
+		}
+		g2d.dispose();
+		powerCount += 0.01;
+		animateCount += (animateCount < 400) ? (int)(Math.pow(2, -powerCount)*5) : 0;
 	}
 	
 	protected void showBox(Graphics2D g2d, int x, int y, int w, int h, String[] tempLine) {
@@ -205,5 +234,33 @@ public abstract class Level {
 		g2d.setFont(Loader.CALIBRI_BODY2);
 		g2d.drawString("Press enter to continue", x+w-PADDING-120, y+h-PADDING);
 		g2d.dispose();
+	}
+	
+	protected boolean checkImpossible() {
+		Passenger p = moveable.get(selected);
+		int xPos = p.getxPos();
+		int yPos = p.getyPos();
+		boolean imposs = true;
+		for(int x = 0; x < 5; x++) {
+			for(int y = 0; y < 11; y++) {
+				p.setxPos(x);
+				p.setyPos(y);
+				if(p instanceof Parent && ((Parent)p).notImpossible(distanceGrid)){
+					imposs = false;
+					break;
+				}
+				else if(p instanceof Luggageman && ((Luggageman)p).notImpossible(distanceGrid)) {
+					imposs = false;
+					break;
+				}
+				else if(p.isCorrect(distanceGrid)){
+					imposs = false;
+					break;
+				}
+			}
+		}
+		p.setxPos(xPos);
+		p.setyPos(yPos);
+		return imposs;
 	}
 }

@@ -42,6 +42,7 @@ public class PuzzleState implements States{
 		this.levels[19] = new LevelTwoThirteen();
 	}
 	
+	@Override
 	public void update() {
 		levels[levelPos].update();
 	}
@@ -52,9 +53,13 @@ public class PuzzleState implements States{
 		levels[levelPos].render(g2d);
 	}
 	
+	@Override
 	public void keyPressed(KeyEvent e) {
 		levels[levelPos].processMovement(e);
 	}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {}
 	
 	public void setLevelPos(int levelPos) {
 		this.levelPos = levelPos;
@@ -63,11 +68,16 @@ public class PuzzleState implements States{
 	public int getLevelPos() {
 		return levelPos;
 	}
-
+	
+	public boolean isFinished() {
+		return levels[levelPos].isFinished();
+	}
+	
+	public boolean isImpossible() {
+		return levels[levelPos].isImpossible();
+	}
+	
 	public boolean hasTutorial() {
 		return levels[levelPos].hasTutorial;
 	}
-	
-	@Override
-	public void keyReleased(KeyEvent e) {}
 }
