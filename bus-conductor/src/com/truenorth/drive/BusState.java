@@ -15,8 +15,8 @@ import com.truenorth.game.states.States;
 public class BusState implements States{
 	public static boolean debug;
 	private final Camera c;
-	private final int WORLDS_NUM = 2;
-	private final World[] worlds = new World[WORLDS_NUM];
+	private final int WORLDS_NUM = 22;
+	private World[] worlds = new World[WORLDS_NUM];
 	private ArrayList<Entity> entities;
 	private Bus b;
 	private int worldPos;
@@ -33,12 +33,21 @@ public class BusState implements States{
 	}
 	
 	public void resetWorlds() {
-		this.worlds[0] = new WorldOne();
-		this.worlds[1] = new WorldTwo();
+		this.worlds[0] = new TutorialOne();
+		this.worlds[1] = new TutorialTwo();
+		this.worlds[2] = new TutorialThree();
+		this.worlds[3] = new TutorialFour();
+		this.worlds[4] = new TutorialFive();
+		this.worlds[5] = new TutorialSix();
+		this.worlds[6] = new TutorialSeven();
+		this.worlds[7] = new TutorialEight(); 
+		this.worlds[8] = new WorldOne();
+		this.worlds[9] = new WorldTwo();
 		this.b = new Bus();
 		this.entities = new ArrayList<Entity>(); //needs to be recreated after world change
 	}
-		
+	
+	@Override
 	public void update() {
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
@@ -82,10 +91,9 @@ public class BusState implements States{
 				break;
 			}
 		}
-		
-		
 	}
 	
+	@Override
 	public void render(Graphics2D g2d) {
 		g2d.setColor(new Color(29, 174, 5));
 		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
@@ -147,10 +155,10 @@ public class BusState implements States{
 			g2d.setColor(Color.magenta);
 			g2d.drawImage(Loader.ARROW, Game.WIDTH/2 - 30, Game.HEIGHT/2 - 40, null);
 			g2d.setTransform(temp);
-			System.out.println(arrowAngle);
 		}
 	}
 	
+	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			debug = !debug;
@@ -160,7 +168,8 @@ public class BusState implements States{
 		}
 		b.processMovement(e);
 	}
-
+	
+	@Override
 	public void keyReleased(KeyEvent e) {
 		b.unholdKey(e);
 	}
@@ -183,6 +192,10 @@ public class BusState implements States{
 	
 	public int getWorldPos(){
 		return worldPos;
+	}
+	
+	public void resetBus() {
+		this.b = new Bus();
 	}
 	
 	//here for testing
