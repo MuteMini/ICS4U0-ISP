@@ -9,7 +9,7 @@ import com.truenorth.puzzles.level.*;
 
 public class PuzzleState implements States{
 	
-	final private int LEVEL_NUM = 7;
+	final private int LEVEL_NUM = 20;
 	private int levelPos;
 	private Level[] levels;
 	
@@ -27,6 +27,19 @@ public class PuzzleState implements States{
 		this.levels[4] = new LevelOneFive();
 		this.levels[5] = new LevelOneSix();
 		this.levels[6] = new LevelOneSeven();
+		this.levels[7] = new LevelTwoOne();
+		this.levels[8] = new LevelTwoTwo();
+		this.levels[9] = new LevelTwoThree();
+		this.levels[10] = new LevelTwoFour();
+		this.levels[11] = new LevelTwoFive();
+		this.levels[12] = new LevelTwoSix();
+		this.levels[13] = new LevelTwoSeven();
+		this.levels[14] = new LevelTwoEight();
+		this.levels[15] = new LevelTwoNine();
+		this.levels[16] = new LevelTwoTen();
+		this.levels[17] = new LevelTwoEleven();
+		this.levels[18] = new LevelTwoTwelve();
+		this.levels[19] = new LevelTwoThirteen();
 	}
 	
 	public void update() {
@@ -40,17 +53,7 @@ public class PuzzleState implements States{
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		//testing
-		if(levelPos > 0 && e.getKeyCode() == KeyEvent.VK_MINUS) {
-			levelPos--;
-			levels[levelPos].reset = true;
-		}
-		else if(levelPos < LEVEL_NUM && e.getKeyCode() == KeyEvent.VK_EQUALS) {
-			levelPos++;
-			levels[levelPos].reset = true;
-		}
-		else
-			levels[levelPos].processMovement(e);
+		levels[levelPos].processMovement(e);
 	}
 	
 	public void setLevelPos(int levelPos) {
