@@ -240,9 +240,30 @@ public abstract class Level {
 		Passenger p = moveable.get(selected);
 		int xPos = p.getxPos();
 		int yPos = p.getyPos();
+		int topX = 5;
+		int topY = 11;
 		boolean imposs = true;
-		for(int x = 0; x < 5; x++) {
-			for(int y = 0; y < 11; y++) {
+		if(p instanceof Student){
+			int[] shiftVal = ((Student)p).getShift();
+			topX-=shiftVal[0];
+			topY-=shiftVal[1];
+		}
+		else if(p instanceof Grouped){
+			int[] shiftVal = ((Grouped)p).getShift();
+			topX-=shiftVal[0];
+			topY-=shiftVal[1];
+		}
+		else if(p instanceof Luggage){
+			int[] shiftVal = ((Luggage)p).getShift();
+			topX-=shiftVal[0];
+			topY-=shiftVal[1];
+		}
+		else if(p instanceof Disabled){
+			int shiftVal = ((Disabled)p).getShift();
+			topY-=shiftVal;
+		}
+		for(int x = 0; x < topX; x++) {
+			for(int y = 0; y < topY; y++) {
 				p.setxPos(x);
 				p.setyPos(y);
 				if(p instanceof Parent && ((Parent)p).notImpossible(distanceGrid)){

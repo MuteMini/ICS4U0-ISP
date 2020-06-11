@@ -131,6 +131,10 @@ public class Grouped extends Passenger{
 		}
 	}
 	
+	public int[] getShift() {
+		return new int[] {offX, offY};
+	}
+	
 	protected void setPosition(int pos) {
 		int shiftX = (pos == 1 || pos == 3) ? 1 : 0;
 		int shiftY = (pos == 2 || pos == 3) ? 1 : 0;

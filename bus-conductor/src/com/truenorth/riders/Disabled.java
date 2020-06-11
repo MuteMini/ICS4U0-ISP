@@ -69,6 +69,10 @@ public class Disabled extends Passenger{
 			grid[xPos][yPos+addY+1] = (rotation == 1) ? BAGGAGE : EMPTY;
 	}
 	
+	public int getShift() {
+		return addY;
+	}
+	
 	@Override
 	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {

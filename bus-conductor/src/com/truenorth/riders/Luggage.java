@@ -90,6 +90,10 @@ public class Luggage extends Passenger {
 		}
 	}
 	
+	public int[] getShift() {
+		return new int[] {offX, offY};
+	}
+	
 	@Override
 	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {

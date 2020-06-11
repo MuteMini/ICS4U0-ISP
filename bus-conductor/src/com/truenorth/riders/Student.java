@@ -119,6 +119,10 @@ public class Student extends Passenger{
 			grid[tempXPos-1][tempYPos] = (rotation == 4) ? BAGGAGE : EMPTY;	
 	}
 	
+	public int[] getShift() {
+		return new int[] {shiftX, shiftY};
+	}
+	
 	@Override
 	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {
