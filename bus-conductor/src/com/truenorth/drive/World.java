@@ -1,6 +1,5 @@
 package com.truenorth.drive;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -86,7 +85,10 @@ public abstract class World {
 	}
 	
 	private BufferedImage getImage(int imageID) {
-		if(imageID == 1) {
+		if(imageID == 0) {
+			return Loader.TUT_WORLD;
+		}
+		else if(imageID == 1) {
 			return Loader.WORLD1;
 		}
 		return null;

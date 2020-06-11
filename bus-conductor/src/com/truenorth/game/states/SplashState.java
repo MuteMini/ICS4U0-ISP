@@ -32,16 +32,16 @@ public class SplashState implements States{
 		g2d.drawImage(Loader.SPLASH1, 0, 0, null);
 	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) {}
+	
 	/**
 	 * @return the loadingDone
 	 */
 	public boolean isLoadingDone() {
 		return loadingDone;
 	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {}
-
-	@Override
-	public void keyReleased(KeyEvent e) {}
 }
