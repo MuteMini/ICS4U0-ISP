@@ -127,7 +127,7 @@ public class BusState implements States{
 			g2d.drawString("Entities crashed: " + crashedEntities, 10, 164);
 		}
 				
-		if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100) {
+		if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100  && (int)b.getXVel() == 0 && (int)b.getYVel() == 0) {
 			floating = (floating <= 6.28) ? floating+0.05d : 0;
 			int yOffset = (int)(Math.sin(floating)*6);
 			g2d.drawImage(Loader.ENTER_MESSAGE, Game.WIDTH/2 - 254, 500 +yOffset, null);
@@ -155,7 +155,7 @@ public class BusState implements States{
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			debug = !debug;
 		}
-		else if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER) {
+		else if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER && (int)b.getXVel() == 0 && (int)b.getYVel() == 0) {
 			onStop = true;
 		}
 		b.processMovement(e);
