@@ -103,6 +103,7 @@ public class StateManager{
 					PU_S.update();
 					if(PU_S.isFinished()) {
 						statePos = 1;
+						BS.resetBus();
 						BS.setWorldPos(BS.getWorldPos()+1);
 						PU_S.setLevelPos(PU_S.getLevelPos()+1);
 						saveSave();
@@ -173,6 +174,10 @@ public class StateManager{
 		return MS.getClosed(); 
 	}
 	
+	public void saveSave() {
+		createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), 0, statePos, fileFinished[fileNum], fileNum+1);
+	}
+	
 	private void loadAllFile() {
 		for(int i = 0; i < 3; i++) {
 			if(!loadFile(i+1)) {
@@ -230,10 +235,6 @@ public class StateManager{
 		createFile(EMPTYNAME, 0, 0, 0, 1, 0, saveFile);
 	}
 
-	private void saveSave() {
-		createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), 0, statePos, fileFinished[fileNum], fileNum+1);
-	}
-	
 	private void loadSave() {
 		BS.setWorldPos(busWorldPos[fileNum]);
 		BS.resetWorlds();

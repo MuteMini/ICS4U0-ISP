@@ -85,6 +85,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 				frames = 0;
 			}
 		}
+		st.saveSave();
 		stop();
 	}
 	
@@ -122,7 +123,8 @@ public class Game extends Canvas implements Runnable, MouseListener {
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println((st.getBus().getCenter().x + e.getX() - WIDTH / 2- WorldTwo.xOffset) + ", " + (st.getBus().getCenter().y + e.getY() - HEIGHT / 2  - WorldTwo.yOffset ));
+		System.out.println((st.getBus().getCenter().x + e.getX() - WIDTH / 2) + ", " + (st.getBus().getCenter().y + e.getY() - HEIGHT / 2));
+		//System.out.println((st.getBus().getCenter().x + e.getX() - WIDTH / 2- WorldTwo.xOffset) + ", " + (st.getBus().getCenter().y + e.getY() - HEIGHT / 2  - WorldTwo.yOffset ));
 	}
 
 	@Override
