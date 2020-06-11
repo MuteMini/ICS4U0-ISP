@@ -58,7 +58,8 @@ public class StateManager{
 					PS.setPaused(false);
 					PS.resetScreen();
 				}
-			} else {
+			} 
+			else {
 				if(statePos == 0) {
 					MS.update();
 					if(!loaded) {
@@ -104,13 +105,14 @@ public class StateManager{
 	public void render(Graphics2D g2d) {
 		if (!SS.isLoadingDone()) {
 			SS.render(g2d);
-		} else {
+		} 
+		else {
 			if(statePos == 0)
-				MS.update();
+				MS.render(g2d);
 			else if(statePos == 1)
-				BS.update();
+				BS.render(g2d);
 			else if(statePos == 2)
-				PU_S.update();
+				PU_S.render(g2d);
 			
 			if(PS.getPaused())
 				PS.render(g2d);
@@ -139,7 +141,8 @@ public class StateManager{
 		if (SS.isLoadingDone()) {
 			if(PS.getPaused()) {
 				PS.keyReleased(e);
-			} else {
+			} 
+			else {
 				if(statePos == 0)
 					MS.keyReleased(e);
 				else if(statePos == 1)
