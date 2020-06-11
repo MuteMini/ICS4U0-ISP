@@ -6,7 +6,7 @@ import com.truenorth.drive.World;
 
 public class TutorialThree extends World {
 	public TutorialThree() {
-		super(-667, -9608, 0, 0, 0, 0);
+		super(-667, -9608, 0, 10000, 10000, 10000);
 		boundary.add(new Integer[]{-665, 2694, -2694, 4});
 		boundary.add(new Integer[]{-2665, 694, 2195, 3});
 		boundary.add(new Integer[]{196, 2694, -2694, 2});
