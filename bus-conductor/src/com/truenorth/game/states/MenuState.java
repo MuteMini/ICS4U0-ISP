@@ -15,6 +15,7 @@ import com.truenorth.game.Loader;
 public class MenuState implements States{
 
 	private String[] fileName;
+	private String saveName;
 	private int[] times;
 	private int screenState;
 	private int cursorPos;
@@ -23,6 +24,8 @@ public class MenuState implements States{
 	private int titlePos;
 	private double floating;
 	private boolean deletePos;
+	private boolean invalidLetter;
+	private boolean nameExceeded;
 	private ArrayList<Entity> entities;
 	private Set<Integer> keysHeld;
 	
@@ -42,6 +45,13 @@ public class MenuState implements States{
 		this.titlePos = 800;
 		this.floating = 0;
 		this.deletePos = false;
+		resetName();
+	}
+	
+	private void resetName() {
+		this.saveName = "";
+		this.invalidLetter = false;
+		this.nameExceeded = false;
 	}
 	
 	@Override
@@ -80,9 +90,12 @@ public class MenuState implements States{
 				break;
 			case 1:
 			case 2:
-				cursorMaxPos = 2;
+				cursorMaxPos = 3;
 				break;
 			case 3:
+				cursorMaxPos = 0;
+				break;
+			case 4:
 				cursorMaxPos = 0;
 				break;
 		}
@@ -110,8 +123,8 @@ public class MenuState implements States{
 				g2d.drawImage(Loader.MAINMENU_CHOICES, 0, 170+yOffset, null);
 				break;
 			case 2:
-				g2d.setFont(Loader.TTC_BODY);
-				for(int i = 0; i < 3; i++) {
+				for(int i = 0; i < 4; i++) {
+					g2d.setFont(Loader.TTC_BODY);
 					if(i == cursorPos) {
 						if(i == 0)
 							g2d.setColor(new Color(255,200,200));
@@ -119,24 +132,57 @@ public class MenuState implements States{
 							g2d.setColor(new Color(200,255,200));
 						else if(i == 2)
 							g2d.setColor(new Color(200,200,255));
+						else if(i == 3)
+							g2d.setColor(new Color(255,200,255));
 					} else {
 						g2d.setColor(new Color(200,210,200));
 					}
-					g2d.fillRoundRect(60, 190+(i*150)+yOffset, Game.WIDTH-120, 100, 30, 30);
+					g2d.fillRoundRect(60, 190+(i*100)+yOffset, Game.WIDTH-120, 80, 30, 30);
 					g2d.setColor(Color.DARK_GRAY);
 					
-					if(fileName[i].equals(StateManager.EMPTYNAME)) {
-						g2d.drawString("Save "+(i+1)+" - Empty", 70, 220+(i*150)+yOffset);
-						g2d.drawString("Click here to make a new save!", 70, 250+(i*150)+yOffset);
+					if(i < 3) {
+						if(fileName[i].equals(StateManager.EMPTYNAME)) {
+							g2d.drawString("Save "+(i+1)+" - Empty", 70, 220+(i*100)+yOffset);
+							g2d.drawString("Press here to make a new save!", 70, 250+(i*100)+yOffset);
+						}
+						else {
+							g2d.drawString("Save "+(i+1)+" - "+fileName[i], 70, 220+(i*100)+yOffset);
+							String timeInText = "Time Spent - " + (times[i]/60);
+							timeInText += (times[i]%60 < 10) ? ":0"+(times[i]%60) : ":"+(times[i]%60);
+							g2d.drawString(timeInText, 70, 250+(i*100)+yOffset);
+						}
 					}
 					else {
-						g2d.drawString("Save "+(i+1)+" - "+fileName[i], 70, 220+(i*150)+yOffset);
-						String timeInText = "Time Spent - " + (times[i]/60);
-						timeInText += (times[i]%60 < 10) ? ":0"+(times[i]%60) : ":"+(times[i]%60);
-						g2d.drawString(timeInText, 70, 250+(i*150)+yOffset);
+						g2d.setFont(Loader.TTC_TITLE);
+						g2d.drawString("Return to Main Menu", 120, 250+(i*100)+yOffset);
 					}
 				}
+				g2d.setFont(Loader.TTC_BODY);
 				g2d.drawString("Press Enter to play, Delete to delete the selected file.", 70, 620+yOffset);
+				break;
+			case 3:
+				g2d.drawImage(Loader.INSTRUCTIONS, 100, 160+yOffset, null);
+				g2d.setFont(Loader.TTC_BODY);
+				g2d.drawString("Press Escape to go back.", 250, 625+yOffset);
+				break;
+			case 4:
+				g2d.setColor(new Color(200,210,200));
+				g2d.fillRoundRect(40, 220+yOffset, Game.WIDTH-80, 120, 30, 30);
+				
+				g2d.setColor(Color.DARK_GRAY);
+				g2d.setFont(Loader.TTC_TITLE);
+				g2d.drawString("Enter your save name here:", 60, 270+yOffset);
+				g2d.setColor(Color.BLACK);
+				g2d.drawString(saveName, 60, 320+yOffset);
+				
+				g2d.setColor(Color.DARK_GRAY);
+				g2d.setFont(Loader.TTC_BODY);
+				if(invalidLetter)
+					g2d.drawString("That letter is invalid!", 50, 380+yOffset);
+				if(nameExceeded)
+					g2d.drawString("You have reached the maximum ", 50, 410+yOffset);
+				
+				g2d.drawString("Press Escape to go back.", 60, 620+yOffset);
 				break;
 		}
 		
@@ -145,9 +191,37 @@ public class MenuState implements States{
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(!keysHeld.contains(e.getKeyCode())) {
+		if(screenState == 4) {
+			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				screenState = 1;
+			}
+			else if(saveName.length() > 0 && e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+				saveName = saveName.substring(0,saveName.length()-1);
+				nameExceeded = false;
+				invalidLetter = false;
+			}
+			else if(saveName.length() > 0 && e.getKeyCode() == KeyEvent.VK_ENTER) {
+				screenState = 5;
+			}
+			else {
+				char letter = e.getKeyChar();
+				if(saveName.length() > 10)
+					nameExceeded = true;
+				else
+					nameExceeded = false;
+				
+				if(!nameExceeded && ((letter >= 'a' && letter <= 'z') || (letter >= 'A' && letter <= 'Z') || (letter >= '0' && letter <= '9') || letter == ' ')) {
+					saveName += letter;
+					invalidLetter = false;
+				}
+				else if(!nameExceeded){
+					invalidLetter = true;
+				}
+			}
+		}
+		else if(!keysHeld.contains(e.getKeyCode())) {
 			Integer code = e.getKeyCode();
-			if(cursorPos > 0 &&( code == KeyEvent.VK_UP || code == KeyEvent.VK_W)) {
+			if(cursorPos > 0 && (code == KeyEvent.VK_UP || code == KeyEvent.VK_W)) {
 				cursorPos--;
 			}
 			else if (cursorPos < cursorMaxPos && (code == KeyEvent.VK_DOWN || code == KeyEvent.VK_S)) {
@@ -166,18 +240,27 @@ public class MenuState implements States{
 						screenState = 3;
 					}
 					else if(cursorPos == 2) {
-						screenState = 5;
+						screenState = 6;
 					}
 				}
 				else if(screenState == 2) {
-					if(cursorPos == 3)
+					if(cursorPos == 3) {
 						screenState = 1;
-					else
+						cursorPos = 0;
+					}
+					else if(fileName[cursorPos].equals(StateManager.EMPTYNAME))
 						screenState = 4;
+					else {
+						saveName = fileName[cursorPos];
+						screenState = 5;
+					}
 				}
 			}
 			else if (screenState == 2 && code == KeyEvent.VK_DELETE) {
 				deletePos = true;
+			}
+			else if (screenState == 3 && code == KeyEvent.VK_ESCAPE) {
+				screenState = 1;
 			}
 			keysHeld.add(code);
 		}
@@ -202,14 +285,18 @@ public class MenuState implements States{
 	}
 	
 	public boolean getClosed() {
-		return (screenState == 5);
+		return (screenState == 6);
 	}
 	
 	public boolean startGame() {
-		return (screenState == 4);
+		return (screenState == 5);
 	}
 	
 	public int getCursorPos() {
 		return cursorPos;
+	}
+	
+	public String getSaveName() {
+		return saveName;
 	}
 }

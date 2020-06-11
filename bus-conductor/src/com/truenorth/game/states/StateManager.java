@@ -23,6 +23,7 @@ public class StateManager{
 	private int[] busWorldPos;
 	private int[] puzzleLevelPos;
 	private int[] times;
+	private int[] savedState;
 	private int statePos;
 	private int fileNum;
 	private boolean pauseHold;
@@ -35,6 +36,7 @@ public class StateManager{
 		this.busWorldPos = new int[3];
 		this.puzzleLevelPos = new int[3];
 		this.times = new int[3];
+		this.savedState = new int[3];
 		this.statePos = 0;
 		this.fileNum = 0;
 		this.pauseHold = false;
@@ -46,11 +48,10 @@ public class StateManager{
 			SS.update();
 		} else {
 			if(PS.getPaused()) {
-				PS.update();
 				PS.setInstructionPage(statePos);
 				if(PS.getExit()) {
-					statePos = 0;
 					saveSave();
+					statePos = 0;
 					loaded = false;
 					PS.setPaused(false);
 					PS.resetScreen();
@@ -71,8 +72,8 @@ public class StateManager{
 					}
 					else if(((MenuState)STATE[0]).startGame()) {
 						fileNum = ((MenuState)STATE[0]).getCursorPos();
+						fileNames[fileNum] = ((MenuState)STATE[0]).getSaveName();
 						loadSave();
-						statePos = 1;
 						loaded = false;
 						((MenuState)STATE[0]).resetScreen();
 					}
@@ -147,16 +148,22 @@ public class StateManager{
 			busWorldPos[saveFile-1] = Integer.parseInt(br.readLine());
 			puzzleLevelPos[saveFile-1] = Integer.parseInt(br.readLine());
 			times[saveFile-1] = Integer.parseInt(br.readLine());
+			savedState[saveFile-1] = Integer.parseInt(br.readLine());
+			if(savedState[saveFile-1] == 0) {
+				br.close();
+				throw new FileNotFoundException();
+			}
 			br.close();
 		} 
-		catch(FileNotFoundException e) {
+		catch(FileNotFoundException e){
 			return false;
 		}
 		catch(IOException e) {}
+		
 		return true;
 	}
 	
-	private void createFile(String name, int busPos, int puzzlePos, int time, int saveFile) {
+	private void createFile(String name, int busPos, int puzzlePos, int time, int state, int saveFile) {
 		try {
 			PrintWriter pr = new PrintWriter(LOCATION.getPath()+"/save"+saveFile+".ismk");
 			pr.println("This File Is The Correct File For Save "+saveFile);
@@ -164,16 +171,17 @@ public class StateManager{
 			pr.println(busPos);
 			pr.println(puzzlePos);
 			pr.println(time);
+			pr.println(state);
 			pr.close();
 		} catch(IOException e) {}
 	}
 	
 	private void createFile(int saveFile) {
-		createFile(EMPTYNAME, 0, 0, 0, saveFile);
+		createFile(EMPTYNAME, 0, 0, 0, 1, saveFile);
 	}
 
 	private void saveSave() {
-		createFile(fileNames[fileNum], ((BusState)STATE[1]).getWorldPos(), ((PuzzleState)STATE[2]).getLevelPos(), 0, fileNum+1);
+		createFile(fileNames[fileNum], ((BusState)STATE[1]).getWorldPos(), ((PuzzleState)STATE[2]).getLevelPos(), 0, statePos, fileNum+1);
 	}
 	
 	private void loadSave() {
@@ -181,6 +189,7 @@ public class StateManager{
 		((BusState)STATE[1]).resetWorlds();
 		((PuzzleState)STATE[2]).setLevelPos(puzzleLevelPos[fileNum]);
 		((PuzzleState)STATE[2]).resetLevels();
+		statePos = savedState[fileNum];
 	}
 	
 	//testing

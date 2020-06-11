@@ -32,9 +32,7 @@ public class PauseState implements States {
 	}
 	
 	@Override
-	public void update() {
-		
-	}
+	public void update() {}
 
 	@Override
 	public void render(Graphics2D g2d) {
@@ -45,12 +43,12 @@ public class PauseState implements States {
 			case 0:
 				g2d.setColor(new Color(0,255,0,100));
 				g2d.fillRoundRect(60, 120+(cursorPos*157), Game.WIDTH-120, 90, 30, 30);
+				g2d.drawImage(Loader.PAUSE_CHOICES, 172, 120, null);
 				break;
 			case 1:
+				g2d.drawImage(Loader.INSTRUCTIONS, 100, 95, null);
 				break;
 		}
-
-		g2d.drawImage(Loader.PAUSE_CHOICES, 172, 120, null);
 	}
 
 	@Override
@@ -71,10 +69,10 @@ public class PauseState implements States {
 					screenPos = 0;
 				}
 			}
-			else if(cursorPos > 0 && e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+			else if(cursorPos > 0 && (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)) {
 				cursorPos--;
 			}
-			else if(cursorPos < 2 || e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+			else if(cursorPos < 2 && (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)) {
 				cursorPos++;
 			}
 			keysHeld.add(code);
