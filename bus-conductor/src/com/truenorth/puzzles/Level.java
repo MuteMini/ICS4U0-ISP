@@ -114,12 +114,13 @@ public abstract class Level {
 	public boolean checkSolution() {
 		for(Passenger pass : immoveable) {
 			if(!pass.isCorrect(distanceGrid)) {
+				System.out.println(pass.toString());  //testing
 				return false;
 			}	
 		}
 		for(Passenger pass : placed) {
 			if(!pass.isCorrect(distanceGrid)) {
-				System.out.println(pass.toString());
+				System.out.println(pass.toString());  //testing
 				return false;
 			}
 		}
@@ -183,7 +184,7 @@ public abstract class Level {
 	}
 	
 	protected void winAnimation(Graphics2D g2d) {
-		if(animateCount > 321) {
+		if(animateCount > 340) {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {}
@@ -191,7 +192,7 @@ public abstract class Level {
 		}
 		g2d.setColor(Color.DARK_GRAY);
 		g2d.fillRect(0, 0, 800, animateCount);
-		g2d.fillRect(0, 640-animateCount, 800, 320);
+		g2d.fillRect(0, 640-animateCount, 800, 400);
 		if(animateCount > 310) {
 			g2d.setColor(Color.WHITE);
 			g2d.setFont(Loader.TTC_TITLE);
@@ -199,7 +200,7 @@ public abstract class Level {
 		}
 		g2d.dispose();
 		powerCount += 0.01;
-		animateCount += (animateCount <= 321) ? (int)(Math.pow(2, -powerCount)*5) : 0;
+		animateCount += (animateCount <= 340) ? (int)(Math.pow(2, -powerCount)*5) : 0;
 	}
 	
 	protected void impossibleAnimation(Graphics2D g2d) {
@@ -266,6 +267,10 @@ public abstract class Level {
 			for(int y = 0; y < topY; y++) {
 				p.setxPos(x);
 				p.setyPos(y);
+				if(p instanceof Grouped) {
+					((Grouped)p).setPositions();
+				}
+				
 				if(p instanceof Parent && ((Parent)p).notImpossible(distanceGrid)){
 					imposs = false;
 					break;
@@ -282,6 +287,9 @@ public abstract class Level {
 		}
 		p.setxPos(xPos);
 		p.setyPos(yPos);
+		if(p instanceof Grouped) {
+			((Grouped)p).setPositions();
+		}
 		return imposs;
 	}
 }

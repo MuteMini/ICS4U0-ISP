@@ -125,13 +125,13 @@ public class Student extends Passenger{
 		int tempYPos = yPos+shiftY;
 		
 		grid[tempXPos][tempYPos] = id;
-		if(!aboveWindow(tempXPos,tempYPos) && tempYPos < MAX_Y && grid[tempXPos][tempYPos+1] <= 0 && grid[tempXPos][tempYPos+1] != -2 && (!inGroup || grid[tempXPos][tempYPos+1] != id))
+		if(!aboveWindow(tempXPos,tempYPos) && tempYPos < MAX_Y && grid[tempXPos][tempYPos+1] == 0 && grid[tempXPos][tempYPos+1] != -2 && (!inGroup || grid[tempXPos][tempYPos+1] != id))
 			grid[tempXPos][tempYPos+1] = (rotation == 1) ? BAGGAGE : EMPTY;
-		if(tempXPos < MAX_X && grid[tempXPos+1][tempYPos] <= 0 && grid[tempXPos+1][tempYPos] != -2 && (!inGroup || grid[tempXPos+1][tempYPos] != id))
+		if(tempXPos < MAX_X && grid[tempXPos+1][tempYPos] == 0 && grid[tempXPos+1][tempYPos] != -2 && (!inGroup || grid[tempXPos+1][tempYPos] != id))
 			grid[tempXPos+1][tempYPos] = (rotation == 2) ? BAGGAGE : EMPTY;
-		if(!belowWindow(tempXPos,tempYPos) && tempYPos > 0 && grid[tempXPos][tempYPos-1] <= 0 && grid[tempXPos][tempYPos-1] != -2 && (!inGroup || grid[tempXPos][tempYPos-1] != id))
+		if(!belowWindow(tempXPos,tempYPos) && tempYPos > 0 && grid[tempXPos][tempYPos-1] == 0 && grid[tempXPos][tempYPos-1] != -2 && (!inGroup || grid[tempXPos][tempYPos-1] != id))
 			grid[tempXPos][tempYPos-1] = (rotation == 3) ? BAGGAGE : EMPTY;	
-		if(tempXPos > 0 && grid[tempXPos-1][tempYPos] <= 0 && grid[tempXPos-1][tempYPos] != -2 && (!inGroup || grid[tempXPos-1][tempYPos] != id))
+		if(tempXPos > 0 && grid[tempXPos-1][tempYPos] == 0 && grid[tempXPos-1][tempYPos] != -2 && (!inGroup || grid[tempXPos-1][tempYPos] != id))
 			grid[tempXPos-1][tempYPos] = (rotation == 4) ? BAGGAGE : EMPTY;	
 	}
 	
