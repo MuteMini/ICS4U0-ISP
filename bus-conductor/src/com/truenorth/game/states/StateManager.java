@@ -105,7 +105,7 @@ public class StateManager{
 				else if(statePos == 1) {
 					BS.update();
 					if(BS.isOnStop()) {
-						if(BS.getWorldPos() == 8) {
+						if(BS.getWorldPos() == 7) {
 							//do something to signal the "real route"
 						}
 						else if(BS.getWorldPos() == 21) {
@@ -229,9 +229,6 @@ public class StateManager{
 			return false;
 		}
 		catch(IOException e) {}
-		catch(Exception e){
-			return false;
-		}
 		
 		return true;
 	}
@@ -251,7 +248,7 @@ public class StateManager{
 	}
 	
 	private void createFile(int saveFile) {
-		createFile(EMPTYNAME, 0, 0, 0, 1, 0, saveFile);
+		createFile(EMPTYNAME, 8, 0, 0, 1, 0, saveFile);
 	}
 
 	private void loadSave() {
