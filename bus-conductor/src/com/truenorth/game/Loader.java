@@ -21,8 +21,6 @@ public final class Loader {
 	public static final BufferedImage STUDENT4 = getPuzzleSprite(4, 4);
 	public static final BufferedImage STUDENT_SIT1 = getPuzzleSprite(4, 5);
 	public static final BufferedImage STUDENT_SIT2 = getPuzzleSprite(4, 6);
-	public static final BufferedImage STUDENT_SIT3 = getPuzzleSprite(4, 7);
-	public static final BufferedImage STUDENT_SIT4 = getPuzzleSprite(4, 8);
 	public static final BufferedImage ELDERLY = getPuzzleSprite(5, 0);
 	public static final BufferedImage PREGNANT = getPuzzleSprite(6, 0);
 	public static final BufferedImage DISABLED1 = getPuzzleSprite(7, 1);

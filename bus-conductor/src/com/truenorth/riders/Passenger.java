@@ -257,10 +257,6 @@ public abstract class Passenger{
 				return Loader.STUDENT_SIT1;
 			else if(diff == 6)
 				return Loader.STUDENT_SIT2;
-			else if(diff == 7)
-				return Loader.STUDENT_SIT3;
-			else if(diff == 8)
-				return Loader.STUDENT_SIT4;
 		}
 		else if(spriteID == 5) {
 			return Loader.ELDERLY;

@@ -3,9 +3,13 @@ package com.truenorth.riders;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 public class Student extends Passenger{
 	
+	protected final BufferedImage SIT_SPRITE = readImage(4, 5);
+	protected final BufferedImage BAG_SPRITE = readImage(4, 6);
 	protected int rotation;
 	protected int offX;
 	protected int offY;
@@ -36,15 +40,6 @@ public class Student extends Passenger{
 		if(inGrid) {
 			int tempXPos = xPos+shiftX;
 			int tempYPos = yPos+shiftY;
-			if((tempXPos == 0 && tempYPos <= 6) 
-					|| ((tempXPos == 0 || tempXPos == 4) && tempYPos == 8) 
-					|| (tempXPos == 4 && tempYPos <= 5) 
-					|| (tempYPos == 10)) {
-				this.sprite = readImage(4, rotation+4);
-			}
-			else {
-				this.sprite = readImage(4, rotation);
-			}
 			
 			xPosNew = SPRITE_SIZE*xPos+OFFSET_X;
 			yPosNew = SPRITE_SIZE*yPos+OFFSET_Y;
@@ -52,8 +47,29 @@ public class Student extends Passenger{
 				floating += (floating >= 6.28) ? -6.28 : 0.02d;
 				yPosNew += (int)(Math.sin(floating)*5);
 			}
+			
 			highlight(g2d, xPosNew, yPosNew);
-			g2d.drawImage(sprite, xPosNew, yPosNew, null);
+			
+			if((tempXPos == 0 && tempYPos <= 6) 
+					|| ((tempXPos == 0 || tempXPos == 4) && tempYPos == 8) 
+					|| (tempXPos == 4 && tempYPos <= 5) 
+					|| (tempYPos == 10)) {
+				AffineTransform at1 = new AffineTransform();
+				AffineTransform at2 = new AffineTransform();
+				double radianRotate = rotationVal(tempXPos, tempYPos);
+				
+				at1.translate(SPRITE_SIZE/2+xPosNew+(shiftX*32), SPRITE_SIZE/2+yPosNew+(shiftY*32));
+				at1.rotate(Math.toRadians(radianRotate));
+				at1.translate(-SPRITE_SIZE/2, -SPRITE_SIZE/2);
+				at2.translate(SPRITE_SIZE/2+xPosNew+((shiftX+offX)*32), SPRITE_SIZE/2+yPosNew+((shiftY	+offY)*32));
+				at2.rotate(Math.toRadians(radianRotate));
+				at2.translate(-SPRITE_SIZE/2, -SPRITE_SIZE/2);
+				g2d.drawImage(SIT_SPRITE, at1, null);
+				g2d.drawImage(BAG_SPRITE, at2, null);
+			}
+			else {
+				g2d.drawImage(sprite, xPosNew, yPosNew, null);
+			}
 		}
 		else {
 			xPosNew = SPRITE_SIZE*orderX+ORDERED_X;
@@ -142,11 +158,6 @@ public class Student extends Passenger{
 	protected void drawTag(Graphics2D g, int xPos, int yPos) {
 		g.setColor(cl);
 		g.fillOval(xPos+(shiftX*32), yPos+(shiftY*32), 10, 10);
-	}
-	
-	@Override
-	protected double rotationVal(int x, int y) {
-		return 0d;
 	}
 	
 	protected void setRotationValue() {
