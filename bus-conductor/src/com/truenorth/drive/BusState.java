@@ -23,6 +23,9 @@ public class BusState implements States{
 	private boolean onStop;
 	private float alpha;
 	private double floating;
+	private long lastMilli;
+	private long builtMilli;
+	private int outOfBoundsCount;
 	
 	public BusState() {
 		this.c = new Camera();
@@ -44,6 +47,7 @@ public class BusState implements States{
 		this.worlds[8] = new WorldOne();
 		this.worlds[9] = new WorldTwo();
 		this.b = new Bus();
+		this.outOfBoundsCount = 3;
 		this.entities = new ArrayList<Entity>(); //needs to be recreated after world change
 	}
 	
@@ -88,8 +92,26 @@ public class BusState implements States{
 					|| (boundP[3] == 4 && b.getCenter().getX() <= boundP[0] && (b.getCenter().getY() <= Math.max(boundP[1], boundP[2]) && b.getCenter().getY() >= Math.min(boundP[1], boundP[2])));
 			b.setOutside(ahead);
 			if(ahead) {
-				break;
+				if(lastMilli == 0) {
+                    lastMilli = System.currentTimeMillis();
+                }
+                long currentTime = System.currentTimeMillis();
+                builtMilli += currentTime-lastMilli;
+                if(builtMilli / 1000 >= 1) {
+                    outOfBoundsCount -= (int)(builtMilli / 1000);
+                    builtMilli %= 1000;
+                }
+                lastMilli = currentTime;
+                break;
+			} else if (i == worlds[worldPos].getBoundary().size() - 1) {
+				lastMilli = 0;
+				builtMilli = 0;
+				outOfBoundsCount = 3;
 			}
+		}
+		
+		if (outOfBoundsCount == 0) {
+			resetWorlds();
 		}
 	}
 	
@@ -120,13 +142,8 @@ public class BusState implements States{
 			}
 		}
 		
-		if (b.isOutside()) {
-			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
-			g2d.drawImage(Loader.WARNING_IMAGE, 0, 0, null);
-			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-		}
-		
 		if (debug) {
+			g2d.setFont(Loader.CALIBRI_BODY2);
 			g2d.setColor(Color.orange);
 			g2d.drawLine(b.center.x - c.getXPos(), b.center.y - c.getYPos(), worlds[worldPos].getBusStop().x - c.getXPos(), worlds[worldPos].getBusStop().y - c.getYPos());
 			g2d.setColor(Color.black);
@@ -155,6 +172,15 @@ public class BusState implements States{
 			g2d.setColor(Color.magenta);
 			g2d.drawImage(Loader.ARROW, Game.WIDTH/2 - 30, Game.HEIGHT/2 - 40, null);
 			g2d.setTransform(temp);
+		}
+
+		if (b.isOutside()) {
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
+			g2d.drawImage(Loader.WARNING_IMAGE, 0, 0, null);
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+			g2d.setColor(Color.white);
+			g2d.setFont(Loader.BUNGEE);
+			g2d.drawString(outOfBoundsCount + "", 720, 175);
 		}
 	}
 	

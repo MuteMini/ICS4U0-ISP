@@ -74,6 +74,7 @@ public final class Loader {
 	public static final Font TTC_BODY = getFont(1).deriveFont(28f);
 	public static final Font CALIBRI_BODY1 = getFont(2);
 	public static final Font CALIBRI_BODY2 = getFont(3);
+	public static final Font BUNGEE = getFont(4).deriveFont(70f);
 	
 	private static BufferedImage getPuzzleSprite(int spriteID, int diff){
 		try {	
@@ -162,6 +163,8 @@ public final class Loader {
 				return new Font("Calibri", 1, 18);
 			else if(fontID == 3)
 				return new Font("Calibri", 0, 12);
+			else if (fontID == 4) 
+				return Font.createFont(Font.TRUETYPE_FONT, Loader.class.getResource("/Bungee-Regular.ttf").openStream());
 		}
 		catch(Exception e) {
 		}
