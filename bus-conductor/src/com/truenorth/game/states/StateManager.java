@@ -52,7 +52,7 @@ public class StateManager{
 	}
 	
 	public void update() {
-		if (!SS.isLoadingDone()) {
+		/*if (!SS.isLoadingDone()) {
 			SS.update();
 		} else {
 			if(PS.getPaused()) {
@@ -118,9 +118,9 @@ public class StateManager{
 						}
 					}
 				} 
-				else if(statePos == 2) {
+				else if(statePos == 2) {*/
 					PU_S.update();
-					if(PU_S.isFinished()) {
+					/*if(PU_S.isFinished()) {
 						statePos = 1;
 						BS.resetBus();
 						BS.setWorldPos(BS.getWorldPos()+1);
@@ -129,11 +129,11 @@ public class StateManager{
 					}
 				}
 			}
-		}
+		}*/
 	}
 	
 	public void render(Graphics2D g2d) {
-		if (!SS.isLoadingDone()) {
+		/*if (!SS.isLoadingDone()) {
 			SS.render(g2d);
 		} 
 		else {
@@ -141,16 +141,16 @@ public class StateManager{
 				MS.render(g2d);
 			else if(statePos == 1)
 				BS.render(g2d);
-			else if(statePos == 2)
+			else if(statePos == 2)*/
 				PU_S.render(g2d);
 			
-			if(PS.getPaused())
+			/*if(PS.getPaused())
 				PS.render(g2d);
-		}
+		}*/
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		if (SS.isLoadingDone()) {
+		/*if (SS.isLoadingDone()) {
 			if( ((statePos == 1) || (statePos == 2 && !PU_S.hasTutorial())) && !PU_S.isImpossible() && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				PS.setPaused(!PS.getPaused());
 				pauseHold = true;
@@ -161,14 +161,14 @@ public class StateManager{
 					MS.keyPressed(e);
 				else if(statePos == 1)
 					BS.keyPressed(e);
-				else if(statePos == 2)
+				else if(statePos == 2)*/
 					PU_S.keyPressed(e);
-			}
-		}
+			/*}
+		}*/
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		if (SS.isLoadingDone()) {
+		/*if (SS.isLoadingDone()) {
 			if(PS.getPaused()) {
 				PS.keyReleased(e);
 			} 
@@ -177,16 +177,16 @@ public class StateManager{
 					MS.keyReleased(e);
 				else if(statePos == 1)
 					BS.keyReleased(e);
-				else if(statePos == 2)
+				else if(statePos == 2)*/
 					PU_S.keyReleased(e);
-			}
+			/*}
 			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				pauseHold = false;
 				if(statePos == 1) {
 					BS.resetHold();
 				}
 			}
-		}
+		}*/
 	}
 	
 	public boolean gameClosed() {

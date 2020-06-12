@@ -14,7 +14,7 @@ public class PuzzleState implements States{
 	private Level[] levels;
 	
 	public PuzzleState() {
-		this.levelPos = 0;
+		this.levelPos = 7;
 		this.levels = new Level[LEVEL_NUM];
 		resetLevels();
 	}

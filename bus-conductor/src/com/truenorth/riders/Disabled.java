@@ -59,13 +59,13 @@ public class Disabled extends Passenger{
 	@Override
 	public void fillDistance (Integer[][] grid) {
 		grid[xPos][yPos+addY] = id;
-		if(xPos > 0 && grid[xPos-1][yPos+addY] <= 0)
+		if(xPos > 0 && grid[xPos-1][yPos+addY] == 0)
 			grid[xPos-1][yPos+addY] = EMPTY;	
-		if(xPos < MAX_X && grid[xPos+1][yPos+addY] <= 0)
+		if(xPos < MAX_X && grid[xPos+1][yPos+addY] == 0)
 			grid[xPos+1][yPos+addY] = EMPTY;
-		if(yPos+addY > 0 && grid[xPos][yPos+addY-1] <= 0)
+		if(yPos+addY > 0 && grid[xPos][yPos+addY-1] == 0)
 			grid[xPos][yPos+addY-1] = (rotation == 2) ? BAGGAGE : EMPTY;	
-		if(yPos+addY < MAX_Y && grid[xPos][yPos+addY+1] <= 0)
+		if(yPos+addY < MAX_Y && grid[xPos][yPos+addY+1] == 0)
 			grid[xPos][yPos+addY+1] = (rotation == 1) ? BAGGAGE : EMPTY;
 	}
 	
