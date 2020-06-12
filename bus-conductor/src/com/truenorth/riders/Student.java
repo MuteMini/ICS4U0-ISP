@@ -62,7 +62,7 @@ public class Student extends Passenger{
 				at1.rotate(Math.toRadians(radianRotate));
 				at1.translate(-SPRITE_SIZE/2, -SPRITE_SIZE/2);
 				at2.translate(SPRITE_SIZE/2+xPosNew+((shiftX+offX)*32), SPRITE_SIZE/2+yPosNew+((shiftY	+offY)*32));
-				at2.rotate(Math.toRadians(radianRotate));
+				at2.rotate(Math.toRadians((rotation-1)*90));
 				at2.translate(-SPRITE_SIZE/2, -SPRITE_SIZE/2);
 				g2d.drawImage(SIT_SPRITE, at1, null);
 				g2d.drawImage(BAG_SPRITE, at2, null);
