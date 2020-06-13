@@ -84,7 +84,7 @@ public class Luggage extends Passenger {
 		for(int i = 0; i < 4; i++) {
 			int tempXPos = (i == 1 || i == 3) ? xPos+1 : xPos;
 			int tempYPos = (i == 2 || i == 3) ? yPos+1 : yPos;
-			if(posExist(i)) {
+			if(posExist(i) && !(grid[tempXPos][tempYPos] < CHILD_SPACE)) {
 				grid[tempXPos][tempYPos] = id;
 			}
 		}

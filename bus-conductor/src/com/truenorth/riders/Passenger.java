@@ -17,8 +17,8 @@ public abstract class Passenger{
 	protected final int MAX_X = 4;
 	protected final int MAX_Y = 10;
 	protected final int EMPTY = -1;
-	protected final int BAGGAGE = -2;
-	protected final int CHILD_SPACE = -3;
+	protected final int CHILD_SPACE = -2;
+	protected final int BAGGAGE = -3;
 	protected int xPos;
 	protected int yPos;
 	protected int id;

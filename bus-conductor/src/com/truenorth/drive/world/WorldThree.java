@@ -15,5 +15,4 @@ public class WorldThree extends World {
 		busStop = new Point(0,-4200);
 	}
 	
-
 }
