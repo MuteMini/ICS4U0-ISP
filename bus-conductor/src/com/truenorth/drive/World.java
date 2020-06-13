@@ -87,10 +87,33 @@ public abstract class World {
 	private BufferedImage getImage(int imageID) {
 		if(imageID == 0) {
 			return Loader.TUT_WORLD;
-		}
-		else if(imageID == 1) {
+		} else if(imageID == 1) {
 			return Loader.WORLD1;
-		}
+		} else if (imageID == 2) {
+			return Loader.WORLD2;
+		} else if (imageID == 3) {
+			return Loader.WORLD3;
+		} else if (imageID == 4) {
+			return Loader.WORLD4;
+		} else if (imageID == 5) {
+			return Loader.WORLD5;
+		} else if (imageID == 6) {
+			return Loader.WORLD6;
+		} else if (imageID == 7) {
+			return Loader.WORLD7;
+		} else if (imageID == 8) {
+			return Loader.WORLD8;
+		} else if (imageID == 9) {
+			return Loader.WORLD9;
+		} else if (imageID == 10) {
+			return Loader.WORLD10;
+		} else if (imageID == 11) {
+			return Loader.WORLD11;
+		} else if (imageID == 12) {
+			return Loader.WORLD12;
+		} else if (imageID == 13) {
+			return Loader.WORLD13;
+		} 
 		return null;
 	}
 }

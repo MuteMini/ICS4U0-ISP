@@ -46,6 +46,9 @@ public class BusState implements States{
 		this.worlds[7] = new TutorialEight(); 
 		this.worlds[8] = new WorldOne();
 		this.worlds[9] = new WorldTwo();
+		this.worlds[10] = new WorldThree();
+		this.worlds[11] = new WorldFour();
+		this.worlds[12] = new WorldFive();
 		this.b = new Bus();
 		this.outOfBoundsCount = 3;
 		this.entities = new ArrayList<Entity>(); //needs to be recreated after world change
@@ -111,7 +114,7 @@ public class BusState implements States{
 		}
 		
 		if (outOfBoundsCount == 0) {
-			resetWorlds();
+			//resetWorlds();
 		}
 	}
 	
@@ -192,7 +195,25 @@ public class BusState implements States{
 		else if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER && (int)b.getXVel() == 0 && (int)b.getYVel() == 0) {
 			onStop = true;
 		}
+<<<<<<< Updated upstream
 		b.processMovement(e);
+=======
+		
+		if (e.getKeyCode() == KeyEvent.VK_P && worldPos < WORLDS_NUM) {
+			worldPos++;
+			resetWorlds();
+		} else if (e.getKeyCode() == KeyEvent.VK_O && worldPos > 0) {
+			worldPos--;
+			resetWorlds();
+		}
+		
+		if(worlds[worldPos].getTutorial()) {
+			worlds[worldPos].keyPressed(e);
+		} 
+		else {
+			b.processMovement(e);
+		}
+>>>>>>> Stashed changes
 	}
 	
 	@Override
