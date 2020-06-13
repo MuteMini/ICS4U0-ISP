@@ -86,7 +86,7 @@ public abstract class Level extends Tutorial{
 		
 		for(int x = 0; x < 11; x++) {
 			for(int y = 0; y < 5; y++) {
-				System.out.print(distanceGrid[y][x] + " ");
+				System.out.print(distanceGrid[y][x] + "\t");
 			}
 			System.out.println();
 		}

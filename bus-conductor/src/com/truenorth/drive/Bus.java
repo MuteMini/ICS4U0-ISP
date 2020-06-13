@@ -92,7 +92,6 @@ public class Bus extends Entity {
 			g2d.drawString("xPosition, yPosition: " + center.x + ", " + center.y, 10, 20);
 			g2d.drawString("xVelocity, yVelocity: " + xVel + ", " + yVel, 10, 32);
 			g2d.drawString("Buildup: " + buildUp, 10, 44);
-			System.out.println(buildUp);
 			g2d.drawString("Angle " + angle, 10, 56);
 			g2d.drawString("Angle Velocity: " + getAngleVel(), 10, 80);
 			g2d.drawString("Forward: " + forward, 10, 92);
