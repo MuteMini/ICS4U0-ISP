@@ -1,10 +1,7 @@
 package com.truenorth.puzzles.level;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-
-import com.truenorth.game.Game;
 import com.truenorth.puzzles.Level;
 import com.truenorth.riders.*;
 
@@ -16,14 +13,8 @@ public class LevelOneSix  extends Level{
 	}
 	
 	@Override
-	public void showTutorial(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		
-		int boxX = 0, boxY = 0, boxW = 0, boxH = 0;
-		int contourX = 32, contourY = 32, contourW = 32, contourH = 32;
-		boolean contour = false;
-		String tutText = "";
-		
+	public void showTutorial(Graphics2D g2d) {
+		resetContour();
 		switch(tutorialPage) {
 			case 0:
 				boxX = 200;
@@ -43,6 +34,7 @@ public class LevelOneSix  extends Level{
 				contourY *= 4;
 				contourW *= 3;
 				contourH *= 4;
+				contourX-=20;
 				g2d.setColor(new Color(255,0,0,140));
 				g2d.fillRect(contourX, contourY+32, contourW, 64);
 				g2d.fillRect(contourX+32, contourY, 32, 32);
@@ -71,17 +63,8 @@ public class LevelOneSix  extends Level{
 				hasTutorial = false;
 		}
 		
-		g2d.setColor(new Color(0,0,0,160));
-		if(contour) {
-			g2d.fillRect(0, 0, Game.WIDTH, contourY);
-			g2d.fillRect(0, contourY, contourX, contourH);
-			g2d.fillRect(contourX+contourW, contourY, Game.WIDTH-(contourX+contourW), contourH);
-			g2d.fillRect(0, contourY+contourH, Game.WIDTH, Game.HEIGHT-(contourY+contourH));
-		}
-		else {
-			g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-		}
-		showBox(g2d, boxX, boxY, boxW, boxH, tutText.split("\n"));
+		showContour(g2d);
+		showBox(g2d);
 	}
 	
 	@Override

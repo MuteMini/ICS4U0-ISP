@@ -3,12 +3,14 @@ package com.truenorth.drive;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.truenorth.game.Loader;
+import com.truenorth.game.Tutorial;
 
-public abstract class World {
+public abstract class World extends Tutorial{
 	protected Point startPos;
 	protected BufferedImage map;
 	protected ArrayList<Integer[]> boundary;
@@ -19,6 +21,7 @@ public abstract class World {
 	private int spawnYBot;
 	
 	public World(int x, int y, int imageID, int spawnX, int spawnYTop, int spawnYBot) {
+		super();
 		this.startPos = new Point(x, y);
 		this.boundary = new ArrayList<Integer[]>();
 		this.map = getImage(imageID);
@@ -70,8 +73,18 @@ public abstract class World {
                     g2d.drawLine(r[0]-(int)xOffset, r[1]-(int)yOffset, r[2]-(int)xOffset, r[1]-(int)yOffset); //draws a line left to right
 			}
 		}
+		
+		if(hasTutorial) {
+			showTutorial(g2d);
+		}
 	}
 
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			tutorialPage++;
+		}
+	}
+	
 	public Point getStartPos() {
 		return startPos;
 	}

@@ -182,6 +182,10 @@ public class BusState implements States{
 			g2d.setFont(Loader.BUNGEE);
 			g2d.drawString(outOfBoundsCount + "", 720, 175);
 		}
+		
+		if(worlds[worldPos].getTutorial()) {
+			worlds[worldPos].showTutorial(g2d);
+		}
 	}
 	
 	@Override
@@ -192,7 +196,13 @@ public class BusState implements States{
 		else if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER && (int)b.getXVel() == 0 && (int)b.getYVel() == 0) {
 			onStop = true;
 		}
-		b.processMovement(e);
+		
+		if(worlds[worldPos].getTutorial()) {
+			worlds[worldPos].keyPressed(e);
+		} 
+		else {
+			b.processMovement(e);
+		}
 	}
 	
 	@Override
