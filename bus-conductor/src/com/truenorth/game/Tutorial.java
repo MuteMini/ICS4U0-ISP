@@ -39,6 +39,10 @@ public abstract class Tutorial {
 	
 	public void showTutorial(Graphics2D g2d) {}
 	
+	public void setTutorial(boolean hasTutorial) {
+		this.hasTutorial = hasTutorial;
+	}
+	
 	public boolean getTutorial() {
 		return hasTutorial;
 	}

@@ -21,6 +21,7 @@ public class StateManager{
 	private final MenuState MS = new MenuState();
 	private final BusState BS= new BusState(); 
 	private final PuzzleState PU_S = new PuzzleState();
+	private final EndState ES = new EndState();
 	private String[] fileNames;
 	private int[] busWorldPos;
 	private int[] puzzleLevelPos;
@@ -68,7 +69,7 @@ public class StateManager{
 				}
 			} 
 			else {
-				if(statePos != 0) {
+				if(statePos != 0 && statePos != 3) {
 					if(lastMilli == 0) {
 						lastMilli = System.currentTimeMillis();
 					}
@@ -114,17 +115,25 @@ public class StateManager{
 					BS.update();
 					if(BS.isOnStop()) {
 						if(BS.getWorldPos() == 7) {
-							statePos = 3;
+							/*BS.setTutorial(true);
+							if(BS.getTutorial()) {
+								
+							}*/
 						}
 						else if(BS.getWorldPos() == 21) {
-							fileFinished[fileNum] = 1; 
-							statePos = 4;
+							fileFinished[fileNum] = 1;
+							BS.setOnStop(false);
 						}
 						else {
 							statePos = 2;
 							BS.setOnStop(false);
 						}
 						saveSave();
+						
+						if(BS.getWorldPos() == 21) {
+							statePos = 3;
+						}
+						
 					}
 				} 
 				else if(statePos == 2) {
@@ -138,7 +147,14 @@ public class StateManager{
 					}
 				}
 				else if(statePos == 3) {
-					
+					ES.update();
+					if(ES.isFinished()) {
+						saveSave();
+						statePos = 0;
+						fileNum = -1;
+						loaded = false;
+						ES.resetScreen();
+					}
 				}
 			}
 		}
@@ -151,10 +167,12 @@ public class StateManager{
 		else {
 			if(statePos == 0)
 				MS.render(g2d);
-			else if(statePos == 1 || statePos == 3)
+			else if(statePos == 1)
 				BS.render(g2d);
 			else if(statePos == 2)
 				PU_S.render(g2d);
+			else if(statePos == 3)
+				ES.render(g2d);
 			
 			if(PS.getPaused())
 				PS.render(g2d);
@@ -163,7 +181,7 @@ public class StateManager{
 	
 	public void keyPressed(KeyEvent e) {
 		if (SS.isLoadingDone()) {
-			if( ((statePos == 1) || (statePos == 2 && !PU_S.hasTutorial())) && !PU_S.isImpossible() && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			if( statePos != 3 && ((statePos == 1) || (statePos == 2 && !PU_S.hasTutorial())) && !PU_S.isImpossible() && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				PS.setPaused(!PS.getPaused());
 				pauseHold = true;
 			} else if(PS.getPaused()) {
@@ -232,6 +250,10 @@ public class StateManager{
 			times[saveFile-1] = Integer.parseInt(br.readLine());
 			savedState[saveFile-1] = Byte.parseByte(br.readLine());
 			fileFinished[saveFile-1] = Byte.parseByte(br.readLine());
+			if(savedState[saveFile-1] == 0) {
+				br.close();
+				throw new NumberFormatException();
+			}
 			br.close();
 		} 
 		catch(FileNotFoundException e){

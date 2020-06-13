@@ -68,6 +68,7 @@ public final class Loader {
 	public static final BufferedImage PAUSE_CHOICES = getGeneralSprite(2, 0);
 	public static final BufferedImage INSTRUCTIONS = getGeneralSprite(3, 0);
 	public static final BufferedImage STAR = getGeneralSprite(4, 0);
+	public static final BufferedImage CREDIT = getGeneralSprite(5, 0);
 	
 	public static final Font TTC_TITLE = getFont(1).deriveFont(56f);
 	public static final Font TTC_BODY = getFont(1).deriveFont(28f);
@@ -151,6 +152,9 @@ public final class Loader {
 			}
 			else if(spriteID == 4) {
 				return ImageIO.read(Loader.class.getResource("/Menu/star.png"));
+			}
+			else if(spriteID == 5) {
+				return ImageIO.read(Loader.class.getResource("/Menu/credit.png"));
 			}
 		} catch (IOException e) {
 		}

@@ -305,6 +305,7 @@ public class MenuState implements States{
 						deletePos = true;
 						screenState = 2;
 					}
+					cursorPos = 0;
 				}
 			}
 			else if (screenState == 2 && code == KeyEvent.VK_DELETE) {
