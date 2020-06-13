@@ -20,8 +20,10 @@ public class LevelTwoNine extends Level {
 		immoveable.add(new Parent(2, 4, 3, 2));
 		immoveable.add(new Children(2, 3, 3));
 		immoveable.add(new Children(2, 5, 3));
-		immoveable.add(new YoungAdult(1, 7));
-		immoveable.add(new YoungAdult(3, 7));
+		immoveable.add(new YoungAdult(1, 6));
+		immoveable.add(new YoungAdult(3, 6));
+		immoveable.add(new YoungAdult(0, 7));
+		immoveable.add(new YoungAdult(4, 7));
 		immoveable.add(new YoungAdult(2, 8));
 		immoveable.add(new YoungAdult(0, 9));
 		immoveable.add(new YoungAdult(4, 9));
