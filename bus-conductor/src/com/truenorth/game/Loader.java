@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * https://stackoverflow.com/questions/13604111/final-variable-assignment-with-try-catch
@@ -75,6 +76,10 @@ public final class Loader {
 	public static final Font CALIBRI_BODY1 = getFont(2);
 	public static final Font CALIBRI_BODY2 = getFont(3);
 	public static final Font BUNGEE = getFont(4).deriveFont(70f);
+	
+	public static ImageIcon getIcon() {
+		return new ImageIcon(Loader.class.getResource("/busicon.png"));
+	}
 	
 	private static BufferedImage getPuzzleSprite(int spriteID, int diff){
 		try {	
@@ -160,7 +165,7 @@ public final class Loader {
 		}
 		return null;
 	}
-	
+
 	private static Font getFont(int fontID){
 		try {
 			if(fontID == 1)

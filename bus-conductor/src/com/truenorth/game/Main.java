@@ -18,6 +18,7 @@ public class Main {
 		);
 		frame.add(g);
 		frame.pack();
+		frame.setIconImage(Loader.getIcon().getImage());
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
