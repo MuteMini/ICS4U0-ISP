@@ -1,7 +1,6 @@
 package com.truenorth.drive.world;
 
 import java.awt.Point;
-
 import com.truenorth.drive.World;
 
 public class WorldThree extends World {

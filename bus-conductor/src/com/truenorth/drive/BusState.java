@@ -49,6 +49,8 @@ public class BusState implements States{
 		this.worlds[10] = new WorldThree();
 		this.worlds[11] = new WorldFour();
 		this.worlds[12] = new WorldFive();
+		this.worlds[13] = new WorldSix();
+		this.worlds[14] = new WorldFourteen();
 		this.b = new Bus();
 		this.outOfBoundsCount = 3;
 		this.entities = new ArrayList<Entity>(); //needs to be recreated after world change
