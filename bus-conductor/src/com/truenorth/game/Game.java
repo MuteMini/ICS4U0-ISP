@@ -102,7 +102,7 @@ public class Game extends Canvas implements Runnable, MouseListener {
 			return;
 		}
 		Graphics2D g2d = (Graphics2D) bs.getDrawGraphics();
-		
+
 		st.render(g2d);
 		
 		g2d.dispose();

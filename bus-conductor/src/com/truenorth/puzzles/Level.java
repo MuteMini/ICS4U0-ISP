@@ -3,41 +3,34 @@ package com.truenorth.puzzles;
 import java.util.*;
 
 import com.truenorth.game.Loader;
+import com.truenorth.game.Tutorial;
 import com.truenorth.riders.*;
-
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 
-public abstract class Level {
-	protected final int PADDING = 10;
-	protected final int ASCENT = 17;
+public abstract class Level extends Tutorial{
 	protected ArrayList<Passenger> moveable;
 	protected ArrayList<Passenger> placed;
 	protected ArrayList<Passenger> immoveable;
 	protected int cursor;
 	protected int selected;
-	protected int tutorialPage;
 	protected boolean reset;
 	protected boolean isSelected;
 	protected boolean unselected;
 	protected boolean remove;
 	protected boolean winState;
 	protected boolean finished;
-	protected boolean hasTutorial;
 	protected boolean impossible;
 	protected Integer[][] distanceGrid;
 	private int animateCount;
 	private double powerCount;
 	
 	public Level() {
+		super();
 		resetGrid();
 	}
-	
-	public void showTutorial(Graphics g) {}
 	
 	public void resetGrid() {
 		this.moveable = new ArrayList<Passenger>();
@@ -45,7 +38,6 @@ public abstract class Level {
 		this.placed = new ArrayList<Passenger>();
 		this.cursor = 0;
 		this.selected = -1;
-		this.tutorialPage = 0;
 		this.animateCount = 0;
 		this.powerCount = 0;
 		this.reset = false;
@@ -114,12 +106,13 @@ public abstract class Level {
 	public boolean checkSolution() {
 		for(Passenger pass : immoveable) {
 			if(!pass.isCorrect(distanceGrid)) {
+				System.out.println(pass.toString());  //testing
 				return false;
 			}	
 		}
 		for(Passenger pass : placed) {
 			if(!pass.isCorrect(distanceGrid)) {
-				System.out.println(pass.toString());
+				System.out.println(pass.toString());  //testing
 				return false;
 			}
 		}
@@ -183,7 +176,7 @@ public abstract class Level {
 	}
 	
 	protected void winAnimation(Graphics2D g2d) {
-		if(animateCount > 321) {
+		if(animateCount > 340) {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {}
@@ -191,7 +184,7 @@ public abstract class Level {
 		}
 		g2d.setColor(Color.DARK_GRAY);
 		g2d.fillRect(0, 0, 800, animateCount);
-		g2d.fillRect(0, 640-animateCount, 800, 320);
+		g2d.fillRect(0, 640-animateCount, 800, 400);
 		if(animateCount > 310) {
 			g2d.setColor(Color.WHITE);
 			g2d.setFont(Loader.TTC_TITLE);
@@ -199,7 +192,7 @@ public abstract class Level {
 		}
 		g2d.dispose();
 		powerCount += 0.01;
-		animateCount += (animateCount <= 321) ? (int)(Math.pow(2, -powerCount)*5) : 0;
+		animateCount += (animateCount <= 340) ? (int)(Math.pow(2, -powerCount)*5) : 0;
 	}
 	
 	protected void impossibleAnimation(Graphics2D g2d) {
@@ -217,25 +210,7 @@ public abstract class Level {
 		powerCount += 0.01;
 		animateCount += (animateCount < 400) ? (int)(Math.pow(2, -powerCount)*5) : 0;
 	}
-	
-	protected void showBox(Graphics2D g2d, int x, int y, int w, int h, String[] tempLine) {
-		Stroke normalStroke = g2d.getStroke();
-		g2d.setColor(Color.WHITE);
-		g2d.fillRoundRect(x, y, w, h, 20, 20);
-		g2d.setStroke(new BasicStroke(5));
-		g2d.setColor(Color.BLACK);
-		g2d.drawRoundRect(x, y, w, h, 20, 20);
-		g2d.setStroke(normalStroke);
-		g2d.setColor(Color.GRAY);
-		g2d.setFont(Loader.CALIBRI_BODY1);
-		for (int i = 0; i < tempLine.length; i++) {
-			g2d.drawString(tempLine[i], x+PADDING, y+(ASCENT*(i+1))+PADDING);
-		}
-		g2d.setFont(Loader.CALIBRI_BODY2);
-		g2d.drawString("Press enter to continue", x+w-PADDING-120, y+h-PADDING);
-		g2d.dispose();
-	}
-	
+
 	protected boolean checkImpossible() {
 		Passenger p = moveable.get(selected);
 		int xPos = p.getxPos();
@@ -266,6 +241,10 @@ public abstract class Level {
 			for(int y = 0; y < topY; y++) {
 				p.setxPos(x);
 				p.setyPos(y);
+				if(p instanceof Grouped) {
+					((Grouped)p).setPositions();
+				}
+				
 				if(p instanceof Parent && ((Parent)p).notImpossible(distanceGrid)){
 					imposs = false;
 					break;
@@ -282,6 +261,9 @@ public abstract class Level {
 		}
 		p.setxPos(xPos);
 		p.setyPos(yPos);
+		if(p instanceof Grouped) {
+			((Grouped)p).setPositions();
+		}
 		return imposs;
 	}
 }

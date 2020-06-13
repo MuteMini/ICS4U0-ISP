@@ -21,6 +21,7 @@ public class StateManager{
 	private final MenuState MS = new MenuState();
 	private final BusState BS= new BusState(); 
 	private final PuzzleState PU_S = new PuzzleState();
+	private final EndState ES = new EndState();
 	private String[] fileNames;
 	private int[] busWorldPos;
 	private int[] puzzleLevelPos;
@@ -46,7 +47,7 @@ public class StateManager{
 		this.builtMilli = 0;
 		this.lastMilli = 0;
 		this.statePos = 0;
-		this.fileNum = 0;
+		this.fileNum = -1;
 		this.pauseHold = false;
 		this.loaded = false;
 	}
@@ -61,13 +62,14 @@ public class StateManager{
 				if(PS.getExit()) {
 					saveSave();
 					statePos = 0;
+					fileNum = -1;
 					loaded = false;
 					PS.setPaused(false);
 					PS.resetScreen();
 				}
 			} 
 			else {
-				if(statePos != 0) {
+				if(statePos != 0 && statePos != 3) {
 					if(lastMilli == 0) {
 						lastMilli = System.currentTimeMillis();
 					}
@@ -83,13 +85,20 @@ public class StateManager{
 					MS.update();
 					if(!loaded) {
 						loadAllFile();
-						MS.setSaveFiles(fileNames, times);
+						MS.setSaveFiles(fileNames, times, fileFinished);
 						loaded = true;
 					}
 					else if(MS.getDelete()) {
-						int filePos = MS.getCursorPos()+1;
-						createFile(filePos);
-						loadFile(filePos);
+						if(MS.getResetPos() == -1) {
+							int filePos = MS.getCursorPos()+1;
+							createFile(filePos);
+							loadFile(filePos);
+						}
+						else {
+							int filePos = MS.getResetPos();
+							createFile(fileNames[filePos], 0, 0, 0, 1, 0, filePos+1);
+							loadFile(filePos+1);
+						}
 						MS.setDelete(false);
 					}
 					else if(MS.startGame()) {
@@ -106,26 +115,48 @@ public class StateManager{
 					BS.update();
 					if(BS.isOnStop()) {
 						if(BS.getWorldPos() == 7) {
-							//do something to signal the "real route"
+							BS.getWorld().setTutorial(true);
+							BS.setOnStop(false);
 						}
 						else if(BS.getWorldPos() == 21) {
-							//wait you won the game
+							fileFinished[fileNum] = 1;
+							BS.setOnStop(false);
 						}
 						else {
 							statePos = 2;
 							BS.setOnStop(false);
-							saveSave();
 						}
+						saveSave();
+						
+						if(BS.getWorldPos() == 21) {
+							statePos = 3;
+						}
+					}
+					
+					if(BS.getWorldPos() == 7 && !BS.getWorld().getTutorial()) {
+						BS.resetScreen();
+						BS.setWorldPos(BS.getWorldPos()+1);
+						saveSave();
 					}
 				} 
 				else if(statePos == 2) {
 					PU_S.update();
 					if(PU_S.isFinished()) {
 						statePos = 1;
-						BS.resetBus();
+						BS.resetScreen();
 						BS.setWorldPos(BS.getWorldPos()+1);
 						PU_S.setLevelPos(PU_S.getLevelPos()+1);
 						saveSave();
+					}
+				}
+				else if(statePos == 3) {
+					ES.update();
+					if(ES.isFinished()) {
+						saveSave();
+						statePos = 0;
+						fileNum = -1;
+						loaded = false;
+						ES.resetScreen();
 					}
 				}
 			}
@@ -143,6 +174,8 @@ public class StateManager{
 				BS.render(g2d);
 			else if(statePos == 2)
 				PU_S.render(g2d);
+			else if(statePos == 3)
+				ES.render(g2d);
 			
 			if(PS.getPaused())
 				PS.render(g2d);
@@ -151,7 +184,7 @@ public class StateManager{
 	
 	public void keyPressed(KeyEvent e) {
 		if (SS.isLoadingDone()) {
-			if( ((statePos == 1) || (statePos == 2 && !PU_S.hasTutorial())) && !PU_S.isImpossible() && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			if( statePos != 3 && ((statePos == 1) || (statePos == 2 && !PU_S.hasTutorial())) && !PU_S.isImpossible() && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				PS.setPaused(!PS.getPaused());
 				pauseHold = true;
 			} else if(PS.getPaused()) {
@@ -194,7 +227,8 @@ public class StateManager{
 	}
 	
 	public void saveSave() {
-		createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), times[fileNum], statePos, fileFinished[fileNum], fileNum+1);
+		if(fileNum != -1)
+			createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), times[fileNum], statePos, fileFinished[fileNum], fileNum+1);
 	}
 	
 	private void loadAllFile() {
@@ -221,15 +255,18 @@ public class StateManager{
 			fileFinished[saveFile-1] = Byte.parseByte(br.readLine());
 			if(savedState[saveFile-1] == 0) {
 				br.close();
-				throw new FileNotFoundException();
+				throw new NumberFormatException();
 			}
 			br.close();
 		} 
 		catch(FileNotFoundException e){
 			return false;
 		}
+		catch(NumberFormatException e){
+			return false;
+		}
 		catch(IOException e) {}
-		
+
 		return true;
 	}
 	
@@ -254,7 +291,7 @@ public class StateManager{
 	private void loadSave() {
 		BS.setWorldPos(busWorldPos[fileNum]);
 		BS.resetWorlds();
-		BS.resetBus();
+		BS.resetScreen();
 		PU_S.setLevelPos(puzzleLevelPos[fileNum]);
 		PU_S.resetLevels();
 		statePos = savedState[fileNum];

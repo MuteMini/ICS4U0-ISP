@@ -9,16 +9,16 @@ import java.awt.image.BufferedImage;
 import com.truenorth.game.Loader;
 
 public abstract class Passenger{
-	final protected int SPRITE_SIZE = 32;
-	final protected int OFFSET_X = 256;
-	final protected int OFFSET_Y = 256;
-	final protected int ORDERED_X = 480;
-	final protected int ORDERED_Y = 160;
-	final protected int MAX_X = 4;
-	final protected int MAX_Y = 10;
-	final protected int EMPTY = -1;
-	final protected int BAGGAGE = -2;
-	final protected int CHILD_SPACE = -3;
+    protected final int SPRITE_SIZE = 32;
+	protected final int OFFSET_X = 256;
+	protected final int OFFSET_Y = 256;
+	protected final int ORDERED_X = 460;
+	protected final int ORDERED_Y = 160;
+	protected final int MAX_X = 4;
+	protected final int MAX_Y = 10;
+	protected final int EMPTY = -1;
+	protected final int BAGGAGE = -2;
+	protected final int CHILD_SPACE = -3;
 	protected int xPos;
 	protected int yPos;
 	protected int id;
@@ -257,10 +257,6 @@ public abstract class Passenger{
 				return Loader.STUDENT_SIT1;
 			else if(diff == 6)
 				return Loader.STUDENT_SIT2;
-			else if(diff == 7)
-				return Loader.STUDENT_SIT3;
-			else if(diff == 8)
-				return Loader.STUDENT_SIT4;
 		}
 		else if(spriteID == 5) {
 			return Loader.ELDERLY;

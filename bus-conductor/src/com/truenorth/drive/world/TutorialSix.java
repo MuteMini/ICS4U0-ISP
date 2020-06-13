@@ -6,11 +6,11 @@ import com.truenorth.drive.World;
 
 public class TutorialSix extends World {
 	public TutorialSix() {
-		super(-667, -9608, 0, 10000, 10000, 10000);
+		super(-667, -5000, 0, 10000, 10000, 10000);
 		boundary.add(new Integer[]{-665, 2694, -2694, 4});
 		boundary.add(new Integer[]{-2665, 694, 2195, 3});
 		boundary.add(new Integer[]{196, 2694, -2694, 2});
-		boundary.add(new Integer[]{-2665, -1145, 2195, 1});
-		busStop = new Point(40, -561);
+		boundary.add(new Integer[]{-2665, -1545, 2195, 1});
+		busStop = new Point(40, -1031);
 	}
 }
