@@ -17,11 +17,13 @@ public class MenuState implements States{
 	private String[] fileName;
 	private String saveName;
 	private int[] times;
+	private byte[] fileFinished;
 	private int screenState;
 	private int cursorPos;
 	private int cursorMaxPos;
 	private int entityDelay;
 	private int titlePos;
+	private int resetPos;
 	private double floating;
 	private boolean deletePos;
 	private boolean invalidLetter;
@@ -38,11 +40,13 @@ public class MenuState implements States{
 	public void resetScreen() {
 		this.fileName = new String[3];
 		this.times = new int[3];
+		this.fileFinished = new byte[3];
 		this.screenState = 0;
 		this.cursorPos = 0;
 		this.cursorMaxPos = 0;
 		this.entityDelay = 0;
 		this.titlePos = 800;
+		this.resetPos = -1;
 		this.floating = 0;
 		this.deletePos = false;
 		resetName();
@@ -98,6 +102,9 @@ public class MenuState implements States{
 			case 4:
 				cursorMaxPos = 0;
 				break;
+			case 5:
+				cursorMaxPos = 1;
+				break;
 		}
 		
 		floating = (floating <= 6.28) ? floating+0.05d : 0;
@@ -151,6 +158,9 @@ public class MenuState implements States{
 							timeInText += (times[i]%60 < 10) ? ":0"+(times[i]%60) : ":"+(times[i]%60);
 							g2d.drawString(timeInText, 70, 250+(i*100)+yOffset);
 						}
+						if(fileFinished[i] == 1) {
+							g2d.drawImage(Loader.STAR, 650, 200+(i*100)+yOffset, null);
+						}
 					}
 					else {
 						g2d.setFont(Loader.TTC_TITLE);
@@ -184,6 +194,32 @@ public class MenuState implements States{
 				
 				g2d.drawString("Press Escape to go back.", 60, 620+yOffset);
 				break;
+			case 5:
+				g2d.setColor(new Color(200,210,200,150));
+				g2d.fillRoundRect(120, 180+yOffset, Game.WIDTH-240, 70, 30, 30);
+				g2d.setColor(Color.DARK_GRAY);
+				g2d.setFont(Loader.TTC_BODY);
+				g2d.drawString("You have finished the game in this save file.", 135, 210+yOffset);
+				g2d.drawString("To play again, you must reset your save.", 145, 235+yOffset);
+				for(int i = 0; i < 2; i++) {
+					g2d.setFont(Loader.TTC_BODY);
+					if(i == cursorPos) {
+						if(i == 0)
+							g2d.setColor(new Color(255,200,200));
+						else if(i == 1)
+							g2d.setColor(new Color(200,255,200));
+					} 
+					else {
+						g2d.setColor(new Color(200,210,200));
+					}
+					g2d.fillRoundRect(60, 290+(i*100)+yOffset, Game.WIDTH-120, 80, 30, 30);
+					g2d.setColor(Color.DARK_GRAY);
+					String tempText = "No way Jose!";
+					if(i == 1)
+						tempText = "I will, and I know that all my progress will be gone.";
+					g2d.drawString(tempText, 70, 340+(i*100)+yOffset);
+				}
+				break;
 		}
 		
 		g2d.drawImage(Loader.MAINMENU_TITLE, 75+titlePos, 50+yOffset, null);
@@ -201,7 +237,7 @@ public class MenuState implements States{
 				invalidLetter = false;
 			}
 			else if(saveName.length() > 0 && e.getKeyCode() == KeyEvent.VK_ENTER) {
-				screenState = 5;
+				screenState = 6;
 			}
 			else {
 				char letter = e.getKeyChar();
@@ -240,7 +276,7 @@ public class MenuState implements States{
 						screenState = 3;
 					}
 					else if(cursorPos == 2) {
-						screenState = 6;
+						screenState = 7;
 					}
 				}
 				else if(screenState == 2) {
@@ -248,11 +284,26 @@ public class MenuState implements States{
 						screenState = 1;
 						cursorPos = 0;
 					}
-					else if(fileName[cursorPos].equals(StateManager.EMPTYNAME))
+					else if(fileFinished[cursorPos] == 1) {
+						resetPos = cursorPos;
+						cursorPos = 0;
+						screenState = 5;
+					}
+					else if(fileName[cursorPos].equals(StateManager.EMPTYNAME)) {
 						screenState = 4;
+					}
 					else {
 						saveName = fileName[cursorPos];
-						screenState = 5;
+						screenState = 6;
+					}
+				} else if(screenState == 5) {
+					if(cursorPos == 0) {
+						resetPos = -1;
+						screenState = 2;
+					}
+					else if(cursorPos == 1) {
+						deletePos = true;
+						screenState = 2;
 					}
 				}
 			}
@@ -271,9 +322,10 @@ public class MenuState implements States{
 		keysHeld.remove(e.getKeyCode());
 	}
 	
-	public void setSaveFiles(String[] fileName, int[] times) {
+	public void setSaveFiles(String[] fileName, int[] times, byte[] fileFinished) {
 		this.fileName = fileName;
 		this.times = times;
+		this.fileFinished = fileFinished;
 	}
 	
 	public boolean getDelete() {
@@ -284,12 +336,16 @@ public class MenuState implements States{
 		this.deletePos = deletePos;
 	}
 	
+	public int getResetPos() {
+		return resetPos;
+	}
+	
 	public boolean getClosed() {
-		return (screenState == 6);
+		return (screenState == 7);
 	}
 	
 	public boolean startGame() {
-		return (screenState == 5);
+		return (screenState == 6);
 	}
 	
 	public int getCursorPos() {

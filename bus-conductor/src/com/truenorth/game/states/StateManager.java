@@ -46,13 +46,13 @@ public class StateManager{
 		this.builtMilli = 0;
 		this.lastMilli = 0;
 		this.statePos = 0;
-		this.fileNum = 0;
+		this.fileNum = -1;
 		this.pauseHold = false;
 		this.loaded = false;
 	}
 	
 	public void update() {
-		/*if (!SS.isLoadingDone()) {
+		if (!SS.isLoadingDone()) {
 			SS.update();
 		} else {
 			if(PS.getPaused()) {
@@ -61,6 +61,7 @@ public class StateManager{
 				if(PS.getExit()) {
 					saveSave();
 					statePos = 0;
+					fileNum = -1;
 					loaded = false;
 					PS.setPaused(false);
 					PS.resetScreen();
@@ -83,13 +84,20 @@ public class StateManager{
 					MS.update();
 					if(!loaded) {
 						loadAllFile();
-						MS.setSaveFiles(fileNames, times);
+						MS.setSaveFiles(fileNames, times, fileFinished);
 						loaded = true;
 					}
 					else if(MS.getDelete()) {
-						int filePos = MS.getCursorPos()+1;
-						createFile(filePos);
-						loadFile(filePos);
+						if(MS.getResetPos() == -1) {
+							int filePos = MS.getCursorPos()+1;
+							createFile(filePos);
+							loadFile(filePos);
+						}
+						else {
+							int filePos = MS.getResetPos();
+							createFile(fileNames[filePos], 0, 0, 0, 1, 0, filePos+1);
+							loadFile(filePos+1);
+						}
 						MS.setDelete(false);
 					}
 					else if(MS.startGame()) {
@@ -105,22 +113,23 @@ public class StateManager{
 				else if(statePos == 1) {
 					BS.update();
 					if(BS.isOnStop()) {
-						if(BS.getWorldPos() == 8) {
-							//do something to signal the "real route"
+						if(BS.getWorldPos() == 7) {
+							statePos = 3;
 						}
 						else if(BS.getWorldPos() == 21) {
-							//wait you won the game
+							fileFinished[fileNum] = 1; 
+							statePos = 4;
 						}
 						else {
 							statePos = 2;
 							BS.setOnStop(false);
-							saveSave();
 						}
+						saveSave();
 					}
 				} 
-				else if(statePos == 2) {*/
+				else if(statePos == 2) {
 					PU_S.update();
-					/*if(PU_S.isFinished()) {
+					if(PU_S.isFinished()) {
 						statePos = 1;
 						BS.resetBus();
 						BS.setWorldPos(BS.getWorldPos()+1);
@@ -128,29 +137,32 @@ public class StateManager{
 						saveSave();
 					}
 				}
+				else if(statePos == 3) {
+					
+				}
 			}
-		}*/
+		}
 	}
 	
 	public void render(Graphics2D g2d) {
-		/*if (!SS.isLoadingDone()) {
+		if (!SS.isLoadingDone()) {
 			SS.render(g2d);
 		} 
 		else {
 			if(statePos == 0)
 				MS.render(g2d);
-			else if(statePos == 1)
+			else if(statePos == 1 || statePos == 3)
 				BS.render(g2d);
-			else if(statePos == 2)*/
+			else if(statePos == 2)
 				PU_S.render(g2d);
 			
-			/*if(PS.getPaused())
+			if(PS.getPaused())
 				PS.render(g2d);
-		}*/
+		}
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		/*if (SS.isLoadingDone()) {
+		if (SS.isLoadingDone()) {
 			if( ((statePos == 1) || (statePos == 2 && !PU_S.hasTutorial())) && !PU_S.isImpossible() && !pauseHold && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				PS.setPaused(!PS.getPaused());
 				pauseHold = true;
@@ -161,14 +173,14 @@ public class StateManager{
 					MS.keyPressed(e);
 				else if(statePos == 1)
 					BS.keyPressed(e);
-				else if(statePos == 2)*/
+				else if(statePos == 2)
 					PU_S.keyPressed(e);
-			/*}
-		}*/
+			}
+		}
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		/*if (SS.isLoadingDone()) {
+		if (SS.isLoadingDone()) {
 			if(PS.getPaused()) {
 				PS.keyReleased(e);
 			} 
@@ -177,16 +189,16 @@ public class StateManager{
 					MS.keyReleased(e);
 				else if(statePos == 1)
 					BS.keyReleased(e);
-				else if(statePos == 2)*/
+				else if(statePos == 2)
 					PU_S.keyReleased(e);
-			/*}
+			}
 			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				pauseHold = false;
 				if(statePos == 1) {
 					BS.resetHold();
 				}
 			}
-		}*/
+		}
 	}
 	
 	public boolean gameClosed() {
@@ -194,7 +206,8 @@ public class StateManager{
 	}
 	
 	public void saveSave() {
-		createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), times[fileNum], statePos, fileFinished[fileNum], fileNum+1);
+		if(fileNum != -1)
+			createFile(fileNames[fileNum], BS.getWorldPos(), PU_S.getLevelPos(), times[fileNum], statePos, fileFinished[fileNum], fileNum+1);
 	}
 	
 	private void loadAllFile() {
@@ -219,20 +232,16 @@ public class StateManager{
 			times[saveFile-1] = Integer.parseInt(br.readLine());
 			savedState[saveFile-1] = Byte.parseByte(br.readLine());
 			fileFinished[saveFile-1] = Byte.parseByte(br.readLine());
-			if(savedState[saveFile-1] == 0) {
-				br.close();
-				throw new FileNotFoundException();
-			}
 			br.close();
 		} 
 		catch(FileNotFoundException e){
 			return false;
 		}
-		catch(IOException e) {}
-		catch(Exception e){
+		catch(NumberFormatException e){
 			return false;
 		}
-		
+		catch(IOException e) {}
+
 		return true;
 	}
 	
