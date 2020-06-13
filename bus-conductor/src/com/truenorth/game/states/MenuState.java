@@ -299,12 +299,11 @@ public class MenuState implements States{
 				} else if(screenState == 5) {
 					if(cursorPos == 0) {
 						resetPos = -1;
-						screenState = 2;
 					}
 					else if(cursorPos == 1) {
 						deletePos = true;
-						screenState = 2;
 					}
+					screenState = 2;
 					cursorPos = 0;
 				}
 			}

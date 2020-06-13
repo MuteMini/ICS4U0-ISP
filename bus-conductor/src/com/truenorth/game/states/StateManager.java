@@ -115,10 +115,8 @@ public class StateManager{
 					BS.update();
 					if(BS.isOnStop()) {
 						if(BS.getWorldPos() == 7) {
-							/*BS.setTutorial(true);
-							if(BS.getTutorial()) {
-								
-							}*/
+							BS.getWorld().setTutorial(true);
+							BS.setOnStop(false);
 						}
 						else if(BS.getWorldPos() == 21) {
 							fileFinished[fileNum] = 1;
@@ -133,14 +131,19 @@ public class StateManager{
 						if(BS.getWorldPos() == 21) {
 							statePos = 3;
 						}
-						
+					}
+					
+					if(BS.getWorldPos() == 7 && !BS.getWorld().getTutorial()) {
+						BS.resetScreen();
+						BS.setWorldPos(BS.getWorldPos()+1);
+						saveSave();
 					}
 				} 
 				else if(statePos == 2) {
 					PU_S.update();
 					if(PU_S.isFinished()) {
 						statePos = 1;
-						BS.resetBus();
+						BS.resetScreen();
 						BS.setWorldPos(BS.getWorldPos()+1);
 						PU_S.setLevelPos(PU_S.getLevelPos()+1);
 						saveSave();
@@ -288,7 +291,7 @@ public class StateManager{
 	private void loadSave() {
 		BS.setWorldPos(busWorldPos[fileNum]);
 		BS.resetWorlds();
-		BS.resetBus();
+		BS.resetScreen();
 		PU_S.setLevelPos(puzzleLevelPos[fileNum]);
 		PU_S.resetLevels();
 		statePos = savedState[fileNum];

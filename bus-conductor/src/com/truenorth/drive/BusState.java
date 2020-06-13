@@ -183,7 +183,7 @@ public class BusState implements States{
 			g2d.drawString(outOfBoundsCount + "", 720, 175);
 		}
 		
-		if(worlds[worldPos].getTutorial()) {
+		if(worlds[worldPos].getPage() != -1 && worlds[worldPos].getTutorial()) {
 			worlds[worldPos].showTutorial(g2d);
 		}
 	}
@@ -197,7 +197,7 @@ public class BusState implements States{
 			onStop = true;
 		}
 		
-		if(worlds[worldPos].getTutorial()) {
+		if((worlds[worldPos].getPage() != -1 || onStop) && worlds[worldPos].getTutorial()) {
 			worlds[worldPos].keyPressed(e);
 		} 
 		else {
@@ -222,16 +222,21 @@ public class BusState implements States{
 		this.onStop = onStop;
 	}
 	
-	public void setWorldPos(int worldPos){	
-		this.worldPos = worldPos;
-	}
-	
 	public int getWorldPos(){
 		return worldPos;
 	}
 	
-	public void resetBus() {
+	public void setWorldPos(int worldPos){	
+		this.worldPos = worldPos;
+	}
+	
+	public World getWorld() {
+		return worlds[worldPos];
+	}
+
+	public void resetScreen() {
 		this.b = new Bus();
+		this.entities = new ArrayList<Entity>();
 	}
 	
 	//here for testing

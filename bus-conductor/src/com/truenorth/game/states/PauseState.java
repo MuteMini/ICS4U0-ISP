@@ -47,6 +47,9 @@ public class PauseState implements States {
 				break;
 			case 1:
 				g2d.drawImage(Loader.INSTRUCTIONS, 100, 95, null);
+				g2d.setColor(Color.LIGHT_GRAY);
+				g2d.setFont(Loader.TTC_BODY);
+				g2d.drawString("Press Enter to go back", 260, 570);
 				break;
 		}
 	}

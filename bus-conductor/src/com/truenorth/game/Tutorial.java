@@ -47,6 +47,10 @@ public abstract class Tutorial {
 		return hasTutorial;
 	}
 	
+	public int getPage() {
+		return tutorialPage;
+	}
+	
 	protected void showContour(Graphics2D g2d) {
 		g2d.setColor(new Color(0,0,0,160));
 		if(contour) {
