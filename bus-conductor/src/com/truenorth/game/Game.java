@@ -7,8 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
-
-import com.truenorth.drive.world.WorldTwo;
 import com.truenorth.game.states.StateManager;
 
 
@@ -54,8 +52,6 @@ public class Game extends Canvas implements Runnable, MouseListener {
 		final double tick = 60.0;
 		double ns = 1000000000 / tick;
 		double delta = 0;
-		int frames = 0;
-		int updates = 0;
 		long timer = System.currentTimeMillis();
 
 		while (running) {
@@ -65,11 +61,9 @@ public class Game extends Canvas implements Runnable, MouseListener {
 
 			if (delta >= 1) {
 				update();
-				updates++;
 				delta--;
 			}
 			render();
-			frames++;
 			long tTime = System.nanoTime() - cTime;
 			if (tTime < ns) {
 				try {
@@ -80,9 +74,6 @@ public class Game extends Canvas implements Runnable, MouseListener {
 
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-			//	System.out.println("Updates: " + updates + "\nFrames: " + frames);
-				updates = 0;
-				frames = 0;
 			}
 		}
 		st.saveSave();

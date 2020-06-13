@@ -21,7 +21,6 @@ public class BusState implements States{
 	private Bus b;
 	private int worldPos;
 	private boolean onStop;
-	private float alpha;
 	private double floating;
 	private long lastMilli;
 	private long builtMilli;
@@ -31,7 +30,6 @@ public class BusState implements States{
 		this.c = new Camera();
 		this.worldPos = 0;
 		this.onStop = false;
-		this.alpha = 0.5f;
 		resetWorlds();
 	}
 	

@@ -1,9 +1,7 @@
 package com.truenorth.drive.world;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-
 import com.truenorth.drive.World;
 
 public class TutorialOne extends World {

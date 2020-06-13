@@ -13,7 +13,6 @@ public class PauseState implements States {
 
 	private int cursorPos;
 	private int screenPos;
-	private int instructionPage;
 	private boolean paused;
 	private boolean exitClick;
 	private Set<Integer> keysHeld;
@@ -25,7 +24,6 @@ public class PauseState implements States {
 	public void resetScreen() {
 		this.cursorPos = 0;
 		this.screenPos = 0;
-		this.instructionPage = 0;
 		this.paused = false;
 		this.exitClick = false;
 		this.keysHeld = new TreeSet<Integer>();
@@ -101,9 +99,5 @@ public class PauseState implements States {
 	
 	public int getCursorPos() {
 		return cursorPos;
-	}
-	
-	public void setInstructionPage(int instructionPage) {
-		this.instructionPage = instructionPage;
 	}
 }

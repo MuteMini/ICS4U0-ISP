@@ -6,7 +6,6 @@ import com.truenorth.game.Loader;
 import com.truenorth.game.Tutorial;
 import com.truenorth.riders.*;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 

@@ -57,7 +57,6 @@ public class StateManager{
 			SS.update();
 		} else {
 			if(PS.getPaused()) {
-				PS.setInstructionPage(statePos);
 				lastMilli = 0;
 				if(PS.getExit()) {
 					saveSave();

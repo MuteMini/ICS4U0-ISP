@@ -5,12 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import com.truenorth.game.Game;
 import com.truenorth.game.Loader;
 
 public class Car extends Entity {
