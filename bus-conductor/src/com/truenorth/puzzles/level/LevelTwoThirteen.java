@@ -32,8 +32,8 @@ public class LevelTwoThirteen extends Level {
 		moveable.add(new Luggage(1, 0, 4, 7, Color.ORANGE));
 		moveable.add(new Luggageman(0, 3, 5, Color.YELLOW));
 		moveable.add(new Luggage(1, 3, 5, 7, Color.YELLOW));
-		moveable.add(new Luggageman(3, 3, 6, Color.YELLOW));
-		moveable.add(new Luggage(4, 3, 6, 2, Color.YELLOW));
+		moveable.add(new Luggageman(3, 3, 6, new Color(144, 255, 0)));
+		moveable.add(new Luggage(4, 3, 6, 2, new Color(144, 255, 0)));
 		moveable.add(new Disabled(0, 6, 1, Color.GREEN));
 		moveable.add(new Disabled(2, 6, 2, Color.CYAN));
 		moveable.add(new Grouped(g1, 0, 9, 7, Color.BLUE));

@@ -8,7 +8,7 @@ import com.truenorth.game.Loader;
 
 public class EndState implements States {
 
-	private final int COMPLETE_YVAL = 2340;
+	private final int COMPLETE_YVAL = 2040;
 	private double animationPos;
 	private boolean animationDone;
 	
@@ -25,7 +25,7 @@ public class EndState implements States {
 	public void update() {
 		if(animationPos > COMPLETE_YVAL) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {}
 			animationDone = true;
 		}

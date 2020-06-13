@@ -36,7 +36,7 @@ public class StateManager{
 	private boolean loaded;
 	
 	public StateManager() {
-		this.LOCATION = new File(System.getProperty("user.dir") + "/BusConductorSaves");
+		this.LOCATION = new File(System.getProperty("user.home") + "/BusConductorSaves");
 		this.LOCATION.mkdirs();
 		this.fileNames = new String[3];
 		this.busWorldPos = new int[3];
@@ -93,6 +93,7 @@ public class StateManager{
 							int filePos = MS.getCursorPos()+1;
 							createFile(filePos);
 							loadFile(filePos);
+							MS.resetResetPos();
 						}
 						else {
 							int filePos = MS.getResetPos();
@@ -145,7 +146,8 @@ public class StateManager{
 						statePos = 1;
 						BS.resetScreen();
 						BS.setWorldPos(BS.getWorldPos()+1);
-						PU_S.setLevelPos(PU_S.getLevelPos()+1);
+						if(PU_S.getLevelPos() < 19)
+							PU_S.setLevelPos(PU_S.getLevelPos()+1);
 						saveSave();
 					}
 				}
@@ -285,7 +287,7 @@ public class StateManager{
 	}
 	
 	private void createFile(int saveFile) {
-		createFile(EMPTYNAME, 8, 0, 0, 1, 0, saveFile);
+		createFile(EMPTYNAME, 0, 0, 0, 1, 0, saveFile);
 	}
 
 	private void loadSave() {

@@ -340,6 +340,10 @@ public class MenuState implements States{
 		return resetPos;
 	}
 	
+	public void resetResetPos() {
+		this.resetPos = -1;
+	}
+	
 	public boolean getClosed() {
 		return (screenState == 7);
 	}

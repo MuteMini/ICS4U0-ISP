@@ -84,13 +84,13 @@ public abstract class Level extends Tutorial{
 			winState = checkSolution();
 		}
 		
-		for(int x = 0; x < 11; x++) {
+		/*for(int x = 0; x < 11; x++) {
 			for(int y = 0; y < 5; y++) {
 				System.out.print(distanceGrid[y][x] + "\t");
 			}
 			System.out.println();
 		}
-		System.out.println();
+		System.out.println();*/
 	}
 	
 	public void render(Graphics2D g2d) {
