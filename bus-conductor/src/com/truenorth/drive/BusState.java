@@ -195,9 +195,6 @@ public class BusState implements States{
 		else if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER && (int)b.getXVel() == 0 && (int)b.getYVel() == 0) {
 			onStop = true;
 		}
-<<<<<<< Updated upstream
-		b.processMovement(e);
-=======
 		
 		if (e.getKeyCode() == KeyEvent.VK_P && worldPos < WORLDS_NUM) {
 			worldPos++;
@@ -213,7 +210,6 @@ public class BusState implements States{
 		else {
 			b.processMovement(e);
 		}
->>>>>>> Stashed changes
 	}
 	
 	@Override
