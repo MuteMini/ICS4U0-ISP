@@ -22,54 +22,32 @@ public class TutorialOne extends World {
 		resetContour();
 		switch(tutorialPage) {
 			case 0:
-				boxX = 320;
+				boxX = 275;
 				boxY = 290;
-				boxW = 160;
+				boxW = 250;
 				boxH = 60;
-				tutText = "Its ramp time.";
+				tutText = "Welcome to Bus Conductor!";
 				break;
 			case 1:
-				boxX = 90;
-				boxY = 230;
+				boxX = 225;
+				boxY = 270;
 				boxW = 350;
-				boxH = 70;
-				tutText = "The Disabled takes up two spots on the bus,\nonly one being the person themselves.";
-				contour = true;
-				contourX *= 14;
-				contourY *= 7;
-				contourW *= 3;
-				contourH *= 3;
-				g2d.setColor(new Color(255,0,0,140));
-				g2d.fillRect(contourX, contourY+32, contourW, 32);
-				g2d.fillRect(contourX+32, contourY, 32, 32);
-				g2d.fillRect(contourX+32, contourY+64, 32, 32);
+				boxH = 100;
+				tutText = "In this game, you will drive a bus, try not to\nhit other cars, and distance other passengers\nas you drive along your route.";
 				break;
 			case 2:
-				boxX = 120;
-				boxY = 140;
-				boxW = 320;
-				boxH = 60;
-				tutText = "Like the Elderly, the Disabled can only\nuse the blue seats.";
-				contour = true;
-				contourX *= 8;
-				contourY *= 8;
-				contourW *= 5;
-				contourH *= 4;
-				g2d.setColor(new Color(0,255,0,140));
-				g2d.fillRect(contourX, contourY, 32, contourH);
-				g2d.fillRect(contourX+contourW-32, contourY, 32, contourH);
+				boxX = 200;
+				boxY = 270;
+				boxW = 400;
+				boxH = 100;
+				tutText = "Use WASD or Arrow keys to move the bus. Press\nENTER on the bus stop when FULLY STOPPED.\nThis will allow you to pick up people.";
 				break;
 			case 3:
-				boxX = 160;
-				boxY = 330;
-				boxW = 360;
+				boxX = 175;
+				boxY = 290;
+				boxW = 450;
 				boxH = 60;
-				tutText = "HEYYY! They aren't keeping distance?\nOr... are they?";
-				contour = true;
-				contourX *= 9;
-				contourY *= 14;
-				contourW *= 2;
-				contourH *= 2;
+				tutText = "Now, get to it! There's people waiting for your service!";
 				break;
 			default:
 				hasTutorial = false;

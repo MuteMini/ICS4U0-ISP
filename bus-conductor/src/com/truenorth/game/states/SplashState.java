@@ -37,10 +37,7 @@ public class SplashState implements States{
 
 	@Override
 	public void keyReleased(KeyEvent e) {}
-	
-	/**
-	 * @return the loadingDone
-	 */
+
 	public boolean isLoadingDone() {
 		return loadingDone;
 	}
