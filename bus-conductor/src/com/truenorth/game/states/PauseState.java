@@ -9,6 +9,17 @@ import java.util.TreeSet;
 import com.truenorth.game.Game;
 import com.truenorth.game.Loader;
 
+/**
+ * Implements states. Used to display the pause screen for the game.<br>
+ * 
+ * Hours Spent: ~2 hours <br>
+ *
+ * June 8th: Created file, Min <br>
+ * June 9th: Added images and changed up variable names, Min <br>
+ * June 14th: Final comments, Min <br>
+ * 
+ * @author Min
+ */
 public class PauseState implements States {
 
 	private int cursorPos;
@@ -17,10 +28,22 @@ public class PauseState implements States {
 	private boolean exitClick;
 	private Set<Integer> keysHeld;
 	
+	/**
+	 * Creates the EndState object using the resetScreen method
+	 * 
+	 * @author Min
+	 * @since June 8th
+	 */
 	public PauseState() {
 		resetScreen();
 	}
 	
+	/**
+	 * Sets the global variables to their default value
+	 * 
+	 * @author Min
+	 * @since June 8th
+	 */
 	public void resetScreen() {
 		this.cursorPos = 0;
 		this.screenPos = 0;

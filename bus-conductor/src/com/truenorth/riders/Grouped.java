@@ -88,6 +88,7 @@ public class Grouped extends Passenger{
 
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 29th
 	 */
 	@Override
@@ -102,6 +103,7 @@ public class Grouped extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 29th
 	 */
 	@Override
@@ -116,6 +118,7 @@ public class Grouped extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 29th
 	 */
 	@Override
@@ -141,6 +144,7 @@ public class Grouped extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 30th
 	 */
 	@Override
@@ -159,6 +163,7 @@ public class Grouped extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 7th
 	 */
 	@Override

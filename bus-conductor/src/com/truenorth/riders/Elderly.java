@@ -44,6 +44,7 @@ public class Elderly extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 26th
 	 */
 	@Override
@@ -58,6 +59,7 @@ public class Elderly extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 26th
 	 */
 	@Override

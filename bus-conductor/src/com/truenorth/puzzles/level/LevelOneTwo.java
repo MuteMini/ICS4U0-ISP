@@ -30,6 +30,7 @@ public class LevelOneTwo extends Level {
 
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 4th
 	 */
 	@Override
@@ -97,6 +98,7 @@ public class LevelOneTwo extends Level {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 4th
 	 */
 	@Override

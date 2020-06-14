@@ -23,12 +23,13 @@ public class LevelTwoSix extends Level {
 	 * @author Min
 	 * @since June 12th
 	 */
-	/**
 	public LevelTwoSix() {
 		super();
 	}
 	
+	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 12th
 	 */
 	@Override

@@ -61,6 +61,7 @@ public class Disabled extends Passenger{
 
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 26th
 	 */
 	@Override
@@ -86,6 +87,7 @@ public class Disabled extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 26th
 	 */
 	@Override
@@ -104,6 +106,7 @@ public class Disabled extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 7th
 	 */
 	@Override
@@ -128,6 +131,7 @@ public class Disabled extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 26th
 	 */
 	@Override
@@ -145,6 +149,7 @@ public class Disabled extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 26th
 	 */
 	@Override
@@ -164,6 +169,7 @@ public class Disabled extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 26th
 	 */
 	@Override
@@ -174,6 +180,7 @@ public class Disabled extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 6th
 	 */
 	@Override

@@ -67,6 +67,7 @@ public class Luggage extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 31th
 	 */
 	@Override
@@ -84,6 +85,7 @@ public class Luggage extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 31th
 	 */
 	@Override
@@ -109,6 +111,7 @@ public class Luggage extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 1st
 	 */
 	@Override
@@ -133,6 +136,7 @@ public class Luggage extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 7th
 	 */
 	@Override
@@ -157,6 +161,7 @@ public class Luggage extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 1st
 	 */
 	@Override
@@ -172,6 +177,7 @@ public class Luggage extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 1st
 	 */
 	@Override
@@ -208,6 +214,7 @@ public class Luggage extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 1st
 	 */
 	@Override
@@ -220,9 +227,9 @@ public class Luggage extends Passenger {
 	}
 		
 	/**
-	 * Overwritten to only return 0. <br>
+	 * {@inheritDoc} Overwritten to only return 0.
 	 * 
-	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 6th
 	 */
 	@Override

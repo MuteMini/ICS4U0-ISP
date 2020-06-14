@@ -51,6 +51,7 @@ public class Children extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 24th
 	 */
 	@Override
@@ -68,6 +69,7 @@ public class Children extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 24th
 	 */
 	@Override
@@ -104,6 +106,7 @@ public class Children extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 24th
 	 */
 	@Override

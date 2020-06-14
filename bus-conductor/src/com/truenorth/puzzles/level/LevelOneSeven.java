@@ -30,6 +30,7 @@ public class LevelOneSeven extends Level {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 4th
 	 */
 	@Override
@@ -81,6 +82,7 @@ public class LevelOneSeven extends Level {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 4th
 	 */
 	@Override

@@ -49,6 +49,7 @@ public class Luggageman extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 31th
 	 */
 	@Override
@@ -58,6 +59,7 @@ public class Luggageman extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 31th
 	 */
 	@Override
@@ -71,6 +73,7 @@ public class Luggageman extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 7th
 	 */
 	@Override
@@ -95,6 +98,7 @@ public class Luggageman extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 31th
 	 */
 	@Override

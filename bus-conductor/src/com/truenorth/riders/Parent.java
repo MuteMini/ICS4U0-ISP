@@ -56,6 +56,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 24th
 	 */
 	@Override
@@ -65,6 +66,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 24th
 	 */
 	@Override
@@ -89,6 +91,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 7th
 	 */
 	@Override
@@ -123,6 +126,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 24th
 	 */
 	@Override

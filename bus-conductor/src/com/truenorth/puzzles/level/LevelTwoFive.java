@@ -29,6 +29,7 @@ public class LevelTwoFive extends Level {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 12th
 	 */
 	@Override

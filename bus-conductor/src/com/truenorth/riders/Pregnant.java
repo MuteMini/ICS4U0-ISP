@@ -44,6 +44,7 @@ public class Pregnant extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 26th
 	 */
 	@Override

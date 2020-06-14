@@ -7,11 +7,23 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
- * https://stackoverflow.com/questions/13604111/final-variable-assignment-with-try-catch
- * @author Min
+ * Took idea of loading in static final images here: https://stackoverflow.com/questions/13604111/final-variable-assignment-with-try-catch <br>
+ * 
+ * This class creates only one instance of each image used in the game. This allows the jar
+ * file to save resources when needing to use multiples of images at the same time. <br>
+
+ * Hours Spent: ~3 hours <br>
  *
+ * June 1st: Created file, Min <br>
+ * June 2nd ~ June 11th: Added more variables and fonts to the list of variables, Min & Ishan <br>
+ * June 13th: Added application icon, Min <br>
+ * June 14th: Final comments, Min <br>
+ * 
+ * @author Min, Ishan
  */
 public final class Loader {
+	
+	//Images needed for rider / puzzle package
 	public static final BufferedImage PUZZLE_BACKGROUND = getPuzzleSprite(0, 0);
 	public static final BufferedImage YOUNG_ADULT = getPuzzleSprite(1, 0);
 	public static final BufferedImage PARENT = getPuzzleSprite(2, 0);
@@ -35,6 +47,7 @@ public final class Loader {
 	public static final BufferedImage LUGGAGE6 = getPuzzleSprite(9, 6);
 	public static final BufferedImage LUGGAGE7 = getPuzzleSprite(9, 7);
 	
+	//Images needed for drive package
 	public static final BufferedImage BUS_SPRITE = getBusSprite(0, 0);
 	public static final BufferedImage CAR_SPRITE1 = getBusSprite(1, 1);
 	public static final BufferedImage CAR_SPRITE2 = getBusSprite(1, 2);
@@ -62,6 +75,7 @@ public final class Loader {
 	public static final BufferedImage ARROW = getBusSprite(4,0);
 	public static final BufferedImage ENTER_MESSAGE = getBusSprite(5,0);
 	
+	//Images needed in game.states package
 	public static final BufferedImage SPLASH1 = getGeneralSprite(0, 1);
 	public static final BufferedImage MAINMENU_BACKGROUND = getGeneralSprite(1, 0);
 	public static final BufferedImage MAINMENU_TITLE = getGeneralSprite(1, 1);
@@ -71,16 +85,33 @@ public final class Loader {
 	public static final BufferedImage STAR = getGeneralSprite(4, 0);
 	public static final BufferedImage CREDIT = getGeneralSprite(5, 0);
 	
+	//Fonts used throughout the game
 	public static final Font TTC_TITLE = getFont(1).deriveFont(56f);
 	public static final Font TTC_BODY = getFont(1).deriveFont(28f);
 	public static final Font CALIBRI_BODY1 = getFont(2);
 	public static final Font CALIBRI_BODY2 = getFont(3);
 	public static final Font BUNGEE = getFont(4).deriveFont(70f);
 	
+	/**
+	 * Used to get the ImageIcon for the application.
+	 * 
+	 * @return an image icon for the application icon
+	 * @author Min
+	 * @since June 13th
+	 */
 	public static ImageIcon getIcon() {
 		return new ImageIcon(Loader.class.getResource("/busicon.png"));
 	}
 	
+	/**
+	 * Used to get the BufferedImage for the puzzle portion of the game.
+	 * 
+	 * @param spriteID the type of sprite that needs to be accessed
+	 * @param diff another value to modify the sprite given
+	 * @return a BufferedImage that relates to the parameters
+	 * @author Min
+	 * @since June 13th
+	 */
 	private static BufferedImage getPuzzleSprite(int spriteID, int diff){
 		try {	
 			if(spriteID == 0)
@@ -112,6 +143,15 @@ public final class Loader {
 		return null;
 	}
 	
+	/**
+	 * Used to get the BufferedImage for the bus driving portion of the game.
+	 * 
+	 * @param spriteID the type of sprite that needs to be accessed
+	 * @param diff another value to modify the sprite given
+	 * @return a BufferedImage that relates to the parameters
+	 * @author Ishan
+	 * @since June 13th
+	 */
 	private static BufferedImage getBusSprite(int spriteID, int diff){
 		try {	
 			if(spriteID == 0)
@@ -136,6 +176,15 @@ public final class Loader {
 		return null;
 	}
 	
+	/**
+	 * Used to get the BufferedImage used throughout the entire game.
+	 * 
+	 * @param spriteID the type of sprite that needs to be accessed
+	 * @param diff another value to modify the sprite given
+	 * @return a BufferedImage that relates to the parameters
+	 * @author Min & Ishan
+	 * @since June 13th
+	 */
 	private static BufferedImage getGeneralSprite(int spriteID, int diff){
 		try {	
 			if(spriteID == 0)
@@ -166,6 +215,14 @@ public final class Loader {
 		return null;
 	}
 
+	/**
+	 * Used to get a Font object used throughout the entire game.
+	 * 
+	 * @param fontID the type of font that needs to be accessed
+	 * @return a Font that relates to the parameters given
+	 * @author Min & Ishan
+	 * @since June 13th
+	 */
 	private static Font getFont(int fontID){
 		try {
 			if(fontID == 1)

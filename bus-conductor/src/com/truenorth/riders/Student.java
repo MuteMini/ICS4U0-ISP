@@ -75,6 +75,7 @@ public class Student extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 25th
 	 */
 	@Override
@@ -128,6 +129,7 @@ public class Student extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 25th
 	 */
 	@Override
@@ -151,6 +153,7 @@ public class Student extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 25th
 	 */
 	@Override
@@ -174,6 +177,7 @@ public class Student extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 7th
 	 */
 	@Override
@@ -198,6 +202,7 @@ public class Student extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 25th
 	 */
 	@Override
@@ -218,6 +223,7 @@ public class Student extends Passenger{
 
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 25th
 	 */
 	@Override
@@ -237,6 +243,7 @@ public class Student extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since May 25th
 	 */
 	@Override
