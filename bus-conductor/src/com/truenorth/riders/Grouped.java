@@ -15,6 +15,7 @@ public class Grouped extends Passenger{
 		this.arrPass = arrPass;
 		this.offX = (arrPass.length >= 2 && (arrPass.length == 4 || arrPass.length != 3 || arrPass[1] != null)) ? 1 : 0;
 		this.offY = (arrPass.length >= 3) ? 1 : 0;
+		this.seperate = false;
 		this.inGroup = true;
 		for(int i = 0; i < arrPass.length; i++) {
 			if(arrPass[i] != null) {
@@ -48,11 +49,11 @@ public class Grouped extends Passenger{
 	}
 
 	@Override
-	public void render(Graphics2D g2d, Integer[][] grid) {
+	public void render(Graphics2D g2d) {
 		for(int i = 0; i < arrPass.length; i++) {
 			if(arrPass[i] != null) {
 				setPosition(i);
-				arrPass[i].render(g2d, grid);
+				arrPass[i].render(g2d);
 			}
 		}
 	}
@@ -68,7 +69,7 @@ public class Grouped extends Passenger{
 	}
 	
 	@Override
-	public boolean move(Integer[][] grid, KeyEvent e) {
+	public boolean move(KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
 			xPos--;
 			return true;
@@ -102,6 +103,32 @@ public class Grouped extends Passenger{
 		return true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isImpossible(Integer[][] grid) {
+		int tempX = this.xPos;
+		int tempY = this.yPos;
+		for(int x = 0; x <= MAX_X-offX; x++) {
+			for(int y = 0; y <= MAX_Y-offY; y++) {
+				this.xPos = x;
+				this.yPos = y;
+				setPositions();
+				if(isCorrect(grid)){
+					this.xPos = tempX;
+					this.yPos = tempY;
+					setPositions();
+					return false;
+				}
+			}
+		}
+		this.xPos = tempX;
+		this.yPos = tempY;
+		setPositions();
+		return true;
+	}
+	
 	@Override
 	public void fillDistance (Integer[][] grid) {
 		for(int i = 0; i < arrPass.length; i++) {
@@ -131,11 +158,7 @@ public class Grouped extends Passenger{
 		}
 	}
 	
-	public int[] getShift() {
-		return new int[] {offX, offY};
-	}
-	
-	public void setPositions() {
+	protected void setPositions() {
 		for(int i = 0; i < arrPass.length; i++) {
 			if(arrPass[i] != null) {
 				setPosition(i);

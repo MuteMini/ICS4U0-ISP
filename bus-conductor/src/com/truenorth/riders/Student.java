@@ -33,7 +33,7 @@ public class Student extends Passenger{
 	}
 	
 	@Override
-	public void render(Graphics2D g2d, Integer[][] grid) {
+	public void render(Graphics2D g2d) {
 		int xPosNew; 
 		int yPosNew;
 		
@@ -77,12 +77,12 @@ public class Student extends Passenger{
 			highlight(g2d, xPosNew, yPosNew);
 			g2d.drawImage(sprite, xPosNew, yPosNew, null);
 		}
-		if((!inGrid || selected) || seperate)
+		if((!inGrid || selected) || !seperate)
 			drawTag(g2d, xPosNew, yPosNew);
 	}
 	
 	@Override
-	public boolean move(Integer[][] grid, KeyEvent e) {
+	public boolean move(KeyEvent e) {
 		int tempXPos = xPos+shiftX;
 		int tempYPos = yPos+shiftY;
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
@@ -119,6 +119,29 @@ public class Student extends Passenger{
 		return surrounding && noOverlap && notOnWindow;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isImpossible(Integer[][] grid) {
+		int tempX = this.xPos;
+		int tempY = this.yPos;
+		for(int x = 0; x <= MAX_X-shiftX; x++) {
+			for(int y = 0; y <= MAX_Y-shiftY; y++) {
+				this.xPos = x;
+				this.yPos = y;
+				if(isCorrect(grid)){
+					this.xPos = tempX;
+					this.yPos = tempY;
+					return false;
+				}
+			}
+		}
+		this.xPos = tempX;
+		this.yPos = tempY;
+		return true;
+	}
+	
 	@Override
 	public void fillDistance (Integer[][] grid) {
 		int tempXPos = xPos+shiftX;
@@ -134,11 +157,7 @@ public class Student extends Passenger{
 		if(tempXPos > 0 && grid[tempXPos-1][tempYPos] <= 0 && grid[tempXPos-1][tempYPos] > BAGGAGE && (!inGroup || grid[tempXPos-1][tempYPos] != id))
 			grid[tempXPos-1][tempYPos] = (rotation == 4) ? BAGGAGE : EMPTY;	
 	}
-	
-	public int[] getShift() {
-		return new int[] {shiftX, shiftY};
-	}
-	
+
 	@Override
 	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {

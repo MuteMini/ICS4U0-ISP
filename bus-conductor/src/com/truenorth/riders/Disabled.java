@@ -22,7 +22,7 @@ public class Disabled extends Passenger{
 	}
 
 	@Override
-	public boolean move(Integer[][] grid, KeyEvent e) {
+	public boolean move(KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
 			xPos -= 1;
 			return true;
@@ -56,6 +56,29 @@ public class Disabled extends Passenger{
 		return surrounding && noOverlap;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isImpossible(Integer[][] grid) {
+		int tempX = this.xPos;
+		int tempY = this.yPos;
+		for(int x = 0; x <= MAX_X; x++) {
+			for(int y = 0; y <= MAX_Y-addY; y++) {
+				this.xPos = x;
+				this.yPos = y;
+				if(isCorrect(grid)){
+					this.xPos = tempX;
+					this.yPos = tempY;
+					return false;
+				}
+			}
+		}
+		this.xPos = tempX;
+		this.yPos = tempY;
+		return true;
+	}
+	
 	@Override
 	public void fillDistance (Integer[][] grid) {
 		grid[xPos][yPos+addY] = id;
@@ -67,10 +90,6 @@ public class Disabled extends Passenger{
 			grid[xPos][yPos+addY-1] = (rotation == 2) ? BAGGAGE : EMPTY;	
 		if(yPos+addY < MAX_Y && grid[xPos][yPos+addY+1] == 0)
 			grid[xPos][yPos+addY+1] = (rotation == 1) ? BAGGAGE : EMPTY;
-	}
-	
-	public int getShift() {
-		return addY;
 	}
 	
 	@Override

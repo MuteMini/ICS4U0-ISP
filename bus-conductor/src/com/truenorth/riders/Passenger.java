@@ -8,32 +8,75 @@ import java.awt.image.BufferedImage;
 
 import com.truenorth.game.Loader;
 
+/**
+ * The basis of all passengers start from this class. Many methods are 
+ * encapsulated here to make adding new passengers easy.
+ * 
+ * @author Min
+ *
+ * Hours Spent: ~4 to 5 hours
+ *
+ * May 24th: Created file, Min
+ * May 25th: Added methods/variables, Min
+ *
+ */
 public abstract class Passenger{
+	/**The exact width and height of each Passenger sprite*/
     protected final int SPRITE_SIZE = 32;
+    /**Where x = 0 refers to when inside the bus*/
 	protected final int OFFSET_X = 256;
+	/**Where y = 0 refers to when inside the bus*/
 	protected final int OFFSET_Y = 256;
+	/**Where x = 0 refers to when on the sidewalk*/
 	protected final int ORDERED_X = 460;
+	/**Where y = 0 refers to when on the sidewalk*/
 	protected final int ORDERED_Y = 160;
+	/**Maximum x position for the passengers inside the bus*/
 	protected final int MAX_X = 4;
+	/**Maximum y position for the passengers inside the bus*/
 	protected final int MAX_Y = 10;
+	/**Tag for space that must be empty*/
 	protected final int EMPTY = -1;
+	/**Tag for space that could have a child passenger*/
 	protected final int CHILD_SPACE = -2;
+	/**Tag for space that has baggage*/
 	protected final int BAGGAGE = -3;
+	/**The x position in the bus*/
 	protected int xPos;
+	/**The y position in the bus*/
 	protected int yPos;
-	protected int id;
+	/**The x position outside of the bus*/
 	protected int orderX;
+	/**The y position outside of the bus*/
 	protected int orderY;
+	/**The id of this passenger inside the integer array*/
+	protected int id;
+	/**The value that determines the sine wave function*/
 	protected double floating;
+	/**Holds if the passenger is inside the bus*/
 	protected boolean inGrid;
+	/**Holds if the passenger has been selected by the user*/
 	protected boolean selected;
+	/**Holds if the passenger is supposed to be alone*/
 	protected boolean seperate;
+	/**Holds if the passenger can be placed at the current location*/
 	protected boolean placeable;
+	/**Holds if the passenger can be selected outside of the bus*/
 	protected boolean ableToSelect;
+	/**Holds if the passenger is part of a group*/
 	protected boolean inGroup;
+	/**The color of the passenger's tag*/
 	protected Color cl;
+	/**The sprite of the passenger*/
 	protected BufferedImage sprite;
 	
+	/**
+	 * One of the overloaded constructors, used if the passenger
+	 * is meant to be selected then to be placed.
+	 * 
+	 * @author Min
+	 * @since May 24th
+	 */
 	public Passenger(int spriteID, int diff, int id, int orderX, int orderY, Color cl) {
 		this.xPos = 0;
 		this.yPos = 0;
@@ -42,7 +85,7 @@ public abstract class Passenger{
 		this.orderY = orderY;
 		this.inGrid = false;
 		this.selected = false;
-		this.seperate = false;
+		this.seperate = true;
 		this.placeable = false;
 		this.ableToSelect = true;
 		this.inGroup = false;
@@ -50,6 +93,13 @@ public abstract class Passenger{
 		this.sprite = readImage(spriteID, diff);
 	}
 	
+	/**
+	 * The other overloaded constructor, used if the passenger
+	 * is meant to be already placed.
+	 * 
+	 * @author Min
+	 * @since May 24th
+	 */
 	public Passenger(int spriteID, int diff, int id, int xPos, int yPos) {
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -58,7 +108,7 @@ public abstract class Passenger{
 		this.id = id;
 		this.inGrid = true;
 		this.selected = false;
-		this.seperate = false;
+		this.seperate = true;
 		this.placeable = false;
 		this.ableToSelect = true;
 		this.inGroup = false;
@@ -66,7 +116,25 @@ public abstract class Passenger{
 		this.sprite = readImage(spriteID, diff);
 	}
 
-	public void render(Graphics2D g2d, Integer[][] grid) {
+	/**
+	 * Takes in the distance grid and checks if the current 
+	 * xPos and yPos is placeable.
+	 * 
+	 * @author Min
+	 * @since May 27th
+	 */
+	public void update(Integer[][] grid) {
+		placeable = isCorrect(grid);
+	}
+	
+	/**
+	 * Uses the xPos and yPos OR orderX and orderY to draw the 
+	 * sprite onto the g2D. at the correct location.
+	 * 
+	 * @author Min
+	 * @since May 24th
+	 */
+	public void render(Graphics2D g2d) {
 		int xPosNew; 
 		int yPosNew;
 		
@@ -99,20 +167,29 @@ public abstract class Passenger{
 			highlight(g2d, xPosNew, yPosNew);
 			g2d.drawImage(sprite, xPosNew, yPosNew, null);
 		}
-		if((!inGrid || selected) || seperate)
+		if((!inGrid || selected) || !seperate)
 			drawTag(g2d, xPosNew, yPosNew);
 	}
 	
-	public void update(Integer[][] grid) {
-		placeable = isCorrect(grid);
-	}
-	
+	/**
+	 * Sets xPos and yPos at 0, 0 for it to be drawn.
+	 * 
+	 * @author Min
+	 * @since May 24th
+	 */
 	public void spawn() {
 		xPos = 0;
 		yPos = 0;
 	}
 	
-	public boolean move(Integer[][] grid, KeyEvent e) {
+	/**
+	 * Takes in the KeyEvent from Game to move the passenger's xPos and yPos.
+	 * 
+	 * @author Min
+	 * @return If the passenger was moved
+	 * @since May 24th
+	 */
+	public boolean move(KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
 			xPos--;
 			return true;
@@ -132,6 +209,13 @@ public abstract class Passenger{
 		return false;
 	}
 	
+	/**
+	 * Checks if the current placement is valid depending on the current grid given.
+	 * 
+	 * @author Min
+	 * @return If the passenger's position is correct
+	 * @since May 25th
+	 */
 	public boolean isCorrect(Integer[][] grid) {
 		return (grid[xPos][yPos] == 0 || (!selected && grid[xPos][yPos] == id))
 			&& (xPos == 0 || grid[xPos-1][yPos] <= 0 || (inGroup && grid[xPos-1][yPos] == id)) 
@@ -140,12 +224,55 @@ public abstract class Passenger{
 			&& (yPos == MAX_Y || aboveWindow(xPos, yPos) || grid[xPos][yPos+1] <= 0 || (inGroup && grid[xPos][yPos+1] == id));
 	}
 	
-	public boolean isPlaceable(Integer[][] grid, KeyEvent e) {
+	/**
+	 * Checks if the KeyEvent given is enter, and if it is, returns
+	 * if the passenger can be placed.
+	 * 
+	 * @author Min
+	 * @return If the current location is a valid location to be placed.
+	 * @since May 27th
+	 */
+	public boolean isPlaceable(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 			return placeable;
 		return false;
 	}
 	
+	/**
+	 * Checks if the passenger has a valid location to be placed anywhere
+	 * on the grid.
+	 * 
+	 * @author Min
+	 * @return If the passenger is not able to be placed anywhere.
+	 * @since June 7th
+	 */
+	public boolean isImpossible(Integer[][] grid) {
+		int tempX = this.xPos;
+		int tempY = this.yPos;
+		for(int x = 0; x <= MAX_X; x++) {
+			for(int y = 0; y <= MAX_Y; y++) {
+				this.xPos = x;
+				this.yPos = y;
+				if(isCorrect(grid)){
+					this.xPos = tempX;
+					this.yPos = tempY;
+					return false;
+				}
+			}
+		}
+		this.xPos = tempX;
+		this.yPos = tempY;
+		return true;
+	}
+	
+	/**
+	 * Checks if the KeyEvent given is enter, and if it is, returns
+	 * if the passenger can be placed.
+	 * 
+	 * @author Min
+	 * @return If the current location is a valid location to be placed.
+	 * @since May 25th
+	 */
 	public void fillDistance (Integer[][] grid) {
 		grid[xPos][yPos] = id;
 		if(xPos > 0 && grid[xPos-1][yPos] == 0 && (!inGroup || grid[xPos-1][yPos] != id))
@@ -158,53 +285,61 @@ public abstract class Passenger{
 			grid[xPos][yPos+1] = EMPTY;
 	}
 	
+	/**
+	 * @author Min
+	 * @return If the passenger is able to be selected
+	 * @since May 25th
+	 */
 	public boolean canSelect() {
 		return ableToSelect;
 	}
 	
+	/**
+	 * @author Min
+	 * @param a boolean for selected
+	 * @since May 25th
+	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
 	
+	/**
+	 * @author Min
+	 * @param a boolean for inGrid
+	 * @since May 25th
+	 */
 	public void setInGrid(boolean inGrid) {
 		this.inGrid = inGrid;
 	}
 	
-	public void setPlaceable(boolean placeable) {
-		this.placeable = placeable;
-	}
-
-	public void setxPos(int xPos) {
-		this.xPos = xPos;
-	}
-	
-	public int getxPos() {
-		return xPos;
-	}
-
-	public void setyPos(int yPos) {
-		this.yPos = yPos;
-	}
-
-	public int getyPos() {
-		return yPos;
-	}
-
-	@Override
-	public String toString() {
-		return id + " " + xPos + " " + yPos;
-	}
-	
+	/**
+	 * @author Min
+	 * @return If x and y is above the window.
+	 * @since May 29th
+	 */
 	protected boolean aboveWindow(int x, int y) {
 		return (x == 0 || x == 4) 
 			&& (y == 7);
 	}
 	
+	/**
+	 * @author Min
+	 * @return If x and y is below the window.
+	 * @since May 29th
+	 */
 	protected boolean belowWindow(int x, int y) {
 		return (x == 0 || x == 4) 
 			&& (y == 8);
 	}
 	
+	/**
+	 * Checks if x and y is on a seat, and returns the rotation value
+	 * that the sprite must be rotated in.
+	 * 
+	 * @author Min
+	 * @return The degrees of which the rotation should occur.
+	 * @since June 1st
+	 */
 	protected double rotationVal(int x, int y) {
 		if(x == 0 && (y <= 6))
 			return 90d;
@@ -215,6 +350,14 @@ public abstract class Passenger{
 		return 0d;
 	}
 	
+	/**
+	 * Using the JFrame coordinate given, draws a highlight on the back
+	 * ground of the passenger sprite. Uses the boolean values to draw
+	 * different colors if needed.
+	 * 
+	 * @author Min
+	 * @since May 25th
+	 */
 	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
@@ -229,11 +372,25 @@ public abstract class Passenger{
 		}
 	}
 	
+	/**
+	 * Using the JFrame coordinate given, draws a circle tag for each
+	 * passenger to distinguish them.
+	 * 
+	 * @author Min
+	 * @since May 25th
+	 */
 	protected void drawTag(Graphics2D g, int xPos, int yPos) {
 		g.setColor(cl);
 		g.fillOval(xPos, yPos, 10, 10);
 	}
 	
+	/**
+	 * Uses the Loader class to take a reference of the BufferedImage
+	 * instead of creating a new image over and over again.
+	 * 
+	 * @author Min
+	 * @since June 1st
+	 */
 	protected BufferedImage readImage(int spriteID, int diff) {
 		if(spriteID == 1) {
 			return Loader.YOUNG_ADULT;
