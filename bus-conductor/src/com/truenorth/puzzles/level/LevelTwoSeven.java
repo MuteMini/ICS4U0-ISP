@@ -5,12 +5,32 @@ import java.awt.Color;
 import com.truenorth.puzzles.Level;
 import com.truenorth.riders.*;
 
+/**
+ * The seventh level in the learning world.<br>
+ * 
+ * Hours Spent: 10 minutes <br>
+ *
+ * June 12th: Created file, Min <br>
+ * June 14th: Final comments, Min <br>
+ * 
+ * @author Min
+ */
 public class LevelTwoSeven extends Level {
 	
+	/**
+	 * Calls the superclass's constructor.
+	 * 
+	 * @author Min
+	 * @since June 12th
+	 */
 	public LevelTwoSeven() {
 		super();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since June 12th
+	 */
 	@Override
 	public void resetGrid() {
 		super.resetGrid();

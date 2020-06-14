@@ -5,13 +5,33 @@ import java.awt.Graphics2D;
 import com.truenorth.puzzles.Level;
 import com.truenorth.riders.*;
 
+/**
+ * The last level in the tutorial world.<br>
+ * 
+ * Hours Spent: 10 minutes <br>
+ *
+ * June 4th: Created file and added tutorial, Min <br>
+ * June 14th: Final comments, Min <br>
+ * 
+ * @author Min
+ */
 public class LevelOneSeven extends Level {
 	
+	/**
+	 * Calls the superclass's constructor and sets hasTutorial as true.
+	 * 
+	 * @author Min
+	 * @since June 4th
+	 */
 	public LevelOneSeven() {
 		super();
 		this.hasTutorial = true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since June 4th
+	 */
 	@Override
 	public void showTutorial(Graphics2D g2d) {
 		resetContour();
@@ -59,6 +79,10 @@ public class LevelOneSeven extends Level {
 		showBox(g2d);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since June 4th
+	 */
 	@Override
 	public void resetGrid() {
 		super.resetGrid();
