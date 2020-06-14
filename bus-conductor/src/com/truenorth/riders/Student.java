@@ -6,16 +6,40 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+/**
+ * Extended from Passenger class. Uses more protected variables to determine
+ * where the bag of the student is. <br>
+ * 
+ * Hours Spent: ~3 hour <br>
+ * 
+ * May 25th: Created file, Min <br>
+ * May 26th: Touched up code for bug fixes, Min <br>
+ * June 7th: Added sprite turning <br>
+ * June 14th: Final comments, Min <br>
+ * 
+ * @author Min
+ */
 public class Student extends Passenger{
 	
+	/*Holds the person sprite to rotate when the student sits*/
 	protected final BufferedImage SIT_SPRITE = readImage(4, 5);
+	/*Holds the bag sprite to rotate when the student sits*/
 	protected final BufferedImage BAG_SPRITE = readImage(4, 6);
+	/*Holds the rotation value of the student*/
 	protected int rotation;
+	/*Holds the x offset value to locate the bag*/
 	protected int offX;
+	/*Holds the y offset value to locate the bag*/
 	protected int offY;
+	/*Holds the x offset value to locate the student*/
 	protected int shiftX;
+	/*Holds the y offset value to locate the student*/
 	protected int shiftY;
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 25th
+	 */
 	public Student(int orderX, int orderY,  int rotation, Color cl) {
 		super(4, rotation, 1, orderX, orderY, cl);
 		this.rotation = rotation;
@@ -24,6 +48,10 @@ public class Student extends Passenger{
 		setRotationValue();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 25th
+	 */
 	public Student(int xPos, int yPos, int rotation) {
 		super(4, rotation, 1, xPos, yPos);
 		this.rotation = rotation;
@@ -32,6 +60,10 @@ public class Student extends Passenger{
 		setRotationValue();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 25th
+	 */
 	@Override
 	public void render(Graphics2D g2d) {
 		int xPosNew; 
@@ -81,6 +113,10 @@ public class Student extends Passenger{
 			drawTag(g2d, xPosNew, yPosNew);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 25th
+	 */
 	@Override
 	public boolean move(KeyEvent e) {
 		int tempXPos = xPos+shiftX;
@@ -100,6 +136,10 @@ public class Student extends Passenger{
 		return false;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 25th
+	 */
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
 		int tempXPos = xPos+shiftX;
@@ -121,6 +161,7 @@ public class Student extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @since June 7th
 	 */
 	@Override
 	public boolean isImpossible(Integer[][] grid) {
@@ -142,6 +183,10 @@ public class Student extends Passenger{
 		return true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 25th
+	 */
 	@Override
 	public void fillDistance (Integer[][] grid) {
 		int tempXPos = xPos+shiftX;
@@ -158,6 +203,10 @@ public class Student extends Passenger{
 			grid[tempXPos-1][tempYPos] = (rotation == 4) ? BAGGAGE : EMPTY;	
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @since May 25th
+	 */
 	@Override
 	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {
@@ -173,12 +222,22 @@ public class Student extends Passenger{
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 25th
+	 */
 	@Override
 	protected void drawTag(Graphics2D g, int xPos, int yPos) {
 		g.setColor(cl);
 		g.fillOval(xPos+(shiftX*32), yPos+(shiftY*32), 10, 10);
 	}
 	
+	/**
+	 * Sets the values of where the backpack exists on the Student.
+	 * 
+	 * @author Min
+	 * @since May 25th
+	 */
 	protected void setRotationValue() {
 		this.offX = 0;
 		this.offY = 0;

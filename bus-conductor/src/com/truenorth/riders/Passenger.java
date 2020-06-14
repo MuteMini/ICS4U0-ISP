@@ -20,6 +20,7 @@ import com.truenorth.game.Loader;
  * May 27th: Small edits, Min <br>
  * May 29th: Small edits, Min <br>
  * June 1st: Added image loading, Min <br>
+ * June 6th: Added sprite turning, Min <br>
  * June 7th: Added impossible state checking, Min <br>
  * June 14th: Final comments, Min <br>
  * 
@@ -342,7 +343,7 @@ public abstract class Passenger{
 	 * 
 	 * @author Min
 	 * @return The degrees of which the rotation should occur.
-	 * @since June 1st
+	 * @since June 6st
 	 */
 	protected double rotationVal(int x, int y) {
 		if(x == 0 && (y <= 6))

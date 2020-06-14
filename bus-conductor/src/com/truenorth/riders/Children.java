@@ -19,6 +19,7 @@ public class Children extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	public Children(int orderX, int orderY, int id, Color cl) {
 		super(3, 0, id+1, orderX, orderY, cl);
@@ -28,6 +29,7 @@ public class Children extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	public Children(int xPos, int yPos, int id) {
 		super(3, 0, id+1, xPos, yPos);
@@ -36,6 +38,7 @@ public class Children extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	@Override
 	public void update(Integer[][] grid) {
@@ -52,6 +55,7 @@ public class Children extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
@@ -87,6 +91,7 @@ public class Children extends Passenger {
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	@Override
 	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {

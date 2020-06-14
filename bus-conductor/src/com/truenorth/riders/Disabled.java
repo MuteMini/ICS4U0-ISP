@@ -4,23 +4,52 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+/**
+ * Extended from Passenger class. Almost the same as Student class,
+ * in the fact that it has an extension that does not fill the 
+ * nearby grid.<br>
+ * 
+ * Hours Spent: ~2 hours <br>
+ * 
+ * May 26th: Created file, Min <br>
+ * May 27th: Bug fixes, Min <br>
+ * May 28th: More bug fixes, Min <br>
+ * June 7th: Added impossible state checking, Min <br>
+ * June 14th: Final comments, Min <br>
+ * 
+ * @author Min
+ */
 public class Disabled extends Passenger{
 	
+	/**Holds the rotation value of the disabled, what way they are facing*/
 	protected int rotation;
+	/**Holds the position relative to the x and yPos of where the person is*/
 	protected int addY;
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	public Disabled(int orderX, int orderY, int rotation, Color cl) {
 		super(7, rotation, 1, orderX, orderY, cl);
 		this.rotation = rotation;
 		this.addY = (rotation == 1) ? 0 : 1;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	public Disabled(int xPos, int yPos, int rotation) {
 		super(7, rotation, 1, xPos, yPos);
 		this.rotation = rotation;
 		this.addY = (rotation == 1) ? 0 : 1;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	@Override
 	public boolean move(KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
@@ -42,6 +71,10 @@ public class Disabled extends Passenger{
 		return false;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
 		boolean surrounding = (grid[xPos][yPos+addY] == 0 || (!selected &&  grid[xPos][yPos+addY] == id))
@@ -58,6 +91,7 @@ public class Disabled extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @since June 7th
 	 */
 	@Override
 	public boolean isImpossible(Integer[][] grid) {
@@ -79,6 +113,10 @@ public class Disabled extends Passenger{
 		return true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	@Override
 	public void fillDistance (Integer[][] grid) {
 		grid[xPos][yPos+addY] = id;
@@ -92,6 +130,10 @@ public class Disabled extends Passenger{
 			grid[xPos][yPos+addY+1] = (rotation == 1) ? BAGGAGE : EMPTY;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	@Override
 	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
 		if(selected) {
@@ -107,12 +149,20 @@ public class Disabled extends Passenger{
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	@Override
 	protected void drawTag(Graphics2D g, int xPos, int yPos) {
 		g.setColor(cl);
 		g.fillOval(xPos, yPos+(addY*32), 10, 10);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since June 6th
+	 */
 	@Override
 	protected double rotationVal(int x, int y) {
 		return 0d;

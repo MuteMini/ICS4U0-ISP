@@ -2,16 +2,39 @@ package com.truenorth.riders;
 
 import java.awt.Color;
 
+/**
+ * Extended from Passenger class. Changes up the fillDistance so that 
+ * diagonals are also filled in. The isCorrect method is also changed accordingly.<br>
+ * 
+ * Hours Spent: ~0.5 hour <br>
+ * 
+ * May 26th: Created file, Min <br>
+ * June 14th: Final comments, Min <br>
+ * 
+ * @author Min
+ */
 public class Elderly extends Passenger{
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	public Elderly(int orderX, int orderY, Color cl) {
 		super(5, 0, 1, orderX, orderY, cl);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	public Elderly(int xPos, int yPos) {
 		super(5, 0, 1, xPos, yPos);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
 		return super.isCorrect(grid) 
@@ -22,6 +45,10 @@ public class Elderly extends Passenger{
 				&& (xPos == MAX_X || yPos == MAX_Y || grid[xPos+1][yPos+1] <= 0 || (inGroup && grid[xPos+1][yPos+1] == id));
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 26th
+	 */
 	@Override
 	public void fillDistance (Integer[][] grid) {
 		for(int i = xPos-1; i <= xPos+1; i++) {

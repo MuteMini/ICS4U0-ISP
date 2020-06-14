@@ -10,6 +10,7 @@ import java.awt.Color;
  * 
  * May 24th: Created file, Min <br>
  * May 25th: Touched up code for bug fixes, Min <br>
+ * June 7th: Added impossible state checking, Min <br>
  * June 14th: Final comments, Min <br>
  * 
  * @author Min
@@ -21,6 +22,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	public Parent(int orderX, int orderY, int id, int numChild, Color cl) {
 		super(2, 0, id, orderX, orderY, cl);
@@ -30,6 +32,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	public Parent(int xPos, int yPos, int id, int numChild) {
 		super(2, 0, id, xPos, yPos);
@@ -38,6 +41,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	@Override
 	public void update(Integer[][] grid) {
@@ -46,6 +50,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
@@ -69,6 +74,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @since June 7th
 	 */
 	@Override
 	public boolean isImpossible(Integer[][] grid) {
@@ -102,6 +108,7 @@ public class Parent extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @since May 24th
 	 */
 	@Override
 	public void fillDistance(Integer[][] grid) {
