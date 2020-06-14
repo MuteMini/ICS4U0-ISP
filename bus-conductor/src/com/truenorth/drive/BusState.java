@@ -13,7 +13,6 @@ import com.truenorth.game.Loader;
 import com.truenorth.game.states.States;
 
 public class BusState implements States{
-	public static boolean debug;
 	private final Camera c;
 	private final int WORLDS_NUM = 22;
 	private World[] worlds = new World[WORLDS_NUM];
@@ -121,7 +120,7 @@ public class BusState implements States{
 		}
 		
 		if (outOfBoundsCount == 0) {
-			//resetWorlds();
+			resetWorlds();
 		}
 	}
 	
@@ -144,22 +143,9 @@ public class BusState implements States{
 					g2d.setColor(Color.red);
 				else
 					g2d.setColor(Color.green);
-				if (debug)
-					g2d.drawLine(b.getCenter().x -c.getXPos(), b.getCenter().y - c.getYPos(),
-							e.getCenter().x - c.getXPos(), e.getCenter().y - c.getYPos());
 				e.draw(g2d, c.getXPos(), c.getYPos());
 				drawnEntities++;
 			}
-		}
-		
-		if (debug) {
-			g2d.setFont(Loader.CALIBRI_BODY2);
-			g2d.setColor(Color.orange);
-			g2d.drawLine(b.center.x - c.getXPos(), b.center.y - c.getYPos(), worlds[worldPos].getBusStop().x - c.getXPos(), worlds[worldPos].getBusStop().y - c.getYPos());
-			g2d.setColor(Color.black);
-			g2d.drawString("Entity Count: " + entities.size(), 10, 140);
-			g2d.drawString("Entities drawn: " + drawnEntities, 10, 152);
-			g2d.drawString("Entities crashed: " + crashedEntities, 10, 164);
 		}
 				
 		if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100  && (int)b.getXVel() == 0 && (int)b.getYVel() == 0) {
@@ -200,21 +186,10 @@ public class BusState implements States{
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-			debug = !debug;
-		}
-		else if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER && (int)b.getXVel() == 0 && (int)b.getYVel() == 0) {
+		if(b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER && (int)b.getXVel() == 0 && (int)b.getYVel() == 0) {
 			onStop = true;
 		}
-		
-		if (e.getKeyCode() == KeyEvent.VK_P && worldPos < WORLDS_NUM) {
-			worldPos++;
-			resetWorlds();
-		} else if (e.getKeyCode() == KeyEvent.VK_O && worldPos > 0) {
-			worldPos--;
-			resetWorlds();
-		}
-		
+
 		if((worlds[worldPos].getPage() != -1 || onStop) && worlds[worldPos].getTutorial()) {
 			worlds[worldPos].keyPressed(e);
 		} 
@@ -255,10 +230,5 @@ public class BusState implements States{
 	public void resetScreen() {
 		this.b = new Bus();
 		this.entities = new ArrayList<Entity>();
-	}
-	
-	//here for testing
-	public Bus getBus() {
-		return b;
 	}
 }

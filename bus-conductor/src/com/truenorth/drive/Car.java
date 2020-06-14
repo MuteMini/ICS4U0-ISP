@@ -1,6 +1,5 @@
 package com.truenorth.drive;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
@@ -56,13 +55,6 @@ public class Car extends Entity {
 		g2d.drawImage(carSprite, center.x - WIDTH / 2 - ((int)xOffset),
 				center.y - HEIGHT / 2 - ((int)yOffset), null);
 		g2d.setTransform(temp);
-
-		if (BusState.debug) {
-			g2d.setColor(c);
-			g2d.fill(entityBody);
-			g2d.setColor(Color.pink);
-			g2d.fillOval(getCenter().x - ((int)xOffset) - 5, getCenter().y - ((int)yOffset) - 5, 10, 10);
-		}
 	}
 
 	@Override
