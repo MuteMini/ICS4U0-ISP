@@ -63,17 +63,6 @@ public abstract class World extends Tutorial{
 		g2d.drawImage(map, startPos.x - (int)xOffset, startPos.y - (int)yOffset, null);
 		g2d.setColor(Color.yellow);
 		
-		if (BusState.debug) {
-			g2d.setColor(Color.black);
-			for (Integer[] r : boundary) {
-				g2d.setColor(Color.CYAN);
-                if(r[3] % 2 == 0)
-                    g2d.drawLine(r[0]-(int)xOffset, r[1]-(int)yOffset, r[0]-(int)xOffset, r[2]-(int)yOffset); //draws a line up and down
-                else
-                    g2d.drawLine(r[0]-(int)xOffset, r[1]-(int)yOffset, r[2]-(int)xOffset, r[1]-(int)yOffset); //draws a line left to right
-			}
-		}
-		
 		if(hasTutorial) {
 			showTutorial(g2d);
 		}

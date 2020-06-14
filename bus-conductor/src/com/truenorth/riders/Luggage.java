@@ -12,7 +12,7 @@ public class Luggage extends Passenger {
 	
 	public Luggage(int orderX, int orderY, int id, int type, Color cl) {
 		super(9, type, -(id+2), orderX, orderY, cl);
-		this.seperate = true;
+		this.seperate = false;
 		this.ableToSelect = false;
 		this.type = type;
 		this.offX = (type != 2) ? 1 : 0;
@@ -39,7 +39,7 @@ public class Luggage extends Passenger {
 	}
 	
 	@Override
-	public boolean move(Integer[][] grid, KeyEvent e) {
+	public boolean move(KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
 			xPos--;
 			return true;
@@ -79,6 +79,29 @@ public class Luggage extends Passenger {
 		return nextToParent;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isImpossible(Integer[][] grid) {
+		int tempX = this.xPos;
+		int tempY = this.yPos;
+		for(int x = 0; x <= MAX_X-offX; x++) {
+			for(int y = 0; y <= MAX_Y-offY; y++) {
+				this.xPos = x;
+				this.yPos = y;
+				if(isCorrect(grid)){
+					this.xPos = tempX;
+					this.yPos = tempY;
+					return false;
+				}
+			}
+		}
+		this.xPos = tempX;
+		this.yPos = tempY;
+		return true;
+	}
+	
 	@Override
 	public void fillDistance (Integer[][] grid) {
 		for(int i = 0; i < 4; i++) {
@@ -88,10 +111,6 @@ public class Luggage extends Passenger {
 				grid[tempXPos][tempYPos] = id;
 			}
 		}
-	}
-	
-	public int[] getShift() {
-		return new int[] {offX, offY};
 	}
 	
 	@Override

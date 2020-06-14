@@ -1,11 +1,9 @@
 package com.truenorth.drive;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.Set;
 import java.util.TreeSet;
-
 import com.truenorth.game.Game;
 import com.truenorth.game.Loader;
 
@@ -84,23 +82,6 @@ public class Bus extends Entity {
 		g2d.rotate(Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
 		g2d.drawImage(Loader.BUS_SPRITE,(int)(center.x - xOffset - WIDTH/2  - xVel), (int)(center.y - yOffset - HEIGHT/2 - yVel), null);
 		g2d.rotate(-Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
-		
-		if (BusState.debug) {
-			g2d.setColor(Color.RED);
-			g2d.fill(entityBody);
-			g2d.setColor(Color.black);
-			g2d.drawString("xPosition, yPosition: " + center.x + ", " + center.y, 10, 20);
-			g2d.drawString("xVelocity, yVelocity: " + xVel + ", " + yVel, 10, 32);
-			g2d.drawString("Buildup: " + buildUp, 10, 44);
-			//System.out.println(buildUp);
-			g2d.drawString("Angle " + angle, 10, 56);
-			g2d.drawString("Angle Velocity: " + getAngleVel(), 10, 80);
-			g2d.drawString("Forward: " + forward, 10, 92);
-			g2d.drawString("Backward: " + backward, 10, 104);
-			g2d.drawString("Left: " + turnLeft, 10, 116);
-			g2d.drawString("Right: " + turnRight, 10, 128);
-		}
-
 	}
 
 	public boolean isColliding(Entity e) {

@@ -8,7 +8,7 @@ public class Parent extends Passenger{
 	
 	public Parent(int orderX, int orderY, int id, int numChild, Color cl) {
 		super(2, 0, id, orderX, orderY, cl);
-		this.seperate = true;
+		this.seperate = false;
 		this.numChild = numChild;
 	}
 	
@@ -42,21 +42,37 @@ public class Parent extends Passenger{
 		return numChild == count;
 	}
 	
-	public boolean notImpossible(Integer[][] grid) {
-		int count = 0;
-		if(xPos > 0 && grid[xPos-1][yPos] == 0) {
-			count++;
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isImpossible(Integer[][] grid) {
+		boolean impossible = true;
+		for(int x = 0; x <= MAX_X; x++) {
+			for(int y = 0; y <= MAX_Y; y++) {
+				int count = 0;
+				if(x > 0 && grid[x-1][y] == 0) {
+					count++;
+				}
+				if(x < MAX_X && grid[x+1][y] == 0) {
+					count++;
+				}
+				if(!belowWindow(x, y) && y > 0 && grid[x][y-1] == 0) {
+					count++;
+				}
+				if(!aboveWindow(x, y) && y < MAX_Y && grid[x][y+1] == 0) {
+					count++;
+				}
+				if(count <= numChild) {
+					impossible = false;
+					break;
+				}
+			}
+			if(!impossible) {
+				break;
+			}
 		}
-		if(xPos < MAX_X && grid[xPos+1][yPos] == 0) {
-			count++;
-		}
-		if(!belowWindow(xPos, yPos) && yPos > 0 && grid[xPos][yPos-1] == 0) {
-			count++;
-		}
-		if(!aboveWindow(xPos, yPos) && yPos < MAX_Y && grid[xPos][yPos+1] == 0) {
-			count++;
-		}
-		return numChild == count;
+		return impossible;
 	}
 	
 	@Override

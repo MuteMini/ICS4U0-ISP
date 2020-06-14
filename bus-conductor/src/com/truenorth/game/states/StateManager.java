@@ -8,8 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import com.truenorth.drive.Bus;
 import com.truenorth.drive.BusState;
 import com.truenorth.puzzles.PuzzleState;
 
@@ -296,11 +294,6 @@ public class StateManager{
 		PU_S.setLevelPos(puzzleLevelPos[fileNum]);
 		PU_S.resetLevels();
 		statePos = savedState[fileNum];
-	}
-	
-	//testing
-	public Bus getBus() {
-		return BS.getBus();
 	}
 }
 	

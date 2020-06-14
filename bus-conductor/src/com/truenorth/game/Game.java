@@ -4,8 +4,6 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import com.truenorth.game.states.StateManager;
 
@@ -19,7 +17,7 @@ import com.truenorth.game.states.StateManager;
  */
 
 @SuppressWarnings("serial")
-public class Game extends Canvas implements Runnable, MouseListener {
+public class Game extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 640;
 	private boolean running;
@@ -31,7 +29,6 @@ public class Game extends Canvas implements Runnable, MouseListener {
 		setSize(WIDTH, HEIGHT);
 		setBackground(Color.BLACK);
 		addKeyListener(new Input(this));
-		addMouseListener(this);
 	}
 	
 	public synchronized void start() {
@@ -110,27 +107,5 @@ public class Game extends Canvas implements Runnable, MouseListener {
 	
 	public void setRunning(boolean running) {
 		this.running = running;
-	}
-	
-	@Override
-	public void mousePressed(MouseEvent e) {
-		System.out.println((st.getBus().getCenter().x + e.getX() - WIDTH / 2) + ", " + (st.getBus().getCenter().y + e.getY() - HEIGHT / 2));
-		//System.out.println((st.getBus().getCenter().x + e.getX() - WIDTH / 2- WorldTwo.xOffset) + ", " + (st.getBus().getCenter().y + e.getY() - HEIGHT / 2  - WorldTwo.yOffset ));
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
 	}
 }

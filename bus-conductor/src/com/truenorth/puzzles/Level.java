@@ -82,23 +82,15 @@ public abstract class Level extends Tutorial{
 		else {
 			winState = checkSolution();
 		}
-		
-		/*for(int x = 0; x < 11; x++) {
-			for(int y = 0; y < 5; y++) {
-				System.out.print(distanceGrid[y][x] + "\t");
-			}
-			System.out.println();
-		}
-		System.out.println();*/
 	}
 	
 	public void render(Graphics2D g2d) {
 		for(Passenger pass : immoveable)
-			pass.render(g2d, distanceGrid);
+			pass.render(g2d);
 		for(Passenger pass : placed)
-			pass.render(g2d, distanceGrid);
+			pass.render(g2d);
 		for(Passenger pass : moveable)
-			pass.render(g2d, distanceGrid);
+			pass.render(g2d);
 		if(winState) {
 			winAnimation(g2d);
 		}
@@ -113,13 +105,11 @@ public abstract class Level extends Tutorial{
 	public boolean checkSolution() {
 		for(Passenger pass : immoveable) {
 			if(!pass.isCorrect(distanceGrid)) {
-				System.out.println(pass.toString());  //testing
 				return false;
 			}	
 		}
 		for(Passenger pass : placed) {
 			if(!pass.isCorrect(distanceGrid)) {
-				System.out.println(pass.toString());  //testing
 				return false;
 			}
 		}
@@ -137,7 +127,7 @@ public abstract class Level extends Tutorial{
 				moveable.get(selected).setSelected(false);
 				unselected = true;
 			}
-			else if (!moveable.get(selected).move(distanceGrid, e) && moveable.get(selected).isPlaceable(distanceGrid, e)) {
+			else if (!moveable.get(selected).move(e) && moveable.get(selected).isPlaceable(e)) {
 				moveable.get(selected).setSelected(false);
 				moveable.get(selected).fillDistance(distanceGrid);
 				remove = true;
@@ -152,7 +142,7 @@ public abstract class Level extends Tutorial{
 				selected = cursor;
 				moveable.get(selected).setInGrid(true);
 				moveable.get(selected).spawn();
-				impossible = checkImpossible();
+				impossible = moveable.get(selected).isImpossible(distanceGrid);
 				isSelected = true;
 			}
 		}
@@ -216,61 +206,5 @@ public abstract class Level extends Tutorial{
 		g2d.dispose();
 		powerCount += 0.01;
 		animateCount += (animateCount < 400) ? (int)(Math.pow(2, -powerCount)*5) : 0;
-	}
-
-	protected boolean checkImpossible() {
-		Passenger p = moveable.get(selected);
-		int xPos = p.getxPos();
-		int yPos = p.getyPos();
-		int topX = 5;
-		int topY = 11;
-		boolean imposs = true;
-		if(p instanceof Student){
-			int[] shiftVal = ((Student)p).getShift();
-			topX-=shiftVal[0];
-			topY-=shiftVal[1];
-		}
-		else if(p instanceof Grouped){
-			int[] shiftVal = ((Grouped)p).getShift();
-			topX-=shiftVal[0];
-			topY-=shiftVal[1];
-		}
-		else if(p instanceof Luggage){
-			int[] shiftVal = ((Luggage)p).getShift();
-			topX-=shiftVal[0];
-			topY-=shiftVal[1];
-		}
-		else if(p instanceof Disabled){
-			int shiftVal = ((Disabled)p).getShift();
-			topY-=shiftVal;
-		}
-		for(int x = 0; x < topX; x++) {
-			for(int y = 0; y < topY; y++) {
-				p.setxPos(x);
-				p.setyPos(y);
-				if(p instanceof Grouped) {
-					((Grouped)p).setPositions();
-				}
-				
-				if(p instanceof Parent && ((Parent)p).notImpossible(distanceGrid)){
-					imposs = false;
-					break;
-				}
-				else if(p instanceof Luggageman && ((Luggageman)p).notImpossible(distanceGrid)) {
-					imposs = false;
-					break;
-				}
-				else if(p.isCorrect(distanceGrid)){
-					imposs = false;
-					break;
-				}
-			}
-		}
-		p.setxPos(xPos);
-		p.setyPos(yPos);
-		if(p instanceof Grouped) {
-			((Grouped)p).setPositions();
-		}
-		return imposs;
 	}
 }
