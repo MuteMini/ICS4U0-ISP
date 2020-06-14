@@ -10,15 +10,20 @@ import com.truenorth.game.Loader;
 
 /**
  * The basis of all passengers start from this class. Many methods are 
- * encapsulated here to make adding new passengers easy.
+ * encapsulated here to make adding new passengers easy. <br>
+ * 
+ * Hours Spent: ~4 to 5 hours <br>
+ *
+ * May 24th: Created file, Min <br>
+ * May 25th: Added methods/variables, Min <br>
+ * May 26th: Small edits, Min <br> 
+ * May 27th: Small edits, Min <br>
+ * May 29th: Small edits, Min <br>
+ * June 1st: Added image loading, Min <br>
+ * June 7th: Added impossible state checking, Min <br>
+ * June 14th: Final comments, Min <br>
  * 
  * @author Min
- *
- * Hours Spent: ~4 to 5 hours
- *
- * May 24th: Created file, Min
- * May 25th: Added methods/variables, Min
- *
  */
 public abstract class Passenger{
 	/**The exact width and height of each Passenger sprite*/
@@ -270,7 +275,6 @@ public abstract class Passenger{
 	 * if the passenger can be placed.
 	 * 
 	 * @author Min
-	 * @return If the current location is a valid location to be placed.
 	 * @since May 25th
 	 */
 	public void fillDistance (Integer[][] grid) {
@@ -296,7 +300,7 @@ public abstract class Passenger{
 	
 	/**
 	 * @author Min
-	 * @param a boolean for selected
+	 * @param selected the boolean to replace selected
 	 * @since May 25th
 	 */
 	public void setSelected(boolean selected) {
@@ -305,7 +309,7 @@ public abstract class Passenger{
 	
 	/**
 	 * @author Min
-	 * @param a boolean for inGrid
+	 * @param inGrid the boolean to replace inGrid
 	 * @since May 25th
 	 */
 	public void setInGrid(boolean inGrid) {

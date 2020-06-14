@@ -2,26 +2,51 @@ package com.truenorth.riders;
 
 import java.awt.Color;
 
+/**
+ * Extended from Passenger class. New variables are added to hold the amount
+ * of children attached to the Parent. <br>
+ * 
+ * Hours Spent: ~2 hours <br>
+ * 
+ * May 24th: Created file, Min <br>
+ * May 25th: Touched up code for bug fixes, Min <br>
+ * June 14th: Final comments, Min <br>
+ * 
+ * @author Min
+ */
 public class Parent extends Passenger{
 
+	/**Holds the amount of children the Parent has*/
 	protected int numChild;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Parent(int orderX, int orderY, int id, int numChild, Color cl) {
 		super(2, 0, id, orderX, orderY, cl);
 		this.seperate = false;
 		this.numChild = numChild;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Parent(int xPos, int yPos, int id, int numChild) {
 		super(2, 0, id, xPos, yPos);
 		this.numChild = numChild;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void update(Integer[][] grid) {
 		placeable = super.isCorrect(grid);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
 		if(super.isCorrect(grid))
@@ -75,6 +100,9 @@ public class Parent extends Passenger{
 		return impossible;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void fillDistance(Integer[][] grid) {
 		grid[xPos][yPos] = id;
