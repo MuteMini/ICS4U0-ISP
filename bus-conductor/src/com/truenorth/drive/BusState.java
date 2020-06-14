@@ -121,7 +121,7 @@ public class BusState implements States{
 		}
 		
 		if (outOfBoundsCount == 0) {
-			//resetWorlds();
+			resetWorlds();
 		}
 	}
 	
