@@ -37,7 +37,14 @@ public class Student extends Passenger{
 	protected int shiftY;
 	
 	/**
-	 * {@inheritDoc}
+	 * One of the overloaded constructors, used if the passenger
+	 * is meant to be selected then to be placed.
+	 * 
+	 * @param orderX the x position passenger stays when not in the bus
+	 * @param orderY the y position passenger stays when not in the bus
+	 * @param rotation the rotation value of the student, which way they're facing
+	 * @param cl the color of the passenger's tag
+	 * @author Min
 	 * @since May 25th
 	 */
 	public Student(int orderX, int orderY,  int rotation, Color cl) {
@@ -49,7 +56,13 @@ public class Student extends Passenger{
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * The other overloaded constructor, used if the passenger
+	 * is meant to be already placed.
+	 * 
+	 * @param xPos the x position passenger is in the bus
+	 * @param yPos the y position passenger is in the bus
+	 * @param rotation the rotation value of the student, which way they're facing
+	 * @author Min
 	 * @since May 25th
 	 */
 	public Student(int xPos, int yPos, int rotation) {
@@ -208,17 +221,17 @@ public class Student extends Passenger{
 	 * @since May 25th
 	 */
 	@Override
-	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
+	protected void highlight(Graphics2D g2d, int xPosNew, int yPosNew) {
 		if(selected) {
 			if(inGrid) {
 				if(placeable)
-					g.setColor(new Color(25, 255, 25, 120));
+					g2d.setColor(new Color(25, 255, 25, 120));
 				else
-					g.setColor(new Color(255, 25, 25, 120));
+					g2d.setColor(new Color(255, 25, 25, 120));
 			}
 			else
-				g.setColor(new Color(255, 127, 156, 120));
-			g.fillRoundRect(xPosNew, yPosNew, SPRITE_SIZE*(Math.abs(offX)+1), SPRITE_SIZE*(Math.abs(offY)+1), 20, 20);
+				g2d.setColor(new Color(255, 127, 156, 120));
+			g2d.fillRoundRect(xPosNew, yPosNew, SPRITE_SIZE*(Math.abs(offX)+1), SPRITE_SIZE*(Math.abs(offY)+1), 20, 20);
 		}
 	}
 	
@@ -227,9 +240,9 @@ public class Student extends Passenger{
 	 * @since May 25th
 	 */
 	@Override
-	protected void drawTag(Graphics2D g, int xPos, int yPos) {
-		g.setColor(cl);
-		g.fillOval(xPos+(shiftX*32), yPos+(shiftY*32), 10, 10);
+	protected void drawTag(Graphics2D g2d, int xPos, int yPos) {
+		g2d.setColor(cl);
+		g2d.fillOval(xPos+(shiftX*32), yPos+(shiftY*32), 10, 10);
 	}
 	
 	/**

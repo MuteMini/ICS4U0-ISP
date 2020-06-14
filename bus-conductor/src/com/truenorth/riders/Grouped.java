@@ -4,12 +4,40 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+/**
+ * Extended from Passenger class. Uses a 2D array of Passengers
+ * to create the grouped people. <br>
+ * 
+ * Hours Spent: ~4 hours <br>
+ * 
+ * May 29th: Created file, Min <br>
+ * May 30th: Bug fixes and added more methods to help with calculations, Min <br>
+ * June 7th: Added impossible state checking, Min <br>
+ * June 14th: Final comments, Min <br>
+ * 
+ * @author Min
+ */
 public class Grouped extends Passenger{
 	
+	/**Holds the Passengers associated with the Grouped class*/
 	protected Passenger[] arrPass;
+	/**Holds the width of the group*/
 	protected int offX;
+	/**Holds the height of the group*/
 	protected int offY;
-	
+
+	/**
+	 * One of the overloaded constructors, used if the passenger
+	 * is meant to be selected then to be placed. 
+	 * 
+	 * @param arrPass the Passenger array that holds who is in the group
+	 * @param orderX the x position passenger stays when not in the bus
+	 * @param orderY the y position passenger stays when not in the bus
+	 * @param id the integer value that the passengers position is set as
+	 * @param cl the color of the passenger's tag
+	 * @author Min
+	 * @since May 29th
+	 */
 	public Grouped(Passenger[] arrPass, int orderX, int orderY, int id, Color cl) {
 		super(-1, 0, id, orderX, orderY, cl);
 		this.arrPass = arrPass;
@@ -30,7 +58,17 @@ public class Grouped extends Passenger{
 			}
 		}
 	}
-	
+	/**
+	 * The other overloaded constructor, used if the passenger
+	 * is meant to be already placed.
+	 * 
+	 * @param arrPass the Passenger array that holds who is in the group
+	 * @param xPos the x position passenger is in the bus
+	 * @param yPos the y position passenger is in the bus
+	 * @param id the integer value that the passengers position is set as
+	 * @author Min
+	 * @since May 29th
+	 */
 	public Grouped(Passenger[] arrPass, int xPos, int yPos, int id) {
 		super(-1, 0, id, xPos, yPos);
 		this.arrPass = arrPass;
@@ -48,6 +86,10 @@ public class Grouped extends Passenger{
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @since May 29th
+	 */
 	@Override
 	public void render(Graphics2D g2d) {
 		for(int i = 0; i < arrPass.length; i++) {
@@ -58,6 +100,10 @@ public class Grouped extends Passenger{
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 29th
+	 */
 	@Override
 	public void update(Integer[][] grid) {
 		placeable = isCorrect(grid);
@@ -68,6 +114,10 @@ public class Grouped extends Passenger{
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 29th
+	 */
 	@Override
 	public boolean move(KeyEvent e) {
 		if (xPos > 0 && (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)) {
@@ -89,6 +139,10 @@ public class Grouped extends Passenger{
 		return false;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since May 30th
+	 */
 	@Override
 	public boolean isCorrect(Integer[][] grid) {
 		for(int i = 0; i < arrPass.length; i++) {
@@ -105,6 +159,7 @@ public class Grouped extends Passenger{
 	
 	/**
 	 * {@inheritDoc}
+	 * @since June 7th
 	 */
 	@Override
 	public boolean isImpossible(Integer[][] grid) {
@@ -129,6 +184,14 @@ public class Grouped extends Passenger{
 		return true;
 	}
 	
+	/**
+	 * Fills up the passenger array in the class using its fillDistance
+	 * method.
+	 * 
+	 * @param grid the distance grid of the level
+	 * @author Min
+	 * @since May 30th
+	 */
 	@Override
 	public void fillDistance (Integer[][] grid) {
 		for(int i = 0; i < arrPass.length; i++) {
@@ -138,6 +201,14 @@ public class Grouped extends Passenger{
 		}
 	}
 	
+	/**
+	 * Goes through all of the passengers in the array and
+	 * sets their selected value as the one given.
+	 * 
+	 * @param selected the boolean to replace selected
+	 * @author Min
+	 * @since May 30th
+	 */
 	@Override
 	public void setSelected(boolean selected) {
 		this.selected = selected;
@@ -148,6 +219,14 @@ public class Grouped extends Passenger{
 		}
 	}
 	
+	/**
+	 * Goes through all of the passengers in the array and
+	 * sets their inGrid value as the one given.
+	 * 
+	 * @param inGrid the boolean to replace inGrid
+	 * @author Min
+	 * @since May 30th
+	 */
 	@Override
 	public void setInGrid(boolean inGrid) {
 		this.inGrid = inGrid;
@@ -158,6 +237,14 @@ public class Grouped extends Passenger{
 		}
 	}
 	
+	/**
+	 * Goes through all of the passengers in the array and
+	 * sets their xPos and yPos relative to the top left of
+	 * the array.
+	 * 
+	 * @author Min
+	 * @since May 30th
+	 */
 	protected void setPositions() {
 		for(int i = 0; i < arrPass.length; i++) {
 			if(arrPass[i] != null) {
@@ -166,6 +253,14 @@ public class Grouped extends Passenger{
 		}
 	}
 	
+	/**
+	 * Sets the value of xPos and yPos of the Passenger array
+	 * relative to the xPos and yPos of the Grouped class.
+	 * 
+	 * @param pos the integer to set the xPos at.
+	 * @author Min
+	 * @since May 30th
+	 */
 	protected void setPosition(int pos) {
 		int shiftX = (pos == 1 || pos == 3) ? 1 : 0;
 		int shiftY = (pos == 2 || pos == 3) ? 1 : 0;

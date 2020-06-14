@@ -21,7 +21,15 @@ public class Parent extends Passenger{
 	protected int numChild;
 	
 	/**
-	 * {@inheritDoc}
+	 * One of the overloaded constructors, used if the passenger
+	 * is meant to be selected then to be placed.
+	 * 
+	 * @param orderX the x position passenger stays when not in the bus
+	 * @param orderY the y position passenger stays when not in the bus
+	 * @param id the integer value that the passengers position is set as
+	 * @param numChild the amount of children the object has
+	 * @param cl the color of the passenger's tag
+	 * @author Min
 	 * @since May 24th
 	 */
 	public Parent(int orderX, int orderY, int id, int numChild, Color cl) {
@@ -31,7 +39,14 @@ public class Parent extends Passenger{
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * The other overloaded constructor, used if the passenger
+	 * is meant to be already placed.
+	 * 
+	 * @param xPos the x position passenger is in the bus
+	 * @param yPos the y position passenger is in the bus
+	 * @param id the integer value that the passengers position is set as
+	 * @param numChild the amount of children the object has
+	 * @author Min
 	 * @since May 24th
 	 */
 	public Parent(int xPos, int yPos, int id, int numChild) {

@@ -80,6 +80,12 @@ public abstract class Passenger{
 	 * One of the overloaded constructors, used if the passenger
 	 * is meant to be selected then to be placed.
 	 * 
+	 * @param spriteID the integer value the image is took from
+	 * @param diff used if the sprite has different variations
+	 * @param id the integer value that the passengers position is set as
+	 * @param orderX the x position passenger stays when not in the bus
+	 * @param orderY the y position passenger stays when not in the bus
+	 * @param cl the color of the passenger's tag
 	 * @author Min
 	 * @since May 24th
 	 */
@@ -103,6 +109,11 @@ public abstract class Passenger{
 	 * The other overloaded constructor, used if the passenger
 	 * is meant to be already placed.
 	 * 
+	 * @param spriteID the integer value the image is took from
+	 * @param diff used if the sprite has different variations
+	 * @param id the integer value that the passengers position is set as
+	 * @param xPos the x position passenger is in the bus
+	 * @param yPos the y position passenger is in the bus
 	 * @author Min
 	 * @since May 24th
 	 */
@@ -126,6 +137,7 @@ public abstract class Passenger{
 	 * Takes in the distance grid and checks if the current 
 	 * xPos and yPos is placeable.
 	 * 
+	 * @param grid the distance grid of the level
 	 * @author Min
 	 * @since May 27th
 	 */
@@ -137,6 +149,7 @@ public abstract class Passenger{
 	 * Uses the xPos and yPos OR orderX and orderY to draw the 
 	 * sprite onto the g2D. at the correct location.
 	 * 
+	 * @param g2d the graphics to be drawn to
 	 * @author Min
 	 * @since May 24th
 	 */
@@ -191,8 +204,9 @@ public abstract class Passenger{
 	/**
 	 * Takes in the KeyEvent from Game to move the passenger's xPos and yPos.
 	 * 
-	 * @author Min
+	 * @param e the KeyEvent to process
 	 * @return If the passenger was moved
+	 * @author Min
 	 * @since May 24th
 	 */
 	public boolean move(KeyEvent e) {
@@ -218,8 +232,9 @@ public abstract class Passenger{
 	/**
 	 * Checks if the current placement is valid depending on the current grid given.
 	 * 
-	 * @author Min
+	 * @param grid the distance grid of the level
 	 * @return If the passenger's position is correct
+	 * @author Min
 	 * @since May 25th
 	 */
 	public boolean isCorrect(Integer[][] grid) {
@@ -234,8 +249,9 @@ public abstract class Passenger{
 	 * Checks if the KeyEvent given is enter, and if it is, returns
 	 * if the passenger can be placed.
 	 * 
-	 * @author Min
+	 * @param e the KeyEvent to process
 	 * @return If the current location is a valid location to be placed.
+	 * @author Min
 	 * @since May 27th
 	 */
 	public boolean isPlaceable(KeyEvent e) {
@@ -248,8 +264,9 @@ public abstract class Passenger{
 	 * Checks if the passenger has a valid location to be placed anywhere
 	 * on the grid.
 	 * 
-	 * @author Min
+	 * @param grid the distance grid of the level
 	 * @return If the passenger is not able to be placed anywhere.
+	 * @author Min
 	 * @since June 7th
 	 */
 	public boolean isImpossible(Integer[][] grid) {
@@ -272,9 +289,9 @@ public abstract class Passenger{
 	}
 	
 	/**
-	 * Checks if the KeyEvent given is enter, and if it is, returns
-	 * if the passenger can be placed.
+	 * Fills up the integer grid given the location of the passenger.
 	 * 
+	 * @param grid the distance grid of the level
 	 * @author Min
 	 * @since May 25th
 	 */
@@ -300,8 +317,8 @@ public abstract class Passenger{
 	}
 	
 	/**
+	 * @param selected the boolean to replace selected\
 	 * @author Min
-	 * @param selected the boolean to replace selected
 	 * @since May 25th
 	 */
 	public void setSelected(boolean selected) {
@@ -309,8 +326,8 @@ public abstract class Passenger{
 	}
 	
 	/**
-	 * @author Min
 	 * @param inGrid the boolean to replace inGrid
+	 * @author Min
 	 * @since May 25th
 	 */
 	public void setInGrid(boolean inGrid) {
@@ -318,8 +335,10 @@ public abstract class Passenger{
 	}
 	
 	/**
-	 * @author Min
+	 * @param x the x position to check
+	 * @param y the y position to check
 	 * @return If x and y is above the window.
+	 * @author Min
 	 * @since May 29th
 	 */
 	protected boolean aboveWindow(int x, int y) {
@@ -328,8 +347,10 @@ public abstract class Passenger{
 	}
 	
 	/**
-	 * @author Min
+	 * @param x the x position to check
+	 * @param y the y position to check
 	 * @return If x and y is below the window.
+	 * @author Min
 	 * @since May 29th
 	 */
 	protected boolean belowWindow(int x, int y) {
@@ -341,8 +362,11 @@ public abstract class Passenger{
 	 * Checks if x and y is on a seat, and returns the rotation value
 	 * that the sprite must be rotated in.
 	 * 
-	 * @author Min
+	 * @param x the x position to check
+	 * @param y the y position to check
+	 * @return If x and y is below the window.
 	 * @return The degrees of which the rotation should occur.
+	 * @author Min
 	 * @since June 6st
 	 */
 	protected double rotationVal(int x, int y) {
@@ -360,20 +384,23 @@ public abstract class Passenger{
 	 * ground of the passenger sprite. Uses the boolean values to draw
 	 * different colors if needed.
 	 * 
+	 * @param g2d the graphics to be drawn to
+	 * @param x the x position to draw in
+	 * @param y the y position to draw in
 	 * @author Min
 	 * @since May 25th
 	 */
-	protected void highlight(Graphics2D g, int xPosNew, int yPosNew) {
+	protected void highlight(Graphics2D g2d, int x, int y) {
 		if(selected) {
 			if(inGrid) {
 				if(placeable)
-					g.setColor(new Color(25, 255, 25, 100));
+					g2d.setColor(new Color(25, 255, 25, 100));
 				else
-					g.setColor(new Color(255, 25, 25, 100));
+					g2d.setColor(new Color(255, 25, 25, 100));
 			}
 			else
-				g.setColor(new Color(255, 127, 156, 120));
-			g.fillRoundRect(xPosNew, yPosNew, SPRITE_SIZE, SPRITE_SIZE, 20, 20);
+				g2d.setColor(new Color(255, 127, 156, 120));
+			g2d.fillRoundRect(x, y, SPRITE_SIZE, SPRITE_SIZE, 20, 20);
 		}
 	}
 	
@@ -381,18 +408,24 @@ public abstract class Passenger{
 	 * Using the JFrame coordinate given, draws a circle tag for each
 	 * passenger to distinguish them.
 	 * 
+	 * @param g2d the graphics to be drawn to
+	 * @param x the x position to draw in
+	 * @param y the y position to draw in
 	 * @author Min
 	 * @since May 25th
 	 */
-	protected void drawTag(Graphics2D g, int xPos, int yPos) {
-		g.setColor(cl);
-		g.fillOval(xPos, yPos, 10, 10);
+	protected void drawTag(Graphics2D g2d, int x, int y) {
+		g2d.setColor(cl);
+		g2d.fillOval(x, y, 10, 10);
 	}
 	
 	/**
 	 * Uses the Loader class to take a reference of the BufferedImage
 	 * instead of creating a new image over and over again.
 	 * 
+	 * @param spriteID the image to load in
+	 * @param diff the variation to load in
+	 * @return the BufferedImage from Loader class
 	 * @author Min
 	 * @since June 1st
 	 */
