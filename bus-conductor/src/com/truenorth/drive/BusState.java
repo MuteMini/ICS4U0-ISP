@@ -170,7 +170,12 @@ public class BusState implements States {
 		
 		// If the bus has been out of bounds for 3 seconds, reset the world
 		if (outOfBoundsCount == 0) {
-			resetWorlds();
+			if(worldPos != 0)
+				resetWorlds();
+			else{
+				this.worlds[0] = new TutorialOne();
+				this.worlds[0].setTutorial(false);
+			}
 		}
 	}
 

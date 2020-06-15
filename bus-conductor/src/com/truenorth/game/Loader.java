@@ -89,9 +89,9 @@ public final class Loader {
 	//Fonts used throughout the game
 	public static final Font TTC_TITLE = getFont(1).deriveFont(56f);
 	public static final Font TTC_BODY = getFont(1).deriveFont(28f);
-	public static final Font CALIBRI_BODY1 = getFont(2);
-	public static final Font CALIBRI_BODY2 = getFont(3);
-	public static final Font BUNGEE = getFont(4).deriveFont(70f);
+	public static final Font CALIBRI_BODY1 = getFont(2).deriveFont(18f);
+	public static final Font CALIBRI_BODY2 = getFont(2).deriveFont(12f);
+	public static final Font BUNGEE = getFont(3).deriveFont(70f);
 	
 	/**
 	 * Used to get the ImageIcon for the application.
@@ -241,10 +241,8 @@ public final class Loader {
 			if(fontID == 1)
 				return Font.createFont(Font.TRUETYPE_FONT, Loader.class.getResource("/Toronto Subway.ttf").openStream());
 			else if(fontID == 2)
-				return new Font("Calibri", 1, 18);
+				return Font.createFont(Font.TRUETYPE_FONT, Loader.class.getResource("/calibril.ttf").openStream());
 			else if(fontID == 3)
-				return new Font("Calibri", 0, 12);
-			else if (fontID == 4) 
 				return Font.createFont(Font.TRUETYPE_FONT, Loader.class.getResource("/Bungee-Regular.ttf").openStream());
 		}
 		catch(Exception e) {
