@@ -20,7 +20,7 @@ import com.truenorth.game.Loader;
 public class EndState implements States {
 
 	/**The value where the credit stop scrolling*/
-	private final int COMPLETE_YVAL = 2140;
+	private final int COMPLETE_YVAL = 2220;
 	/**Holds the animation value of the credits*/
 	private double animationPos;
 	/**Holds if the animation has been completed*/
