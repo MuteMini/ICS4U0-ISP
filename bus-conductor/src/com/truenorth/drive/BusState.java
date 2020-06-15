@@ -19,18 +19,31 @@ import com.truenorth.game.states.States;
  *
  */
 public class BusState implements States {
+	/** Camera used to offset everything */
 	private final Camera c;
+	/** Final int number of worlds */ 
 	private final int WORLDS_NUM = 22;
+	/** Array that stores every world */
 	private World[] worlds = new World[WORLDS_NUM];
+	/** ArrayList of entities */
 	private ArrayList<Entity> entities;
+	/** Player controlled bus */
 	private Bus b;
+	/** Integer that stores which world your currently on */
 	private int worldPos;
+	/** Stores if the bus has reached its stop */
 	private boolean onStop;
+	/** Floating value for an animation that makes text appear as though it is floating */
 	private double floating;
+	/**Holds the milliseconds that has passed since the bus went out of bounds */
 	private long lastMilli;
 	private long builtMilli;
+	/** Count for how many seconds the bus has been out of bounds */
 	private int outOfBoundsCount;
 
+	/**
+	 * Initializes the global variable 
+	 */
 	public BusState() {
 		this.c = new Camera();
 		this.worldPos = 0;
@@ -38,6 +51,9 @@ public class BusState implements States {
 		resetWorlds();
 	}
 
+	/**
+	 * Resets the value and positions of everything in bus state
+	 */
 	public void resetWorlds() {
 		this.worlds[0] = new TutorialOne();
 		this.worlds[1] = new TutorialTwo();
@@ -66,19 +82,24 @@ public class BusState implements States {
 		this.entities = new ArrayList<Entity>(); // needs to be recreated after world change
 	}
 
+	/**
+	 * Updates the current world
+	 */
 	@Override
 	public void update() {
+		// Updates the camera values
 		c.update(b.calculateCenter().x, b.calculateCenter().y);
 		b.update();
 
+		// Looping through the entity list
 		for (int i = 0; i < entities.size(); i++) {
-			entities.get(i).update();
-
+			entities.get(i).update();	// updating every entity
+			// if an entity is within a certain distance, start performing collision detection
 			if (entities.get(i).getCenter().distance(b.getCenter()) <= 120) {
-
+				// Collision detection
 				if (b.isColliding(entities.get(i)) && !entities.get(i).isCrashed()) {
-
-					((Car) entities.get(i)).setCrashed(true);
+					// If the current entity isn't crashed, set it to crashed and do the physics calculations
+					entities.get(i).setCrashed(true);
 					if (Math.abs(b.getXVel()) < 0.9)
 						entities.get(i).setXVel(-entities.get(i).getXVel());
 					else
@@ -87,12 +108,12 @@ public class BusState implements States {
 						entities.get(i).setYVel(-entities.get(i).getYVel());
 					else
 						entities.get(i).setYVel(b.getYVel() * 2);
-
 					entities.get(i).setAngleVel(Math.round(Math.random()) * 8 - 4);
 				}
 			}
 		}
 
+		// passes the updated entities list to the world
 		worlds[worldPos].update(entities);
 
 		for (int i = 0; i < worlds[worldPos].getBoundary().size(); i++) {
@@ -110,8 +131,9 @@ public class BusState implements States {
 							&& (b.getCenter().getY() <= Math.max(boundP[1], boundP[2])
 									&& b.getCenter().getY() >= Math.min(boundP[1], boundP[2])));
 			b.setOutside(ahead);
-			if (ahead) {
+			if (ahead) {	// If the bus is out of bounds
 				if (lastMilli == 0) {
+					// If lastMilli hasn't be initialized, set it to curent time
 					lastMilli = System.currentTimeMillis();
 				}
 				long currentTime = System.currentTimeMillis();
@@ -123,35 +145,41 @@ public class BusState implements States {
 				lastMilli = currentTime;
 				break;
 			} else if (i == worlds[worldPos].getBoundary().size() - 1) {
+				// If the entire boundary array has been looped through, resest timer values
 				lastMilli = 0;
 				builtMilli = 0;
 				outOfBoundsCount = 3;
 			}
 		}
-
+		
+		// If the bus has been out of bounds for 3 seconds, reset the world
 		if (outOfBoundsCount == 0) {
 			resetWorlds();
 		}
 	}
 
+	/**
+	 * Draws everything on the current bus level
+	 */
 	@Override
 	public void render(Graphics2D g2d) {
+		// Grass texture
 		g2d.setColor(new Color(29, 174, 5));
 		g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-
+		
+		// Rendering the background
 		worlds[worldPos].render(g2d, c.getXPos(), c.getYPos());
 
+		// drawing the buss
 		b.draw(g2d, c.getXPos(), c.getYPos());
 		for (Entity e : entities) {
+			// Draws every entity in a certain range of the bus
 			if (Math.abs(e.getCenter().distance(b.getCenter())) <= 578) {
-				if (e.isCrashed())
-					g2d.setColor(Color.red);
-				else
-					g2d.setColor(Color.green);
 				e.draw(g2d, c.getXPos(), c.getYPos());
 			}
 		}
 
+		// Message to tell the user to pick up passengers
 		if (b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && (int) b.getXVel() == 0
 				&& (int) b.getYVel() == 0) {
 			floating = (floating <= 6.28) ? floating + 0.05d : 0;
@@ -160,6 +188,7 @@ public class BusState implements States {
 
 		}
 
+		// Guidance to the next bus stop
 		if (b.center.distance(worlds[worldPos].getBusStop()) >= 450) {
 			AffineTransform temp = g2d.getTransform();
 			double arrowAngle = Math.toDegrees(Math.atan((b.center.y - worlds[worldPos].getBusStop().getY())
@@ -172,11 +201,11 @@ public class BusState implements States {
 			g2d.rotate(Math.toRadians(arrowAngle), b.getCenter().getX() - c.getXPos(),
 					b.getCenter().getY() - c.getYPos());
 			g2d.translate(0, -150);
-			g2d.setColor(Color.magenta);
 			g2d.drawImage(Loader.ARROW, Game.WIDTH / 2 - 30, Game.HEIGHT / 2 - 40, null);
 			g2d.setTransform(temp);
 		}
 
+		// Warning the user to go back in bounds
 		if (b.isOutside()) {
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
 			g2d.drawImage(Loader.WARNING_IMAGE, 0, 0, null);
@@ -186,54 +215,87 @@ public class BusState implements States {
 			g2d.drawString(outOfBoundsCount + "", 720, 175);
 		}
 
+		// Renders the tutorial
 		if (worlds[worldPos].getPage() != -1 && worlds[worldPos].getTutorial()) {
 			worlds[worldPos].showTutorial(g2d);
 		}
 	}
 
+	/**
+	 * Handling keyPressed for bus state
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
+		// Pick up passenger
 		if (b.getCenter().distance(worlds[worldPos].getBusStop()) <= 100 && e.getKeyCode() == KeyEvent.VK_ENTER
 				&& (int) b.getXVel() == 0 && (int) b.getYVel() == 0) {
 			onStop = true;
 		}
 
 		if ((worlds[worldPos].getPage() != -1 || onStop) && worlds[worldPos].getTutorial()) {
+			// Tutorial pages
 			worlds[worldPos].keyPressed(e);
 		} else {
+			// Bus movement
 			b.processMovement(e);
 		}
 	}
 
+	/**
+	 * Handling keyReleased for bus state
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		b.unholdKey(e);
 	}
 
+	/**
+	 * Empties held keys in bus treeset
+	 */
 	public void resetHold() {
 		b.resetHold();
 	}
 
+	/**
+	 * @return if the bus is at a stop
+	 */
 	public boolean isOnStop() {
 		return onStop;
 	}
 
+	/**
+	 * Mutator method for onStop
+	 * 
+	 * @param onStop value to set onStop to
+	 */
 	public void setOnStop(boolean onStop) {
 		this.onStop = onStop;
 	}
 
+	/**
+	 * @return Current level the user is on
+	 */
 	public int getWorldPos() {
 		return worldPos;
 	}
 
+	/**
+	 * @param worldPos value to change current worldPosition
+	 */
 	public void setWorldPos(int worldPos) {
 		this.worldPos = worldPos;
 	}
 
+	/**
+	 * @return the reference to the currentWorld
+	 */
 	public World getWorld() {
 		return worlds[worldPos];
 	}
 
+	/**
+	 * Resets bus and entities
+	 */
 	public void resetScreen() {
 		this.b = new Bus();
 		this.entities = new ArrayList<Entity>();
