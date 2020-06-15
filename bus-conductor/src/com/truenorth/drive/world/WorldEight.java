@@ -18,7 +18,7 @@ import com.truenorth.drive.World;
 public class WorldEight extends World{
 
 	/**
-	 * Creates the WorldEigth, with the specified boundaries and other values
+	 * Creates the WorldEight, with the specified boundaries and other values
 	 * @author Min
 	 * @since June 12th
 	 */
