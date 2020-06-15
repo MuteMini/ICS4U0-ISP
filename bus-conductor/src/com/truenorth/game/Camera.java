@@ -1,6 +1,5 @@
 package com.truenorth.game;
 
-
 /**
  * Camera holds an x and y offset to draw everthing drawn centerd around a certain point.
  * 
@@ -50,6 +49,4 @@ public class Camera {
 	public int getYPos() {
 		return yPos;
 	}
-
-
 }
