@@ -57,10 +57,12 @@ public class LevelTwoSeven extends Level {
 		
 		moveable.add(new YoungAdult(0, 0, Color.RED));
 		moveable.add(new YoungAdult(2, 0, Color.ORANGE));
-		moveable.add(new Grouped(g1, 0, 2, 7, Color.YELLOW));
-		moveable.add(new Grouped(g2, 3, 2, 8, Color.GREEN));
-		moveable.add(new Luggageman(0, 5, 9, Color.CYAN));
-		moveable.add(new Luggage(1, 5, 9, 3, Color.CYAN));
+		moveable.add(new YoungAdult(0, 2, Color.YELLOW));
+		moveable.add(new YoungAdult(2, 2, Color.GREEN));
+		moveable.add(new Grouped(g1, 0, 4, 7, Color.CYAN));
+		moveable.add(new Grouped(g2, 3, 4, 8, Color.BLUE));
+		moveable.add(new Luggageman(0, 7, 9, Color.MAGENTA));
+		moveable.add(new Luggage(1, 7, 9, 3, Color.MAGENTA));
 		
 		fillGrid();
 	}	
