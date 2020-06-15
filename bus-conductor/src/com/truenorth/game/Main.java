@@ -44,9 +44,6 @@ public class Main {
 				}
 			}
 		);
-		/*int frameWidth = (frame.getWidth()-Game.WIDTH);
-		int frameHeight = (frame.getHeight()-Game.HEIGHT);
-		frame.setPreferredSize(new Dimension(frameWidth, frameHeight));*/
 		frame.setIconImage(Loader.getIcon().getImage());
 		frame.setVisible(true);
 		frame.setResizable(false);
