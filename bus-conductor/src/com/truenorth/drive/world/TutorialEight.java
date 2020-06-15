@@ -4,8 +4,23 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import com.truenorth.drive.World;
 
+/**
+ * World Eight in tutorial, subclass of world with specified values
+ * 
+ * Hours Spent: 0.25 hours
+ * 
+ * June 12th: Created file, with boundaries, Min
+ * June 14th: Final Comments, Min
+ * 
+ * @author Min, Ishan
+ */
 public class TutorialEight extends World {
 	
+	/**
+	 * Creates TutorialEight, with the specified boundary values
+	 * @author Min
+	 * @since June 12th
+	 */
 	public TutorialEight() {
 		super(-667, -2800, 0, 10000, 10000, 10000);
 		this.hasTutorial = true;
@@ -19,6 +34,8 @@ public class TutorialEight extends World {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
+	 * @since June 12th
 	 */
 	@Override
 	public void showTutorial(Graphics2D g2d) {
