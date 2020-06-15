@@ -15,7 +15,7 @@ import com.truenorth.game.states.States;
 /**
  * The basis of all moving entities for the driving portion.<br>
  * 
- * Hours Spent: 3 hours <br>
+ * Hours Spent: 5 hours <br>
  * 
  * June 4th: Created file, moved from Game class, Min <br>
  * June 5th: Added Worlds array, Min <br>
