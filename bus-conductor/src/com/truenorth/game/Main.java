@@ -26,7 +26,7 @@ public class Main {
 	 * main thread with wait, and the main thread will stop running until 
 	 * nofity is called inside of Game, which then ends the program.
 	 * 
-	 * @param args
+	 * @param args for main method
 	 * @author Ishan, Min
 	 * @since May 24th
 	 */

@@ -208,7 +208,7 @@ public abstract class Entity {
 	/**
 	 * Mutator method for angleVel
 	 * 
-	 * @param angle Velocity to set
+	 * @param angleVel Velocity to set
 	 * @author Ishan
 	 * @since May 30th
 	 */
@@ -242,7 +242,7 @@ public abstract class Entity {
 	 * @author Ishan
 	 * @since May 30th
 	 */
-	public abstract void draw(Graphics2D g, double xOffset, double yOffset);
+	public abstract void draw(Graphics2D g2d, double xOffset, double yOffset);
 	
 	/**
 	 * Updates the entity's position and velocity

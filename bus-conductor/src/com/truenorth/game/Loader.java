@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
  * Hours Spent: ~3 hours <br>
  *
  * June 1st: Created file, Min <br>
- * June 2nd ~ June 11th: Added more variables and fonts to the list of variables, Min & Ishan <br>
+ * June 2nd ~ June 11th: Added more variables and fonts to the list of variables, Min and Ishan <br>
  * June 13th: Added application icon, Min <br>
  * June 14th: Final comments, Min <br>
  * 
