@@ -11,15 +11,33 @@ import com.truenorth.game.Loader;
 import com.truenorth.game.Tutorial;
 
 public abstract class World extends Tutorial{
+	/** Starting Point */
 	protected Point startPos;
+	/** Background image */
 	protected BufferedImage map;
+	/** Integer Array of the bounday lines */
 	protected ArrayList<Integer[]> boundary;
+	/** Bus Stop Point (Goal/End point) */
 	protected Point busStop;
+	/** Used to count the delay in seconds before spawning a new entity */
 	private int entityDelay;
+	/** Bottom left corner of the spawn position */
 	private int spawnX;
+	/** Top position and limit for spawning cars */
 	private int spawnYTop;
+	/** Bottom position and limit for spawning cars */
 	private int spawnYBot;
 	
+	/**
+	 * Creating new world object
+	 * 
+	 * @param x Starting x position
+	 * @param y Starting y position
+	 * @param imageID World Map number
+	 * @param spawnX x position of the spawning cars
+	 * @param spawnYTop y position of the spawning cars at the top
+	 * @param spawnYBot x position of the spawning cars at the top
+	 */
 	public World(int x, int y, int imageID, int spawnX, int spawnYTop, int spawnYBot) {
 		super();
 		this.startPos = new Point(x, y);
@@ -31,9 +49,15 @@ public abstract class World extends Tutorial{
 		this.spawnYBot = spawnYBot;
 	}
 	
+	/**
+	 * Updates entites of the given world
+	 * 
+	 * @param entities Entity Array List to update
+	 */
 	public void update(ArrayList<Entity> entities) {
 		entityDelay++;
 		
+		// Spawning in the entity every 60
 		if (entityDelay == 60) {
 			if (Math.random() >= 0.5) {
 				entities.add(new Car(spawnX, spawnYTop+10, 0d, 5d));
@@ -49,6 +73,7 @@ public abstract class World extends Tutorial{
 			entityDelay = 0;
 		}
 		
+		// Removes Entities once they reach past the spawn point
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			if ((e.getCenter().y >= spawnYBot && e.getYVel() > 0)
@@ -59,6 +84,13 @@ public abstract class World extends Tutorial{
 		}
 	}
 	
+	/**
+	 * Draws the background of the route
+	 * 
+	 * @param g2d the graphics to be drawn to
+	 * @param xOffset offset value on the x axis
+	 * @param yOffset offset value on the y axis
+	 */
 	public void render(Graphics2D g2d, double xOffset, double yOffset) {
 		g2d.drawImage(map, startPos.x - (int)xOffset, startPos.y - (int)yOffset, null);
 		g2d.setColor(Color.yellow);
@@ -74,18 +106,33 @@ public abstract class World extends Tutorial{
 		}
 	}
 	
+	/**
+	 * @return Level Start Point
+	 */
 	public Point getStartPos() {
 		return startPos;
 	}
 
+	/**
+	 * @return All the Boundaries
+	 */
 	public ArrayList<Integer[]> getBoundary() {
 		return boundary;
 	}
 	
+	/**
+	 * @return Bus Stop Point
+	 */
 	public Point getBusStop() {
 		return busStop;
 	}
 	
+	/**
+	 * Get Image used to load in all the maps
+	 * 
+	 * @param imageID number corresponding to a map
+	 * @return Buffered Image of the corresponding map
+	 */
 	private BufferedImage getImage(int imageID) {
 		if(imageID == 0) {
 			return Loader.TUT_WORLD;

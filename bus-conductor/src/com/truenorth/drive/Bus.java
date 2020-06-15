@@ -2,24 +2,45 @@ package com.truenorth.drive;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.util.Set;
 import java.util.TreeSet;
 import com.truenorth.game.Game;
 import com.truenorth.game.Loader;
 
-
 /**
- * @author ishansethi
+ * The player controlled bus which extends entity<br>
+ * 
+ * Hours Spent: 15 hours <br>
  *
+ * May 24th: Created file Ishan <br>
+ * May 25th: Added methods/variables, and basic acceleration/turning, Ishan <br>
+ * May 27th: Overhauled user input, and driving to be more realistic, Ishan<br>
+ * May 30th: Moved many variables, and methods over to the Entity class Ishan
+ * <br>
+ * June 3rd: Small changes to velocity calculation Ishan <br>
+ * June 5th: Added bus sprite, and system to keep bus in bounds, Ishan <br>
+ * June 14th: Final comments, Ishan <br>
+ * 
+ * @author Ishan
  */
+
 public class Bus extends Entity {
-	final double MAX_SPEED = 10;
-	final double MAX_TURN = 2;
+	/** Maximum possible speed for the bus */
+	private final double MAX_SPEED = 10;
+	/** Maximum possible angular velocity (turning speed) for the bus */
+	private final double MAX_TURN = 2;
+	/** Boolean if the bus is going forward */
 	private boolean forward;
+	/** Boolean if the bus is going backward */
 	private boolean backward;
+	/** Boolean if the bus is turning left */
 	private boolean turnLeft;
+	/** Boolean if the bus is turning right */
 	private boolean turnRight;
+	/** Boolean if the bus is out of bounds */
 	private boolean outside;
+	/** TreeSet that holds the characters on the keyboard being held */
 	private Set<Integer> keysHeld;
 
 	public Bus() {
@@ -31,26 +52,30 @@ public class Bus extends Entity {
 		this.outside = false;
 	}
 
+	/**
+	 * Variety of physics calculations in order to update position, angle and
+	 * velocity of bus.
+	 * 
+	 * @since May 27th
+	 * @author Ishan
+	 */
 	@Override
 	public void update() {
-		center = calculateCenter();
-		
-		if (turnRight && getAngleVel() < MAX_TURN) {
+		// Calculating angle to turn
+		if (turnRight && getAngleVel() < MAX_TURN)
 			setAngleVel(getAngleVel() + 0.05);
-		} else if (turnLeft && getAngleVel() > -MAX_TURN) {
+		else if (turnLeft && getAngleVel() > -MAX_TURN)
 			setAngleVel(getAngleVel() - 0.05);
-		} else if (!turnRight && !turnLeft) {
+		else if (!turnRight && !turnLeft)
 			setAngleVel(0);
-		}
-
 		angle += getAngleVel();
 		if (angle > 360)
 			angle = 0;
 		if (angle < 0)
 			angle = 360;
-
 		rotatePointMatrix(getOriginalPoints(), angle, entityPoints);
 
+		// Calculating velocity
 		if (forward && buildUp < MAX_SPEED) {
 			buildUp += 0.05;
 		} else if (backward && buildUp > -MAX_SPEED) {
@@ -59,35 +84,51 @@ public class Bus extends Entity {
 			double subtract = (buildUp > 0.5) ? -0.2 : 0.2;
 			buildUp += subtract;
 		}
-
 		calculateVel();
-		if (outside) {
-			
-		} else {
-			
-		}
 		for (int i = 0; i < 4; i++) {
+			// Translates each point by velocity
 			entityPoints[i].translate((int) xVel, (int) yVel);
 		}
 
+		// Recalculating center, and recreating the entityBody
 		center = calculateCenter();
 		entityBody = createPolygon(entityPoints);
 	}
 
-	@Override
+	/**
+	 * Draws the bus on the specified Graphics2D object
+	 * 
+	 * @param g2d the graphics to be drawn to
+	 * @param xOffset offset value on the x axis
+	 * @param yOffset offset value on the y axis
+	 * @author Ishan
+	 * @since May 24th
+	 */
 	public void draw(Graphics2D g2d, double xOffset, double yOffset) {
 		entityBody = createPolygon(entityPoints);
 		entityBody.translate((int) (-xOffset - xVel), (int) (-yOffset - yVel));
-		
-		g2d.rotate(Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
-		g2d.drawImage(Loader.BUS_SPRITE,(int)(center.x - xOffset - WIDTH/2  - xVel), (int)(center.y - yOffset - HEIGHT/2 - yVel), null);
-		g2d.rotate(-Math.toRadians(angle), Game.WIDTH/2, Game.HEIGHT/2);
+		AffineTransform temp = g2d.getTransform();
+		g2d.rotate(Math.toRadians(angle), Game.WIDTH / 2, Game.HEIGHT / 2);
+		g2d.drawImage(Loader.BUS_SPRITE, (int) (center.x - xOffset - WIDTH / 2 - xVel),
+				(int) (center.y - yOffset - HEIGHT / 2 - yVel), null);
+		g2d.setTransform(temp);
 	}
 
+	/**
+	 * Checks if an Entity is colliding with the bus
+	 * 
+	 * @param e entity to check collision
+	 * @return if the bus hit an Entity
+	 */
 	public boolean isColliding(Entity e) {
 		return this.entityBody.intersects(e.entityBody.getBounds());
 	}
 
+	/**
+	 * User input for controlling the bus
+	 * 
+	 * @param e the KeyEvent to process
+	 */
 	public void processMovement(KeyEvent e) {
 		int code = e.getKeyCode();
 		if (!keysHeld.contains(e.getKeyCode())) {
@@ -109,6 +150,11 @@ public class Bus extends Entity {
 		}
 	}
 
+	/**
+	 * Removes the unheld key based on what the user does
+	 * 
+	 * @param e the KeyEvent to process
+	 */
 	public void unholdKey(KeyEvent e) {
 		int code = e.getKeyCode();
 
@@ -125,6 +171,10 @@ public class Bus extends Entity {
 		keysHeld.remove(e.getKeyCode());
 	}
 
+	/**
+	 *  Calculates velocity <br>
+	 *	Uses a vector to specify bus direction, and speed
+	 */
 	@Override
 	public void calculateVel() {
 		xVel = (entityPoints[1].x - entityPoints[2].x) / 10d * (buildUp / 10);
@@ -132,19 +182,26 @@ public class Bus extends Entity {
 	}
 
 	/**
-	 * @return the outside
+	 * Accessor method for outside
+	 * 
+	 * @return if the bus is out of bounds
 	 */
 	public boolean isOutside() {
 		return outside;
 	}
 
 	/**
-	 * @param outside the outside value to set
+	 * Mutator method for outside
+	 * 
+	 * @param value to set outside to
 	 */
 	public void setOutside(boolean outside) {
 		this.outside = outside;
 	}
-	
+
+	/**
+	 *  Resets the keys held 
+	 */
 	public void resetHold() {
 		this.keysHeld = new TreeSet<Integer>();
 	}
