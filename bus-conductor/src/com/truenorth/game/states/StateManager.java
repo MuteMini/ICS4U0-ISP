@@ -137,13 +137,11 @@ public class StateManager{
 					}
 					else if(MS.getDelete()) {
 						if(MS.getResetPos() == -1) {
-							System.out.println("test");
 							int filePos = MS.getCursorPos()+1;
 							createFile(filePos);
 							loadFile(filePos);
 						}
 						else {
-							System.out.println("untest");
 							int filePos = MS.getResetPos();
 							createFile(fileNames[filePos], 0, 0, 0, 1, 0, filePos+1);
 							loadFile(filePos+1);

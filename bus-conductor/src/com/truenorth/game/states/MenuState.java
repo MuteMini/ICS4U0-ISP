@@ -369,12 +369,10 @@ public class MenuState implements States{
 				} else if(screenState == 5) {
 					if(cursorPos == 0) {
 						resetPos = -1;
-						System.out.println(resetPos);
 					}
 					else if(cursorPos == 1) {
 						deletePos = true;
 					}
-					System.out.println(cursorPos);
 					screenState = 2;
 					cursorPos = 0;
 				}
