@@ -13,10 +13,16 @@ import com.truenorth.game.Loader;
 import com.truenorth.game.states.States;
 
 /**
+ * The basis of all moving entities for the driving portion.<br>
  * 
+ * Hours Spent: 3 hours <br>
  * 
- * @author ishansethi
- *
+ * June 4th: Created file, moved from Game class, Min <br>
+ * June 5th: Added Worlds array, Min <br>
+ * June 13th: Populated World array with the sub classes, Min and Ishan<br>
+ * June 14th: Final comments, Ishan and Min <br>
+ * 
+ * @author Ishan, Min
  */
 public class BusState implements States {
 	/** Camera used to offset everything */
@@ -35,14 +41,18 @@ public class BusState implements States {
 	private boolean onStop;
 	/** Floating value for an animation that makes text appear as though it is floating */
 	private double floating;
-	/**Holds the milliseconds that has passed since the bus went out of bounds */
+	/**Holds the second latest getMilli value to compare with*/
 	private long lastMilli;
+	/**Holds the milliseconds that has passed since the save opened*/
 	private long builtMilli;
 	/** Count for how many seconds the bus has been out of bounds */
 	private int outOfBoundsCount;
 
 	/**
 	 * Initializes the global variable 
+	 * 
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	public BusState() {
 		this.c = new Camera();
@@ -53,6 +63,9 @@ public class BusState implements States {
 
 	/**
 	 * Resets the value and positions of everything in bus state
+	 * 
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	public void resetWorlds() {
 		this.worlds[0] = new TutorialOne();
@@ -84,6 +97,9 @@ public class BusState implements States {
 
 	/**
 	 * Updates the current world
+	 * 
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	@Override
 	public void update() {
@@ -160,6 +176,9 @@ public class BusState implements States {
 
 	/**
 	 * Draws everything on the current bus level
+	 * 
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	@Override
 	public void render(Graphics2D g2d) {
@@ -223,6 +242,9 @@ public class BusState implements States {
 
 	/**
 	 * Handling keyPressed for bus state
+	 * 
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -243,6 +265,9 @@ public class BusState implements States {
 
 	/**
 	 * Handling keyReleased for bus state
+	 * 
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -251,6 +276,9 @@ public class BusState implements States {
 
 	/**
 	 * Empties held keys in bus treeset
+	 * 
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	public void resetHold() {
 		b.resetHold();
@@ -258,6 +286,8 @@ public class BusState implements States {
 
 	/**
 	 * @return if the bus is at a stop
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	public boolean isOnStop() {
 		return onStop;
@@ -267,6 +297,8 @@ public class BusState implements States {
 	 * Mutator method for onStop
 	 * 
 	 * @param onStop value to set onStop to
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	public void setOnStop(boolean onStop) {
 		this.onStop = onStop;
@@ -274,6 +306,8 @@ public class BusState implements States {
 
 	/**
 	 * @return Current level the user is on
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	public int getWorldPos() {
 		return worldPos;
@@ -281,6 +315,8 @@ public class BusState implements States {
 
 	/**
 	 * @param worldPos value to change current worldPosition
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	public void setWorldPos(int worldPos) {
 		this.worldPos = worldPos;
@@ -288,6 +324,8 @@ public class BusState implements States {
 
 	/**
 	 * @return the reference to the currentWorld
+	 * @author Ishan, Min
+	 * @since June 4th 
 	 */
 	public World getWorld() {
 		return worlds[worldPos];
@@ -295,6 +333,9 @@ public class BusState implements States {
 
 	/**
 	 * Resets bus and entities
+	 * 
+	 * @author Ishan, Min
+	 * @since June 4th
 	 */
 	public void resetScreen() {
 		this.b = new Bus();
