@@ -172,9 +172,13 @@ public class BusState implements States {
 		if (outOfBoundsCount == 0) {
 			if(worldPos != 0)
 				resetWorlds();
-			else{
+			//special case for the first world
+			else {
 				this.worlds[0] = new TutorialOne();
 				this.worlds[0].setTutorial(false);
+				this.b = new Bus();
+				this.outOfBoundsCount = 3;
+				this.entities = new ArrayList<Entity>();
 			}
 		}
 	}

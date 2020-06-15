@@ -1,8 +1,10 @@
 package com.truenorth.game;
 
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * This class holds the main method that is used to create the JFrame and
@@ -42,12 +44,15 @@ public class Main {
 				}
 			}
 		);
-		frame.add(g);
-		frame.pack();
+		/*int frameWidth = (frame.getWidth()-Game.WIDTH);
+		int frameHeight = (frame.getHeight()-Game.HEIGHT);
+		frame.setPreferredSize(new Dimension(frameWidth, frameHeight));*/
 		frame.setIconImage(Loader.getIcon().getImage());
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
+		frame.getContentPane().add(g);
+		frame.pack();
 		
 		//starts the game thread and makes the main thread wait.
 		g.start();
