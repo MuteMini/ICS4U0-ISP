@@ -188,7 +188,7 @@ public final class Loader {
 	private static BufferedImage getGeneralSprite(int spriteID, int diff){
 		try {	
 			if(spriteID == 0)
-				return ImageIO.read(Loader.class.getResource("/splashscreen"+diff+".png"));
+				return ImageIO.read(Loader.class.getResource("/SplashScreen.png"));
 			else if(spriteID == 1) {
 				if(diff == 0)
 					return ImageIO.read(Loader.class.getResource("/Menu/mainmenu.png"));
