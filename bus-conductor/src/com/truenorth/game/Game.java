@@ -7,23 +7,38 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import com.truenorth.game.states.StateManager;
 
-
 /**
- * Draws everything that needs drawing. Maintains objects displayed on the
- * screen.
+ * Implementse Runnable to have Main thread and this thread run side by side.
+ * Used to create the Graphics object used throughout the entire program.<br>
  * 
- * @author Min
- *
+ * Hours Spent: ~3 hours <br>
+ * 
+ * May 24th: Created file, added main game loop, Ishan <br>
+ * May 25th: Edited values and added KeyListener, Ishan <br>
+ * June 9th: Added StateManager to clean up code, Min<br>
+ * June 10th: Worked in thread manipulation into Game, Min<br>
+ * June 14th: Final comments, Min<br>
+ * 
+ * @author Min, Ishan
  */
-
 @SuppressWarnings("serial")
 public class Game extends Canvas implements Runnable{
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 640;
+	/**The width and height of the canvas*/
+	public static final int WIDTH = 800, HEIGHT = 640;
+	/**Holds if the game loop is meant to be running*/
 	private boolean running;
+	/**Holds the thread associated with the class*/
 	private Thread t;
+	/**Holds the StateManager associated with the class*/
 	private StateManager st;
 
+	/**
+	 * Creates a new Game object with the default values. 
+	 * Sets up the Canvas as well.
+	 * 
+	 * @author Min, Ishan
+	 * @since May 24th
+	 */
 	public Game() {
 		this.st = new StateManager();
 		setSize(WIDTH, HEIGHT);
@@ -31,6 +46,12 @@ public class Game extends Canvas implements Runnable{
 		addKeyListener(new Input(this));
 	}
 	
+	/**
+	 * Starts the thread of the class
+	 * 
+	 * @author Ishan
+	 * @since May 24th
+	 */
 	public synchronized void start() {
 		if (!running) {
 			running = true;
@@ -39,10 +60,23 @@ public class Game extends Canvas implements Runnable{
 		}
 	}
 
+	/**
+	 * Stops the thread by waking up the main thread.
+	 * 
+	 * @author Ishan, Min
+	 * @since May 24th
+	 */
 	private synchronized void stop() {
 		notify();
 	}
 
+	/**
+	 * Holds the main game loop that updates at a constant speed and
+	 * has a lock on how much times it renders.
+	 * 
+	 * @author Ishan
+	 * @since May 24th
+	 */
 	@Override
 	public void run() {
 		Long sTime = System.nanoTime();
@@ -77,12 +111,25 @@ public class Game extends Canvas implements Runnable{
 		stop();
 	}
 	
+	/**
+	 * Updates StateManager and sets running to false
+	 * if the game must be closed.
+	 * 
+	 * @author Ishan, Min
+	 * @since May 24th
+	 */
 	private void update() {
 		st.update();
 		if(st.gameClosed())
 			running = false;
 	}
 	
+	/**
+	 * Renders StateManager using BufferStrategy.
+	 * 
+	 * @author Ishan, Min
+	 * @since May 24th
+	 */
 	private void render() {
 		BufferStrategy bs = this.getBufferStrategy();
 		if (bs == null) {
@@ -97,14 +144,35 @@ public class Game extends Canvas implements Runnable{
 		bs.show();
 	}
 	
+	/**
+	 * Processes the key pressed event and passes it to StateManager.
+	 * 
+	 * @param e the KeyEvent to process
+	 * @author Ishan, Min
+	 * @since May 24th
+	 */
 	public void keyPressed(KeyEvent e) {
 		st.keyPressed(e);
 	}
 
+	/**
+	 * Processes the key released event and passes it to StateManager.
+	 * 
+	 * @param e the KeyEvent to process
+	 * @author Ishan, Min
+	 * @since May 24th
+	 */
 	public void keyReleased(KeyEvent e) {
 		st.keyReleased(e);
 	}
 	
+	/**
+	 * A setter for the running boolean variable.
+	 * 
+	 * @param running the boolean to replace running with
+	 * @author Ishan, Min
+	 * @since June 10th
+	 */
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
