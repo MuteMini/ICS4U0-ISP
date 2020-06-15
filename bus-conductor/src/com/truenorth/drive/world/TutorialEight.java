@@ -17,6 +17,9 @@ public class TutorialEight extends World {
 		busStop = new Point(40, -1881);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void showTutorial(Graphics2D g2d) {
 		resetContour();

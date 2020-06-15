@@ -4,7 +4,8 @@ public class Camera {
 	private int yPos;
 	
 	public Camera() {
-		
+		xPos = 0;
+		yPos = 0;
 	}
 	
 	public void update(int x, int y) {
