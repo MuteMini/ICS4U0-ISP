@@ -1,10 +1,8 @@
 package com.truenorth.game;
 
-import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  * This class holds the main method that is used to create the JFrame and
