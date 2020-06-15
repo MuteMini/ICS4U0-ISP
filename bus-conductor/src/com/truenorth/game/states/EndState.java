@@ -49,6 +49,7 @@ public class EndState implements States {
 	
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 10th
 	 */
 	@Override
@@ -64,6 +65,7 @@ public class EndState implements States {
 
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 10th
 	 */
 	@Override
@@ -75,6 +77,7 @@ public class EndState implements States {
 
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 10th
 	 */
 	@Override
@@ -82,6 +85,7 @@ public class EndState implements States {
 
 	/**
 	 * {@inheritDoc}
+	 * @author Min
 	 * @since June 10th
 	 */
 	@Override

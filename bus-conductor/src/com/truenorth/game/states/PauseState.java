@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.Set;
 import java.util.TreeSet;
-
 import com.truenorth.game.Game;
 import com.truenorth.game.Loader;
 
@@ -22,10 +21,15 @@ import com.truenorth.game.Loader;
  */
 public class PauseState implements States {
 
+	/**Holds the position of the cursor in the pause state*/
 	private int cursorPos;
+	/**Holds the position of the screen in the pause state*/
 	private int screenPos;
+	/**Holds if the pausedState should be called*/
 	private boolean paused;
+	/**Holds if the player has clicked exit from the state*/
 	private boolean exitClick;
+	/**Holds what keys are being held by the user*/
 	private Set<Integer> keysHeld;
 	
 	/**
@@ -52,9 +56,20 @@ public class PauseState implements States {
 		this.keysHeld = new TreeSet<Integer>();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @since June 8th
+	 */
 	@Override
 	public void update() {}
 
+	/**
+	 * {@inheritDoc}
+	 * Uses the value of screenPos to dictate what is being rendered.
+	 * 
+	 * @author Min
+	 * @since June 8th
+	 */
 	@Override
 	public void render(Graphics2D g2d) {
 		g2d.setColor(new Color(0, 0, 0, 150));
@@ -75,6 +90,11 @@ public class PauseState implements States {
 		}
 	}
 
+	/**
+	 * {@inheritDoc} 
+	 * @author Min
+	 * @since June 8th
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(!keysHeld.contains(e.getKeyCode())) {
@@ -103,23 +123,56 @@ public class PauseState implements States {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @author Min
+	 * @since June 8th
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		keysHeld.remove(e.getKeyCode());
 	}
 
+	/**
+	 * The setter for the paused boolean.
+	 * 
+	 * @param paused the boolean to replace paused with
+	 * @author Min
+	 * @since June 8th
+	 */
 	public void setPaused(boolean paused){
 		this.paused = paused;
 	}
 	
+	/**
+	 * The getter for the paused boolean.
+	 * 
+	 * @return the paused boolean
+	 * @author Min
+	 * @since June 8th
+	 */
 	public boolean getPaused() {
 		return paused;
 	}
 	
+	/**
+	 * The getter for the exitClick boolean.
+	 * 
+	 * @return the exitClick boolean
+	 * @author Min
+	 * @since June 8th
+	 */
 	public boolean getExit() {
 		return exitClick;
 	}
 	
+	/**
+	 * The getter for the cursorPos boolean.
+	 * 
+	 * @return the cursorPos boolean
+	 * @author Min
+	 * @since June 8th
+	 */
 	public int getCursorPos() {
 		return cursorPos;
 	}
