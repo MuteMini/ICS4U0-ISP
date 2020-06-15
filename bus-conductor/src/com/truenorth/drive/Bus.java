@@ -42,7 +42,14 @@ public class Bus extends Entity {
 	private boolean outside;
 	/** TreeSet that holds the characters on the keyboard being held */
 	private Set<Integer> keysHeld;
-
+	
+	/**
+	 * Calls the super class's constructer and sets the global
+	 * values to its default values.
+	 * 
+	 * @since May 27th
+	 * @author Ishan
+	 */
 	public Bus() {
 		super(0, 0, 64, 128);
 		this.entityPoints = getOriginalPoints();
@@ -119,6 +126,8 @@ public class Bus extends Entity {
 	 * 
 	 * @param e entity to check collision
 	 * @return if the bus hit an Entity
+	 * @author Ishan
+	 * @since May 24th
 	 */
 	public boolean isColliding(Entity e) {
 		return this.entityBody.intersects(e.entityBody.getBounds());
@@ -128,6 +137,8 @@ public class Bus extends Entity {
 	 * User input for controlling the bus
 	 * 
 	 * @param e the KeyEvent to process
+	 * @author Ishan
+	 * @since May 24th
 	 */
 	public void processMovement(KeyEvent e) {
 		int code = e.getKeyCode();
@@ -154,6 +165,8 @@ public class Bus extends Entity {
 	 * Removes the unheld key based on what the user does
 	 * 
 	 * @param e the KeyEvent to process
+	 * @author Ishan
+	 * @since May 24th
 	 */
 	public void unholdKey(KeyEvent e) {
 		int code = e.getKeyCode();
@@ -174,6 +187,8 @@ public class Bus extends Entity {
 	/**
 	 *  Calculates velocity <br>
 	 *	Uses a vector to specify bus direction, and speed
+	 *  @author Ishan
+	 *  @since May 24th
 	 */
 	@Override
 	public void calculateVel() {
@@ -185,22 +200,28 @@ public class Bus extends Entity {
 	 * Accessor method for outside
 	 * 
 	 * @return if the bus is out of bounds
+	 * @author Ishan
+	 * @since May 24th
 	 */
 	public boolean isOutside() {
 		return outside;
 	}
 
 	/**
-	 * Mutator method for outside
+	 * Mutator method for outside.
 	 * 
-	 * @param value to set outside to
+	 * @param outside value to set outside to
+	 * @author Ishan
+	 * @since May 24th
 	 */
 	public void setOutside(boolean outside) {
 		this.outside = outside;
 	}
 
 	/**
-	 *  Resets the keys held 
+	 *  Resets the keys held.
+	 *  @author Ishan
+	 *  @since May 24th
 	 */
 	public void resetHold() {
 		this.keysHeld = new TreeSet<Integer>();

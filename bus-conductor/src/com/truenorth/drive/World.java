@@ -6,10 +6,25 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import com.truenorth.game.Loader;
 import com.truenorth.game.Tutorial;
 
+/**
+ * The basis of all moving entities for the driving portion.<br>
+ * 
+ * Hours Spent: 5 hours <br>
+ *
+ * May 30th: Created file and migrated methods from bus, Ishan <br>
+ * June 1st: Made all variables protected/private and added accesor/mutator methods <br>
+ * June 4th: Made world more flexible for the subclasses of the class, Min<br>
+ * June 5th: Small adjustments, Ishan <br>
+ * June 6th: Moved car entity arraylist addition into World, Min<br>
+ * June 7th: Extended Tutorial from World, Min<br>
+ * June 14th: Final comments, Ishan <br>
+ * 
+ * @author Ishan, Min
+ * 
+ */
 public abstract class World extends Tutorial{
 	/** Starting Point */
 	protected Point startPos;
@@ -29,7 +44,8 @@ public abstract class World extends Tutorial{
 	private int spawnYBot;
 	
 	/**
-	 * Creating new world object
+	 * Creating new world object with default values,
+	 * 
 	 * 
 	 * @param x Starting x position
 	 * @param y Starting y position
@@ -37,6 +53,8 @@ public abstract class World extends Tutorial{
 	 * @param spawnX x position of the spawning cars
 	 * @param spawnYTop y position of the spawning cars at the top
 	 * @param spawnYBot x position of the spawning cars at the top
+	 * @author Ishan, Min
+	 * @since May 30th - Edited by Min on June 4th
 	 */
 	public World(int x, int y, int imageID, int spawnX, int spawnYTop, int spawnYBot) {
 		super();
@@ -53,6 +71,8 @@ public abstract class World extends Tutorial{
 	 * Updates entites of the given world
 	 * 
 	 * @param entities Entity Array List to update
+	 * @author Min
+	 * @since June 6th
 	 */
 	public void update(ArrayList<Entity> entities) {
 		entityDelay++;
@@ -90,6 +110,8 @@ public abstract class World extends Tutorial{
 	 * @param g2d the graphics to be drawn to
 	 * @param xOffset offset value on the x axis
 	 * @param yOffset offset value on the y axis
+	 * @author Ishan, Min
+	 * @since May 30th - Edited by Min on June 4th
 	 */
 	public void render(Graphics2D g2d, double xOffset, double yOffset) {
 		g2d.drawImage(map, startPos.x - (int)xOffset, startPos.y - (int)yOffset, null);
@@ -100,14 +122,24 @@ public abstract class World extends Tutorial{
 		}
 	}
 
+	/**
+	 * Increases tutorial page when the Enter key is pressed
+	 * if a tutorial exists.
+	 * 
+	 * @param e the KeyEvent to process
+	 * @author Min
+	 * @since June 7th
+	 */
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		if (hasTutorial && e.getKeyCode() == KeyEvent.VK_ENTER) {
 			tutorialPage++;
 		}
 	}
 	
 	/**
 	 * @return Level Start Point
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public Point getStartPos() {
 		return startPos;
@@ -115,6 +147,8 @@ public abstract class World extends Tutorial{
 
 	/**
 	 * @return All the Boundaries
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public ArrayList<Integer[]> getBoundary() {
 		return boundary;
@@ -122,6 +156,8 @@ public abstract class World extends Tutorial{
 	
 	/**
 	 * @return Bus Stop Point
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public Point getBusStop() {
 		return busStop;
@@ -132,6 +168,8 @@ public abstract class World extends Tutorial{
 	 * 
 	 * @param imageID number corresponding to a map
 	 * @return Buffered Image of the corresponding map
+	 * @author Ishan
+	 * @since June 6th
 	 */
 	private BufferedImage getImage(int imageID) {
 		if(imageID == 0) {
