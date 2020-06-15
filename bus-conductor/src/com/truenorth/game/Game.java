@@ -32,6 +32,7 @@ public class Game extends Canvas implements Runnable{
 	/**Holds the StateManager associated with the class*/
 	private StateManager st;
 
+	private Music m;
 	/**
 	 * Creates a new Game object with the default values. 
 	 * Sets up the Canvas as well.
@@ -41,6 +42,8 @@ public class Game extends Canvas implements Runnable{
 	 */
 	public Game() {
 		this.st = new StateManager();
+		this.m = new Music();
+		m.play();
 		setSize(WIDTH, HEIGHT);
 		setBackground(Color.BLACK);
 		addKeyListener(new Input(this));

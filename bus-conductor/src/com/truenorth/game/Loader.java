@@ -3,6 +3,7 @@ package com.truenorth.game;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -102,6 +103,18 @@ public final class Loader {
 	public static ImageIcon getIcon() {
 		return new ImageIcon(Loader.class.getResource("/busicon.png"));
 	}
+	
+	/**
+	 * Used to get the music for the application.
+	 * 
+	 * @return an URL for the application music.
+	 * @author Min
+	 * @since June 13th
+	 */
+	public static URL getMusic() {
+		return Loader.class.getResource("/gametrack.wav");
+	}
+
 	
 	/**
 	 * Used to get the BufferedImage for the puzzle portion of the game.
