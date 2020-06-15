@@ -15,8 +15,7 @@ import com.truenorth.game.Loader;
  * May 30th: Created file Ishan with basic movement <br>
  * June 3rd: Added methods/variables, and a system to spawn cars in, Ishan <br>
  * June 5th: Added car sprite, Ishan <br>
- * June 6th: Updated movement so the car would actually be able to rotate, Ishan
- * <br>
+ * June 6th: Updated movement so the car would actually be able to rotate, Ishan<br>
  * June 7th: Changed car sprites to be more modern, Ishan <br>
  * June 14th: Final comments, Ishan <br>
  * 

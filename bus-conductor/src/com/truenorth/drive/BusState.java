@@ -142,19 +142,13 @@ public class BusState implements States {
 		worlds[worldPos].render(g2d, c.getXPos(), c.getYPos());
 
 		b.draw(g2d, c.getXPos(), c.getYPos());
-		int crashedEntities = 0;
-		int drawnEntities = 0;
 		for (Entity e : entities) {
-			if (e.isCrashed()) {
-				crashedEntities++;
-			}
 			if (Math.abs(e.getCenter().distance(b.getCenter())) <= 578) {
 				if (e.isCrashed())
 					g2d.setColor(Color.red);
 				else
 					g2d.setColor(Color.green);
 				e.draw(g2d, c.getXPos(), c.getYPos());
-				drawnEntities++;
 			}
 		}
 
