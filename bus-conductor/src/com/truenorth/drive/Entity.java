@@ -49,6 +49,8 @@ public abstract class Entity {
 	 * @param yPos Y starting position
 	 * @param w    Width
 	 * @param h    Height
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public Entity(int xPos, int yPos, int w, int h) {
 		this.HEIGHT = h;
@@ -70,6 +72,8 @@ public abstract class Entity {
 	 * 
 	 * @param polyPoints Point array to turn into polygon
 	 * @return new Polygon Object from points
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	protected Polygon createPolygon(Point[] polyPoints) {
 		Polygon tempPoly = new Polygon();
@@ -81,6 +85,8 @@ public abstract class Entity {
 
 	/**
 	 * @return Original points of the entity (used for rotation)
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	protected Point[] getOriginalPoints() {
 		Point[] originalPoints = new Point[4];
@@ -93,6 +99,8 @@ public abstract class Entity {
 
 	/**
 	 * @return re-calculated Point object of the center of the polygon
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public Point calculateCenter() {
 		int xSum = 0;
@@ -108,6 +116,8 @@ public abstract class Entity {
 	 * @param origPoints Points Array to transform
 	 * @param angle      To rotate
 	 * @param storeTo    Points Array to store changes
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public void rotatePointMatrix(Point[] origPoints, double angle, Point[] storeTo) {
 		AffineTransform.getRotateInstance(Math.toRadians(angle)).transform(origPoints, 0, origPoints, 0, 4);
@@ -119,6 +129,8 @@ public abstract class Entity {
 
 	/**
 	 * @return Entity returns Entity Body
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public Polygon getBody() {
 		return entityBody;
@@ -128,6 +140,8 @@ public abstract class Entity {
 	 * Mutator method for xVel
 	 * 
 	 * @param x Velocity to set
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public void setXVel(double x) {
 		xVel = x;
@@ -137,6 +151,8 @@ public abstract class Entity {
 	 * Mutator method for yVel
 	 * 
 	 * @param y Velocity to set
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public void setYVel(double y) {
 		yVel = y;
@@ -144,6 +160,8 @@ public abstract class Entity {
 
 	/**
 	 * @return Y Velocity
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public double getYVel() {
 		return yVel;
@@ -151,6 +169,8 @@ public abstract class Entity {
 
 	/**
 	 * @return X Velocity
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public double getXVel() {
 		return xVel;
@@ -160,6 +180,8 @@ public abstract class Entity {
 	 * Mutator method for buildUp
 	 * 
 	 * @param b Value to set Buildup
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public void setBuildUp(double b) {
 		buildUp = b;
@@ -167,6 +189,8 @@ public abstract class Entity {
 
 	/**
 	 * @return Center point of the entity
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public Point getCenter() {
 		return center;
@@ -174,6 +198,8 @@ public abstract class Entity {
 
 	/**
 	 * @return Angular Velocity
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public double getAngleVel() {
 		return angleVel;
@@ -183,6 +209,8 @@ public abstract class Entity {
 	 * Mutator method for angleVel
 	 * 
 	 * @param angle Velocity to set
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public void setAngleVel(double angleVel) {
 		this.angleVel = angleVel;
@@ -190,6 +218,8 @@ public abstract class Entity {
 
 	/**
 	 * @return if the entity is crashed
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public boolean isCrashed() {
 		return crashed;
@@ -197,6 +227,8 @@ public abstract class Entity {
 	
 	/**
 	 * @param crashed Value to set crashed to
+	 * @author Ishan
+	 * @since May 30th
 	 */
 	public void setCrashed(boolean crashed) {
 		this.crashed = crashed;
@@ -211,8 +243,20 @@ public abstract class Entity {
 	 * @since May 30th
 	 */
 	public abstract void draw(Graphics2D g, double xOffset, double yOffset);
-
+	
+	/**
+	 * Updates the entity's position and velocity
+	 * 
+	 * @author Ishan
+	 * @since May 30th
+	 */
 	public abstract void update();
 
+	/**
+	 * Calculates the entity's velocity
+	 * 
+	 * @author Ishan
+	 * @since May 30th
+	 */
 	protected abstract void calculateVel();
 }
